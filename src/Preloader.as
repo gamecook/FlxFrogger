@@ -1,10 +1,13 @@
-package {
-import org.flixel.*;
+package
+{
+    import org.flixel.*;
 
-public class Preloader extends FlxPreloader {
-    public function Preloader() {
-        className = "FlxFrogger";
-        super();
+    public class Preloader extends FlxPreloader
+    {
+        public function Preloader()
+        {
+            className = "FlxFrogger";
+            super();
+        }
     }
-}
 }

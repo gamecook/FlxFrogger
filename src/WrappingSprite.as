@@ -1,46 +1,55 @@
-package {
-import org.flixel.FlxG;
-import org.flixel.FlxSprite;
+package
+{
+    import org.flixel.FlxG;
+    import org.flixel.FlxSprite;
 
-public class WrappingSprite extends FlxSprite {
+    public class WrappingSprite extends FlxSprite
+    {
 
-    protected var leftBounds:int;
-    protected var rightBounds:int;
+        protected var leftBounds:int;
+        protected var rightBounds:int;
+        private var state:PlayState;
 
-    public function WrappingSprite(X:Number = 0, Y:Number = 0, SimpleGraphic:Class = null, dir:uint = RIGHT, velocity:int = 40) {
-        super(X, Y, SimpleGraphic);
-        this.leftBounds = 0;
-        this.rightBounds = FlxG.width;
-        this.velocity.x = dir ? velocity : -velocity;
-        facing = dir;
-    }
-
-    override public function update():void {
-        var state:PlayState = FlxG.state as PlayState;
-        if (state.gameState == PlayState.COLLISION_STATE) {
-            return;
+        public function WrappingSprite(X:Number = 0, Y:Number = 0, SimpleGraphic:Class = null, dir:uint = RIGHT, velocity:int = 40)
+        {
+            super(X, Y, SimpleGraphic);
+            this.leftBounds = 0;
+            this.rightBounds = FlxG.width;
+            this.velocity.x = dir ? velocity : -velocity;
+            facing = dir;
+            state = FlxG.state as PlayState;
         }
 
+        override public function update():void
+        {
 
-        //Update the elevator's motion
-        super.update();
-
-        //Turn around if necessary
-        if (x > (rightBounds)) {
-
-            if (facing == RIGHT) {
-                x = leftBounds - frameWidth;
-            }
-
-        }
-        else if (x < (leftBounds - frameWidth)) {
-
+            if (state.gameState == PlayState.COLLISION_STATE)
             {
-                x = rightBounds + frameWidth;
+                return;
             }
+
+            //Update the elevator's motion
+            super.update();
+
+            //Turn around if necessary
+            if (x > (rightBounds))
+            {
+
+                if (facing == RIGHT)
+                {
+                    x = leftBounds - frameWidth;
+                }
+
+            }
+            else if (x < (leftBounds - frameWidth))
+            {
+
+                {
+                    x = rightBounds + frameWidth;
+                }
+            }
+
+
         }
-
-
     }
-}
 }
