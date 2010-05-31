@@ -6,7 +6,7 @@
     <version>1</version>
     <supportedProfiles>mobileDevice</supportedProfiles>
     <initialWindow>
-        <content>swfs/FlxFrogger-v0.1.0.swf</content>
+        <content>swfs/FlxFrogger-v0.2.0.swf</content>
         <visible>true</visible>
     </initialWindow>
     <icon>

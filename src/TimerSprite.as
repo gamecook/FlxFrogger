@@ -7,8 +7,8 @@ public class TimerSprite extends WrappingSprite {
 
     protected var timer:int;
     protected var hideTimer:int;
-    
-    public function TimerSprite(x:Number, y:Number, SimpleGraphic:Class=null, hideTimer:int =  DEFAULT_TIME, startTime:int = DEFAULT_TIME, dir:uint = RIGHT, velocity:int = 40) {
+
+    public function TimerSprite(x:Number, y:Number, SimpleGraphic:Class = null, hideTimer:int = DEFAULT_TIME, startTime:int = DEFAULT_TIME, dir:uint = RIGHT, velocity:int = 40) {
 
         super(x, y, SimpleGraphic, dir, velocity);
 
@@ -16,33 +16,28 @@ public class TimerSprite extends WrappingSprite {
         timer = startTime;
     }
 
-    override public function update():void
-    {
+    override public function update():void {
 
         super.update();
 
-        if(timer > 0)
+        if (timer > 0)
             timer -= FlxG.elapsed;
 
-        if(timer == 0)
-        {
+        if (timer == 0) {
             toggle()
         }
     }
 
-    public function get isActive():Boolean
-    {
+    public function get isActive():Boolean {
         return (frame == 3) ? true : false;
     }
-    
+
     protected function toggle():void {
 
-        if(isActive)
-        {
+        if (isActive) {
             onActivate();
         }
-        else
-        {
+        else {
             onDeactivate();
         }
 
@@ -54,7 +49,7 @@ public class TimerSprite extends WrappingSprite {
     }
 
     protected function onActivate():void {
-        
+
     }
 }
 }
