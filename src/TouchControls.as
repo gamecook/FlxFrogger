@@ -14,7 +14,7 @@ package
         private var btn2:FlxTouchButton;
         private var btn3:FlxTouchButton;
         private var btn4:FlxTouchButton;
-        public function TouchControls(target:FlxState, x:int, y:int, padding)
+        public function TouchControls(target:FlxState, x:int, y:int, padding:int)
         {
             btn = new FlxTouchButton(x, y, onUpPress, onUpRelease);
             btn.loadText(new FlxText(0,30,100,"UP").setFormat(null, 20,0xffffff,"center"));
