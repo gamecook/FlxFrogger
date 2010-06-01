@@ -35,8 +35,7 @@ package
 
             targetX = X;
             targetY = Y;
-            width = 35;
-            height = 35;
+
 
             addAnimation("idle" + UP, [0], 0, false);
             addAnimation("idle" + RIGHT, [2], 0, false);
@@ -51,6 +50,26 @@ package
             facing = FlxSprite.UP;
 
             state = FlxG.state as PlayState;
+        }
+
+        override public function set facing(value:uint):void
+        {
+            super.facing = value;
+
+            if(value == UP || value == DOWN)
+            {
+                width = 32;
+                height = 25;
+                offset.x = 4;
+                offset.y = 6;
+            }
+            else
+            {
+                width = 25;
+                height = 32;
+                offset.x = 6;
+                offset.y = 4;
+            }
         }
 
         override public function update():void
@@ -136,23 +155,22 @@ package
 
         public function death():void
         {
-            acceleration.x = 0;
-            acceleration.y = 0;
-
             play("die");
         }
 
         public function restart():void
         {
+            isMoving = false;
             x = startPosition.x;
             y = startPosition.y;
             targetX = startPosition.x;
             targetY = startPosition.y;
             facing = UP;
             play("idle" + facing);
+
         }
 
-        function float(speed:int, facing:uint):void
+        public function float(speed:int, facing:uint):void
         {
             if (isMoving != true && state.gameState != PlayState.COLLISION_STATE)
             {

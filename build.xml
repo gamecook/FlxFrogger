@@ -108,6 +108,8 @@ I am working on making my own but this one is so damn good I couldn't help mysel
             <arg value="-verbose-stacktraces=true"/>
             <arg value="-headless-server=true"/>
             <arg value="-use-network=false"/>
+            <arg value="-define=CONFIG::mobile,true"/>
+
         </java>
 
         <echo>[compile] Debug SWF ${project.name.versioned}.swf created successfully</echo>

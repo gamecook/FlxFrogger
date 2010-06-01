@@ -70,6 +70,12 @@ package
             play("bonus");
         }
 
+        public function success():void
+        {
+            play("success");
+            hideTimer = timer = -1;
+        }
+        
         protected function setMode(mode:uint, animationSet:String):void
         {
             this.mode = mode;

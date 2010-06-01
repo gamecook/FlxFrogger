@@ -1,5 +1,9 @@
 package
 {
+    import flash.ui.Multitouch;
+
+    import flash.ui.MultitouchInputMode;
+
     import org.flixel.FlxG;
     import org.flixel.FlxGroup;
     import org.flixel.FlxSprite;
@@ -47,7 +51,9 @@ package
 
         override public function create():void
         {
-            FlxG.showBounds = true;
+            //FlxG.showBounds = true;
+
+            Multitouch.inputMode = MultitouchInputMode.TOUCH_POINT;
 
             timer = gameTime;
 
@@ -102,7 +108,7 @@ package
             add(logGroup);
             add(turtleGroup);
 
-            player = add(new Frog(TILE_SIZE * 1, TILE_SIZE * 8 + 2)) as Frog;
+            player = add(new Frog(TILE_SIZE * 1, TILE_SIZE * 14 + 2)) as Frog;
 
             // Cars
             carGroup = new FlxGroup();
@@ -140,8 +146,11 @@ package
             timerBar.createGraphic(1, 16, 0xFF000000);
             timerBar.scrollFactor.x = timerBar.scrollFactor.y = 0;
             timerBar.origin.x = timerBar.origin.y = 0;
-            timerBar.scale.x = 40;
+            timerBar.scale.x = 0;
             add(timerBar);
+
+            CONFIG::mobile
+            var touchControls:TouchControls  = new TouchControls(this, 10, calculateRow(16)+20, 16);
 
         }
 
@@ -160,7 +169,7 @@ package
             playerIsFloating = false;
             timer -= FlxG.elapsed;
 
-            //timerBar.scale.x = TIMER_BAR_WIDTH - Math.round((timer / gameTime * TIMER_BAR_WIDTH));
+            timerBar.scale.x = TIMER_BAR_WIDTH - Math.round((timer / gameTime * TIMER_BAR_WIDTH));
 
             if (timer == 0)
             {
@@ -179,7 +188,7 @@ package
                 FlxU.overlap(carGroup, player, death);
                 FlxU.overlap(logGroup, player, float);
                 FlxU.overlap(turtleGroup, player, turtleFloat);
-
+                FlxU.overlap(bonusGroup, player, bonus)
                 if (player.y < waterY)
                 {
                     if(!player.isMoving && !playerIsFloating)
@@ -195,6 +204,12 @@ package
             super.update();
             
 
+        }
+
+        private function bonus(collision:Bonus, player:Frog):void
+        {
+            collision.success();
+            restart();
         }
 
         private function turtleFloat(collision:TimerSprite, player:Frog):void
@@ -274,15 +289,14 @@ package
 
         private function removeLife(value:int):void
         {
-            /*var id:int = totalLives - 1;
+            var id:int = totalLives - 1;
             var sprite:FlxSprite = lifeSprites[id];
             sprite.kill();
-            lifeSprites.splice(id, 1);*/
+            lifeSprites.splice(id, 1);
         }
 
         private function get totalLives():int
         {
-            trace("life:", lifeSprites.length);
             return lifeSprites.length;
         }
     }
