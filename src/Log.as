@@ -37,7 +37,7 @@ package
             }
 
             super(x, y, graphicClass, dir, velocity);
-
+                        
         }
     }
 }

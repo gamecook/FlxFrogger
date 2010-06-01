@@ -19,6 +19,7 @@ package
         private var animationFrames:int = 8;
         private var moveY:Number;
         private var state:PlayState;
+        public var isMoving:Boolean;
 
         public function Frog(X:Number, Y:Number)
         {
@@ -89,6 +90,10 @@ package
                         targetY = y + maxMoveY;
                         facing = DOWN;
                     }
+
+                    isMoving = false;
+
+
                 }
                 else
                 {
@@ -105,7 +110,22 @@ package
                     {
                         y += moveY;
                     }
+
+                    // Make sure Frog doesn't go out of bounds
+                    if(x > FlxG.width - frameWidth)
+                    {
+                        x = FlxG.width - frameWidth;
+                        targetX = x;
+                    }
+                    else if(x < 0 )
+                    {
+                        x = 0;
+                        targetX = x;
+                    }
+
                     play("walk" + facing);
+
+                    isMoving = true;
                 }
 
             }
@@ -130,6 +150,16 @@ package
             targetY = startPosition.y;
             facing = UP;
             play("idle" + facing);
+        }
+
+        function float(speed:int, facing:uint):void
+        {
+            if (isMoving != true && state.gameState != PlayState.COLLISION_STATE)
+            {
+                x += (facing == RIGHT) ? speed : -speed;
+                targetX = x;
+                isMoving = true;
+            }
         }
     }
 }

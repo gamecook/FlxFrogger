@@ -9,6 +9,7 @@ package
 
         protected var timer:int;
         protected var hideTimer:int;
+        protected var _active:Boolean = true;
 
         public function TimerSprite(x:Number, y:Number, SimpleGraphic:Class = null, hideTimer:int = DEFAULT_TIME, startTime:int = DEFAULT_TIME, dir:uint = RIGHT, velocity:int = 40)
         {
@@ -35,13 +36,13 @@ package
 
         public function get isActive():Boolean
         {
-            return (frame == 3) ? true : false;
+            return _active;
         }
 
         protected function toggle():void
         {
 
-            if (isActive)
+            if (!isActive)
             {
                 onActivate();
             }
@@ -55,12 +56,12 @@ package
 
         protected function onDeactivate():void
         {
-
+            _active = false;
         }
 
         protected function onActivate():void
         {
-
+            _active = true;
         }
     }
 }

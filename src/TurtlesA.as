@@ -21,14 +21,22 @@ package
             addAnimation("show", [3, 2, 1, 0], 3, false);
         }
 
+        override public function get isActive():Boolean
+        {
+            return (frame == 3) ? false : true;
+        }
+
         override protected function onActivate():void
         {
+            super.onActivate();
             play("show");
         }
 
         override protected function onDeactivate():void
         {
+            super.onDeactivate();
             play("hide");
         }
+         
     }
 }

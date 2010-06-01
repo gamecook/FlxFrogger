@@ -28,7 +28,7 @@ package
 
         private const TILE_SIZE:int = 40;
 
-        private var _player:Frog;
+        private var player:Frog;
         private var logGroup:FlxGroup;
         private var carGroup:FlxGroup;
         private var turtleGroup:FlxGroup;
@@ -43,6 +43,7 @@ package
         private var timerBarBackground:FlxSprite;
         private var timeTxt:FlxText;
         private const TIMER_BAR_WIDTH:int = 300;
+        private var playerIsFloating:Boolean;
 
         override public function create():void
         {
@@ -78,51 +79,51 @@ package
             logGroup = new FlxGroup();
             turtleGroup = new FlxGroup();
 
-            logGroup.add(new Log(0, calculateRow(3), Log.TypeC, FlxSprite.RIGHT, 40));
-            logGroup.add(new Log(Log.TypeCWidth + 77, calculateRow(3), Log.TypeC, FlxSprite.RIGHT, 40));
-            logGroup.add(new Log((Log.TypeCWidth + 77) * 2, calculateRow(3), Log.TypeC, FlxSprite.RIGHT, 40));
+            logGroup.add(new Log(0, calculateRow(3), Log.TypeC, FlxSprite.RIGHT, 1));
+            logGroup.add(new Log(Log.TypeCWidth + 77, calculateRow(3), Log.TypeC, FlxSprite.RIGHT, 1));
+            logGroup.add(new Log((Log.TypeCWidth + 77) * 2, calculateRow(3), Log.TypeC, FlxSprite.RIGHT, 1));
 
-            turtleGroup.add(new TurtlesA(0, calculateRow(4), -1, -1, FlxSprite.LEFT, 40));
-            turtleGroup.add(new TurtlesA((TurtlesA.SPRITE_WIDTH + 123) * 1, calculateRow(4), TurtlesA.DEFAULT_TIME, 200, FlxSprite.LEFT, 40));
-            turtleGroup.add(new TurtlesA((TurtlesA.SPRITE_WIDTH + 123) * 2, calculateRow(4), -1, -1, FlxSprite.LEFT, 40));
+            turtleGroup.add(new TurtlesA(0, calculateRow(4), -1, -1, FlxSprite.LEFT, 1));
+            turtleGroup.add(new TurtlesA((TurtlesA.SPRITE_WIDTH + 123) * 1, calculateRow(4), TurtlesA.DEFAULT_TIME, 200, FlxSprite.LEFT, 1));
+            turtleGroup.add(new TurtlesA((TurtlesA.SPRITE_WIDTH + 123) * 2, calculateRow(4), -1, -1, FlxSprite.LEFT, 1));
 
-            logGroup.add(new Log(0, calculateRow(5), Log.TypeB, FlxSprite.RIGHT, 40));
-            logGroup.add(new Log(Log.TypeBWidth + 70, calculateRow(5), Log.TypeB, FlxSprite.RIGHT, 40));
+            logGroup.add(new Log(0, calculateRow(5), Log.TypeB, FlxSprite.RIGHT, 1));
+            logGroup.add(new Log(Log.TypeBWidth + 70, calculateRow(5), Log.TypeB, FlxSprite.RIGHT, 1));
 
-            logGroup.add(new Log(0, calculateRow(6), Log.TypeA, FlxSprite.RIGHT, 40));
-            logGroup.add(new Log(Log.TypeAWidth + 77, calculateRow(6), Log.TypeA, FlxSprite.RIGHT, 40));
-            logGroup.add(new Log((Log.TypeAWidth + 77) * 2, calculateRow(6), Log.TypeA, FlxSprite.RIGHT, 40));
+            logGroup.add(new Log(0, calculateRow(6), Log.TypeA, FlxSprite.RIGHT, 1));
+            logGroup.add(new Log(Log.TypeAWidth + 77, calculateRow(6), Log.TypeA, FlxSprite.RIGHT, 1));
+            logGroup.add(new Log((Log.TypeAWidth + 77) * 2, calculateRow(6), Log.TypeA, FlxSprite.RIGHT, 1));
 
-            turtleGroup.add(new TurtlesB(0, calculateRow(7), TurtlesA.DEFAULT_TIME, 0, FlxSprite.LEFT, 40));
-            turtleGroup.add(new TurtlesB((TurtlesB.SPRITE_WIDTH + 95) * 1, calculateRow(7), -1, -1, FlxSprite.LEFT, 40));
-            turtleGroup.add(new TurtlesB((TurtlesB.SPRITE_WIDTH + 95) * 2, calculateRow(7), -1, -1, FlxSprite.LEFT, 40));
+            turtleGroup.add(new TurtlesB(0, calculateRow(7), TurtlesA.DEFAULT_TIME, 0, FlxSprite.LEFT, 1));
+            turtleGroup.add(new TurtlesB((TurtlesB.SPRITE_WIDTH + 95) * 1, calculateRow(7), -1, -1, FlxSprite.LEFT, 1));
+            turtleGroup.add(new TurtlesB((TurtlesB.SPRITE_WIDTH + 95) * 2, calculateRow(7), -1, -1, FlxSprite.LEFT, 1));
 
 
             add(logGroup);
             add(turtleGroup);
 
-            _player = add(new Frog(TILE_SIZE * 1, TILE_SIZE * 14 + 2)) as Frog;
+            player = add(new Frog(TILE_SIZE * 1, TILE_SIZE * 8 + 2)) as Frog;
 
             // Cars
             carGroup = new FlxGroup();
 
-            carGroup.add(new Truck(0, calculateRow(9), FlxSprite.LEFT, 40));
-            carGroup.add(new Truck(270, calculateRow(9), FlxSprite.LEFT, 40));
+            carGroup.add(new Truck(0, calculateRow(9), FlxSprite.LEFT, 1));
+            carGroup.add(new Truck(270, calculateRow(9), FlxSprite.LEFT, 1));
 
-            carGroup.add(new Car(0, calculateRow(10), Car.TYPE_C, FlxSprite.RIGHT, 40));
-            carGroup.add(new Car(270, calculateRow(10), Car.TYPE_C, FlxSprite.RIGHT, 40));
+            carGroup.add(new Car(0, calculateRow(10), Car.TYPE_C, FlxSprite.RIGHT, 1));
+            carGroup.add(new Car(270, calculateRow(10), Car.TYPE_C, FlxSprite.RIGHT, 1));
 
-            carGroup.add(new Car(0, calculateRow(11), Car.TYPE_D, FlxSprite.LEFT, 40));
-            carGroup.add(new Car(270, calculateRow(11), Car.TYPE_D, FlxSprite.LEFT, 40));
+            carGroup.add(new Car(0, calculateRow(11), Car.TYPE_D, FlxSprite.LEFT, 1));
+            carGroup.add(new Car(270, calculateRow(11), Car.TYPE_D, FlxSprite.LEFT, 1));
 
 
-            carGroup.add(new Car(0, calculateRow(12), Car.TYPE_B, FlxSprite.RIGHT, 40));
-            carGroup.add(new Car((Car.SPRITE_WIDTH + 138) * 1, calculateRow(12), Car.TYPE_B, FlxSprite.RIGHT, 40));
-            carGroup.add(new Car((Car.SPRITE_WIDTH + 138) * 2, calculateRow(12), Car.TYPE_B, FlxSprite.RIGHT, 40));
+            carGroup.add(new Car(0, calculateRow(12), Car.TYPE_B, FlxSprite.RIGHT, 1));
+            carGroup.add(new Car((Car.SPRITE_WIDTH + 138) * 1, calculateRow(12), Car.TYPE_B, FlxSprite.RIGHT, 1));
+            carGroup.add(new Car((Car.SPRITE_WIDTH + 138) * 2, calculateRow(12), Car.TYPE_B, FlxSprite.RIGHT, 1));
 
-            carGroup.add(new Car(0, calculateRow(13), Car.TYPE_A, FlxSprite.LEFT, 40));
-            carGroup.add(new Car((Car.SPRITE_WIDTH + 138) * 1, calculateRow(13), Car.TYPE_A, FlxSprite.LEFT, 40));
-            carGroup.add(new Car((Car.SPRITE_WIDTH + 138) * 2, calculateRow(13), Car.TYPE_A, FlxSprite.LEFT, 40));
+            carGroup.add(new Car(0, calculateRow(13), Car.TYPE_A, FlxSprite.LEFT, 1));
+            carGroup.add(new Car((Car.SPRITE_WIDTH + 138) * 1, calculateRow(13), Car.TYPE_A, FlxSprite.LEFT, 1));
+            carGroup.add(new Car((Car.SPRITE_WIDTH + 138) * 2, calculateRow(13), Car.TYPE_A, FlxSprite.LEFT, 1));
 
             add(carGroup);
 
@@ -156,7 +157,7 @@ package
 
         override public function update():void
         {
-
+            playerIsFloating = false;
             timer -= FlxG.elapsed;
 
             //timerBar.scale.x = TIMER_BAR_WIDTH - Math.round((timer / gameTime * TIMER_BAR_WIDTH));
@@ -167,7 +168,6 @@ package
                 killPlayer();
             }
             //Updates all the objects appropriately
-            super.update();
 
             if (gameState == DEATH_OVER)
             {
@@ -176,26 +176,46 @@ package
 
             else
             {
-                FlxU.overlap(carGroup, _player, death);
-                FlxU.overlap(logGroup, _player, float);
-                FlxU.overlap(turtleGroup, _player, float);
+                FlxU.overlap(carGroup, player, death);
+                FlxU.overlap(logGroup, player, float);
+                FlxU.overlap(turtleGroup, player, turtleFloat);
 
-                if (_player.x < 0 || _player.x > (FlxG.width - _player.frameWidth))
+                if (player.y < waterY)
                 {
-
-                    if (_player.y < waterY)
+                    if(!player.isMoving && !playerIsFloating)
                         killPlayer();
+
+                    if((player.x > FlxG.width - TILE_SIZE) || (player.x < 0 ))
+                    {
+                        killPlayer()
+                    }
                 }
             }
 
+            super.update();
+            
+
+        }
+
+        private function turtleFloat(collision:TimerSprite, player:Frog):void
+        {
+            if(collision.isActive)
+            {
+                float(collision, player);
+            }
+            else if (!player.isMoving)
+            {
+                killPlayer();
+            }
         }
 
         private function float(Collision:WrappingSprite, Player:Frog):void
         {
-
+            playerIsFloating = true;
+            
             if (!(FlxG.keys.LEFT || FlxG.keys.RIGHT))
             {
-                //Player.velocity.x = Collision.velocity.x;
+                Player.float(Collision.speed, Collision.facing);
             }
         }
 
@@ -203,7 +223,7 @@ package
         {
 
 
-            _player.restart();
+            player.restart();
             timer = gameTime;
             PlayState(FlxG.state).gameState = PlayState.PLAYING_STATE;
 
@@ -221,7 +241,7 @@ package
             {
                 gameState = COLLISION_STATE;
 
-                _player.death();
+                player.death();
 
                 removeLife(1);
 
@@ -254,10 +274,10 @@ package
 
         private function removeLife(value:int):void
         {
-            var id:int = totalLives - 1;
+            /*var id:int = totalLives - 1;
             var sprite:FlxSprite = lifeSprites[id];
             sprite.kill();
-            lifeSprites.splice(id, 1);
+            lifeSprites.splice(id, 1);*/
         }
 
         private function get totalLives():int
