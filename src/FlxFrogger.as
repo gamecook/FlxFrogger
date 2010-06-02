@@ -9,7 +9,7 @@ package
     {
         public function FlxFrogger()
         {
-            super(480, 800, PlayState, 1);
+            super(480, 800, StartState, 1);
         }
     }
 }

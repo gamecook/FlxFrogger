@@ -3,7 +3,7 @@ package
     public class TurtlesA extends TimerSprite
     {
 
-        [Embed(source="data/turtle_2_sprites.png")]
+        [Embed(source="../build/assets/turtle_2_sprites.png")]
         private var SpriteImage:Class;
 
         public static const SPRITE_WIDTH:int = 65;

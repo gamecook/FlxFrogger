@@ -3,7 +3,7 @@ package
     public class TurtlesB extends TurtlesA
     {
 
-        [Embed(source="data/turtle_3_sprites.png")]
+        [Embed(source="../build/assets/turtle_3_sprites.png")]
         private var SpriteImage:Class;
 
         public static const SPRITE_WIDTH:int = 99;

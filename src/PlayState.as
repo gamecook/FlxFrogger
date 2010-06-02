@@ -14,12 +14,25 @@ package
     public class PlayState extends FlxState
     {
 
-        [Embed(source="data/background.png")]
+        [Embed(source="../build/assets/background.png")]
         private var LevelSprite:Class;
 
-        [Embed(source="data/lives.png")]
+        [Embed(source="../build/assets/lives.png")]
         private var LivesSprite:Class;
 
+        [Embed(source="../build/assets/frogger_sounds.swf", symbol="FroggerExtraSound")]
+        private static var FroggerExtraSound: Class;
+
+        [Embed(source="../build/assets/frogger_sounds.swf", symbol="FroggerPlunkSound")]
+        private static var FroggerPlunkSound: Class;
+
+        [Embed(source="../build/assets/frogger_sounds.swf", symbol="FroggerSquashSound")]
+        private static var FroggerSquashSound: Class;
+
+        [Embed(source="../build/assets/frogger_sounds.swf", symbol="FroggerTimeSound")]
+        private static var FroggerTimeSound: Class;
+
+        
         public static const WELCOME_STATE:uint = 0;
         public static const PLAYING_STATE:uint = 1;
         public static const COLLISION_STATE:uint = 2;
@@ -108,7 +121,7 @@ package
             add(logGroup);
             add(turtleGroup);
 
-            player = add(new Frog(TILE_SIZE * 1, TILE_SIZE * 14 + 2)) as Frog;
+            player = add(new Frog(calculateColumn(6), calculateRow(14) + 2)) as Frog;
 
             // Cars
             carGroup = new FlxGroup();
@@ -133,7 +146,6 @@ package
 
             add(carGroup);
 
-            gameState = PLAYING_STATE;
 
             timeTxt = new FlxText(bg.width - 70, LIFE_Y+18, 60, "TIME").setFormat(null, 14, 0xffff00, "right");
             add(timeTxt);
@@ -151,6 +163,10 @@ package
 
             CONFIG::mobile
             var touchControls:TouchControls  = new TouchControls(this, 10, calculateRow(16)+20, 16);
+
+
+            gameState = PLAYING_STATE;
+
 
         }
 
@@ -173,8 +189,7 @@ package
 
             if (timer == 0)
             {
-
-                killPlayer();
+                timeUp();
             }
             //Updates all the objects appropriately
 
@@ -185,18 +200,18 @@ package
 
             else
             {
-                FlxU.overlap(carGroup, player, death);
+                FlxU.overlap(carGroup, player, carDeath);
                 FlxU.overlap(logGroup, player, float);
                 FlxU.overlap(turtleGroup, player, turtleFloat);
                 FlxU.overlap(bonusGroup, player, bonus)
                 if (player.y < waterY)
                 {
                     if(!player.isMoving && !playerIsFloating)
-                        killPlayer();
+                        waterDeath();
 
                     if((player.x > FlxG.width - TILE_SIZE) || (player.x < 0 ))
                     {
-                        killPlayer()
+                        waterDeath()
                     }
                 }
             }
@@ -204,6 +219,32 @@ package
             super.update();
             
 
+        }
+
+        private function timeUp():void
+        {
+            if (gameState != COLLISION_STATE)
+            {
+                killPlayer();
+            }
+        }
+
+        private function waterDeath():void
+        {
+            if (gameState != COLLISION_STATE)
+            {
+                FlxG.play(FroggerPlunkSound);
+                killPlayer();
+            }
+        }
+
+        private function carDeath(Collision:FlxSprite, Player:Frog):void
+        {
+            if (gameState != COLLISION_STATE)
+            {
+                FlxG.play(FroggerSquashSound);
+                killPlayer();
+            }
         }
 
         private function bonus(collision:Bonus, player:Frog):void
@@ -244,27 +285,20 @@ package
 
         }
 
-        public function death(Collision:FlxSprite, Player:Frog):void
-        {
-            killPlayer();
-        }
-
         private function killPlayer():void
         {
 
-            if (gameState != COLLISION_STATE)
+            gameState = COLLISION_STATE;
+
+            player.death();
+
+            removeLife(1);
+
+            if (totalLives == 0)
             {
-                gameState = COLLISION_STATE;
-
-                player.death();
-
-                removeLife(1);
-
-                if (totalLives == 0)
-                {
-                    gameOver();
-                }
+                gameOver();
             }
+
         }
 
         private function gameOver():void

@@ -3,7 +3,7 @@ package
     public class Alligator extends WrappingSprite
     {
 
-        [Embed(source="data/alligator_sprites.png")]
+        [Embed(source="../build/assets/alligator_sprites.png")]
         private var SpriteImage:Class;
 
         public static const SPRITE_WIDTH:int = 102;

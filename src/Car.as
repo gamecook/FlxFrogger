@@ -3,7 +3,7 @@ package
     public class Car extends WrappingSprite
     {
 
-        [Embed(source="data/car_sprites.png")]
+        [Embed(source="../build/assets/car_sprites.png")]
         private var SpriteImage:Class;
 
         public static const SPRITE_WIDTH:uint = 40;

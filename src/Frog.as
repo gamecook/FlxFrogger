@@ -8,8 +8,13 @@ package
     public class Frog extends FlxSprite
     {
 
-        [Embed(source="data/frog_sprites.png")]
+        [Embed(source="../build/assets/frog_sprites.png")]
         private var SpriteImage:Class;
+
+        [Embed(source="../build/assets/frogger_sounds.swf", symbol="FroggerHopSound")]
+        private static var FroggerHopSound: Class;
+
+
         private var startPosition:Point;
         private var moveX:int;
         private var maxMoveX:int;
@@ -110,8 +115,15 @@ package
                         facing = DOWN;
                     }
 
-                    isMoving = false;
-
+                    if(x != targetX || y != targetY)
+                    {
+                        FlxG.play(FroggerHopSound);
+                        isMoving = true;
+                    }
+                    else
+                    {
+                        isMoving = false;
+                    }
 
                 }
                 else
@@ -145,6 +157,7 @@ package
                     play("walk" + facing);
 
                     isMoving = true;
+
                 }
 
             }

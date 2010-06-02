@@ -11,7 +11,7 @@ package
         public static const EMPTY:uint = 3;
 
 
-        [Embed(source="data/bonus_sprites.png")]
+        [Embed(source="../build/assets/bonus_sprites.png")]
         private var SpriteImage:Class;
 
         public var mode:uint;

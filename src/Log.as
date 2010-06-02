@@ -3,11 +3,11 @@ package
     public class Log extends WrappingSprite
     {
 
-        [Embed(source="data/tree_1.png")]
+        [Embed(source="../build/assets/tree_1.png")]
         private var SpriteImage1:Class;
-        [Embed(source="data/tree_2.png")]
+        [Embed(source="../build/assets/tree_2.png")]
         private var SpriteImage2:Class;
-        [Embed(source="data/tree_3.png")]
+        [Embed(source="../build/assets/tree_3.png")]
         private var SpriteImage3:Class;
 
         public static const TypeA:uint = 0;

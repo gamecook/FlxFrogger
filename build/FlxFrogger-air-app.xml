@@ -6,7 +6,7 @@
     <version>1</version>
     <supportedProfiles>mobileDevice</supportedProfiles>
     <initialWindow>
-        <content>swfs/FlxFrogger-v0.4.0.swf</content>
+        <content>swfs/FlxFrogger-v0.5.0.swf</content>
         <visible>true</visible>
         <fullScreen>true</fullScreen>
         <aspectRatio>portrait</aspectRatio>
