@@ -20,6 +20,7 @@
 
 package
 {
+    import org.flixel.FlxG;
     import org.flixel.FlxGame;
 
     [SWF(width="480", height="800", backgroundColor="#000000")]
@@ -29,7 +30,9 @@ package
     {
         public function FlxFrogger()
         {
+
             super(480, 800, StartState, 1);
+            FlxG.mobile = true;
         }
     }
 }

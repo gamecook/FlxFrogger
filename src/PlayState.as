@@ -186,7 +186,8 @@ package
             timerBar.scale.x = 0;
             add(timerBar);
 
-            CONFIG::mobile var touchControls:TouchControls = new TouchControls(this, 10, calculateRow(16) + 20, 16);
+            CONFIG::mobile
+            var touchControls:TouchControls = new TouchControls(this, 10, calculateRow(16) + 20, 16);
 
 
             gameState = PLAYING_STATE;
