@@ -1,7 +1,26 @@
+/*
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ */
+
 package
 {
     import flash.ui.Multitouch;
-
     import flash.ui.MultitouchInputMode;
 
     import org.flixel.FlxG;
@@ -21,18 +40,18 @@ package
         private var LivesSprite:Class;
 
         [Embed(source="../build/assets/frogger_sounds.swf", symbol="FroggerExtraSound")]
-        private static var FroggerExtraSound: Class;
+        private static var FroggerExtraSound:Class;
 
         [Embed(source="../build/assets/frogger_sounds.swf", symbol="FroggerPlunkSound")]
-        private static var FroggerPlunkSound: Class;
+        private static var FroggerPlunkSound:Class;
 
         [Embed(source="../build/assets/frogger_sounds.swf", symbol="FroggerSquashSound")]
-        private static var FroggerSquashSound: Class;
+        private static var FroggerSquashSound:Class;
 
         [Embed(source="../build/assets/frogger_sounds.swf", symbol="FroggerTimeSound")]
-        private static var FroggerTimeSound: Class;
+        private static var FroggerTimeSound:Class;
 
-        
+
         public static const WELCOME_STATE:uint = 0;
         public static const PLAYING_STATE:uint = 1;
         public static const COLLISION_STATE:uint = 2;
@@ -61,6 +80,8 @@ package
         private var timeTxt:FlxText;
         private const TIMER_BAR_WIDTH:int = 300;
         private var playerIsFloating:Boolean;
+        private var scoreTxt:FlxText;
+        private var safeFrogs:int = 0;
 
         override public function create():void
         {
@@ -75,9 +96,13 @@ package
             add(bg);
 
 
-            var demoTXT:FlxText = add(new FlxText(0, 0, 480, "Flixel Frogger Demo").setFormat(null, 24, 0xffffff, "center", 0x000000)) as FlxText;
+            var demoTXT:FlxText = add(new FlxText(0, 0, 480, "Flixel Frogger Demo").setFormat(null, 20, 0xffffff, "center", 0x000000)) as FlxText;
             var credits:FlxText = add(new FlxText(0, demoTXT.height, 480, "by Jesse Freeman").setFormat(null, 10, 0xffffff, "center", 0x000000)) as FlxText;
+            var scoreLabel:FlxText = add(new FlxText(0, demoTXT.height, 100, "Score").setFormat(null, 10, 0xffffff, "right")) as FlxText;
 
+
+            scoreTxt = add(new FlxText(0, scoreLabel.height, 100, "").setFormat(null, 14, 0xffe00000, "right")) as FlxText;
+            FlxG.score = 0;
 
             createLives(3);
 
@@ -147,10 +172,10 @@ package
             add(carGroup);
 
 
-            timeTxt = new FlxText(bg.width - 70, LIFE_Y+18, 60, "TIME").setFormat(null, 14, 0xffff00, "right");
+            timeTxt = new FlxText(bg.width - 70, LIFE_Y + 18, 60, "TIME").setFormat(null, 14, 0xffff00, "right");
             add(timeTxt);
 
-            timerBarBackground = new FlxSprite(timeTxt.x - TIMER_BAR_WIDTH + 5, LIFE_Y+20);
+            timerBarBackground = new FlxSprite(timeTxt.x - TIMER_BAR_WIDTH + 5, LIFE_Y + 20);
             timerBarBackground.createGraphic(TIMER_BAR_WIDTH, 16, 0xff21de00);
             add(timerBarBackground);
 
@@ -161,8 +186,7 @@ package
             timerBar.scale.x = 0;
             add(timerBar);
 
-            CONFIG::mobile
-            var touchControls:TouchControls  = new TouchControls(this, 10, calculateRow(16)+20, 16);
+            CONFIG::mobile var touchControls:TouchControls = new TouchControls(this, 10, calculateRow(16) + 20, 16);
 
 
             gameState = PLAYING_STATE;
@@ -204,12 +228,13 @@ package
                 FlxU.overlap(logGroup, player, float);
                 FlxU.overlap(turtleGroup, player, turtleFloat);
                 FlxU.overlap(bonusGroup, player, bonus)
+
                 if (player.y < waterY)
                 {
-                    if(!player.isMoving && !playerIsFloating)
+                    if (!player.isMoving && !playerIsFloating)
                         waterDeath();
 
-                    if((player.x > FlxG.width - TILE_SIZE) || (player.x < 0 ))
+                    if ((player.x > FlxG.width - TILE_SIZE) || (player.x < 0 ))
                     {
                         waterDeath()
                     }
@@ -217,8 +242,8 @@ package
             }
 
             super.update();
-            
 
+            scoreTxt.text = FlxG.score.toString();
         }
 
         private function timeUp():void
@@ -249,26 +274,45 @@ package
 
         private function bonus(collision:Bonus, player:Frog):void
         {
+
+            safeFrogs ++;
             collision.success();
-            restart();
+
+            if (safeFrogs == 5)
+                levelComplete();
+            else
+                restart();
+
+        }
+
+        private function levelComplete():void
+        {
+            FlxG.score += ScoreValues.FINISH_LEVEL;
+
+            calculateLeftOverTime();
+        }
+
+        private function calculateLeftOverTime():void
+        {
+
         }
 
         private function turtleFloat(collision:TimerSprite, player:Frog):void
         {
-            if(collision.isActive)
+            if (collision.isActive)
             {
                 float(collision, player);
             }
             else if (!player.isMoving)
             {
-                killPlayer();
+                waterDeath();
             }
         }
 
         private function float(Collision:WrappingSprite, Player:Frog):void
         {
             playerIsFloating = true;
-            
+
             if (!(FlxG.keys.LEFT || FlxG.keys.RIGHT))
             {
                 Player.float(Collision.speed, Collision.facing);
@@ -277,12 +321,16 @@ package
 
         private function restart():void
         {
-
-
-            player.restart();
-            timer = gameTime;
-            PlayState(FlxG.state).gameState = PlayState.PLAYING_STATE;
-
+            if (totalLives == 0)
+            {
+                gameOver();
+            }
+            else
+            {
+                player.restart();
+                timer = gameTime;
+                PlayState(FlxG.state).gameState = PlayState.PLAYING_STATE;
+            }
         }
 
         private function killPlayer():void
@@ -294,16 +342,11 @@ package
 
             removeLife(1);
 
-            if (totalLives == 0)
-            {
-                gameOver();
-            }
-
         }
 
         private function gameOver():void
         {
-
+            gameState = COLLISION_STATE;
         }
 
         private function createLives(value:int):void

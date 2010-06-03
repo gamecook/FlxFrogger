@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
+
 <application xmlns="http://ns.adobe.com/air/application/2.5">
     <id>com.flashartofwar.FlxFrogger</id>
     <filename>FlxFrogger</filename>
@@ -6,7 +7,7 @@
     <version>1</version>
     <supportedProfiles>mobileDevice</supportedProfiles>
     <initialWindow>
-        <content>swfs/FlxFrogger-v0.5.0.swf</content>
+        <content>swfs/FlxFrogger-v0.6.0.swf</content>
         <visible>true</visible>
         <fullScreen>true</fullScreen>
         <aspectRatio>portrait</aspectRatio>

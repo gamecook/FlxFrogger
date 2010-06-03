@@ -1,3 +1,23 @@
+/*
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ */
+
 package
 {
     import flash.geom.Point;
@@ -12,7 +32,7 @@ package
         private var SpriteImage:Class;
 
         [Embed(source="../build/assets/frogger_sounds.swf", symbol="FroggerHopSound")]
-        private static var FroggerHopSound: Class;
+        private static var FroggerHopSound:Class;
 
 
         private var startPosition:Point;
@@ -61,7 +81,7 @@ package
         {
             super.facing = value;
 
-            if(value == UP || value == DOWN)
+            if (value == UP || value == DOWN)
             {
                 width = 32;
                 height = 25;
@@ -93,40 +113,47 @@ package
 
                 if (x == targetX && y == targetY)
                 {
-                    play("idle" + facing);
-
-                    if (FlxG.keys.LEFT)
+                    // Handle Moving Right and Left
+                    if (FlxG.keys.LEFT && x > 0)
                     {
                         targetX = x - maxMoveX;
                         facing = LEFT;
-                    } else if (FlxG.keys.RIGHT)
+                    }
+                    else if (FlxG.keys.RIGHT && x < FlxG.width - frameWidth)
                     {
                         targetX = x + maxMoveX;
                         facing = RIGHT;
                     }
-                    else if (FlxG.keys.UP)
+                    else if (FlxG.keys.UP && y > frameHeight)
                     {
                         targetY = y - maxMoveY;
                         facing = UP;
                     }
-                    else if (FlxG.keys.DOWN)
+                    else if (FlxG.keys.DOWN && y < 560)
                     {
                         targetY = y + maxMoveY;
                         facing = DOWN;
                     }
 
-                    if(x != targetX || y != targetY)
+                    // See if we are moving
+                    if (x != targetX || y != targetY)
                     {
+                        //Looks like we are moving so play sound, flag isMoving and add to score.
                         FlxG.play(FroggerHopSound);
                         isMoving = true;
+                        FlxG.score += ScoreValues.STEP;
                     }
                     else
                     {
+                        // Nope, we are not moving so flag isMoving and show Idle.
                         isMoving = false;
+
                     }
 
                 }
-                else
+
+                // If isMoving is true we are going to update the actual position.
+                if (isMoving == true)
                 {
                     if (facing == LEFT)
                     {
@@ -142,22 +169,12 @@ package
                         y += moveY;
                     }
 
-                    // Make sure Frog doesn't go out of bounds
-                    if(x > FlxG.width - frameWidth)
-                    {
-                        x = FlxG.width - frameWidth;
-                        targetX = x;
-                    }
-                    else if(x < 0 )
-                    {
-                        x = 0;
-                        targetX = x;
-                    }
-
                     play("walk" + facing);
 
-                    isMoving = true;
-
+                }
+                else
+                {
+                    play("idle" + facing);
                 }
 
             }

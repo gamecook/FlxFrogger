@@ -20,15 +20,15 @@
 
 package
 {
-    public class Truck extends WrappingSprite
+    public class ScoreValues
     {
+        public static const STEP:int = 10;
 
-        [Embed(source="../build/assets/truck.png")]
-        private var SpriteImage:Class;
+        public static const REACH_HOME:int = 50;
 
-        public function Truck(x:Number, y:Number, direction:uint, velocity:int)
-        {
-            super(x, y, SpriteImage, direction, velocity);
-        }
+        public static const FINISH_LEVEL:int = 1000;
+
+        public static const TIME_BONUS:int = 10;
+
     }
 }
