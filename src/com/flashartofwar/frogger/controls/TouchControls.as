@@ -19,6 +19,7 @@
  */
 
 package
+com.flashartofwar.frogger.controls
 {
     import flash.events.KeyboardEvent;
 

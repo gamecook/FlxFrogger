@@ -18,17 +18,15 @@
  * THE SOFTWARE.
  */
 
-package
+package com.flashartofwar.frogger.enum
 {
-    public class Truck extends WrappingSprite
+    public class GameStates
     {
-
-        [Embed(source="../build/assets/truck.png")]
-        private var SpriteImage:Class;
-
-        public function Truck(x:Number, y:Number, direction:uint, velocity:int)
-        {
-            super(x, y, SpriteImage, direction, velocity);
-        }
+        public static const PLAYING_STATE:uint = 0;
+        public static const COLLISION_STATE:uint = 1;
+        public static const RESTART_STATE:uint = 2;
+        public static const GAME_OVER_STATE:uint = 3;
+        public static const DEATH_OVER:uint = 4;
+        public static const LEVEL_OVER:uint = 5;
     }
 }

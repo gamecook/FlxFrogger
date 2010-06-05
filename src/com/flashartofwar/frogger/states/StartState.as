@@ -19,6 +19,7 @@
  */
 
 package
+com.flashartofwar.frogger.states
 {
     import flash.events.MouseEvent;
 
@@ -29,10 +30,10 @@ package
 
     public class StartState extends FlxState
     {
-        [Embed(source="../build/assets/frogger_title.gif")]
+        [Embed(source="../../../../../build/assets/frogger_title.gif")]
         private var TitleSprite:Class;
 
-        [Embed(source="../build/assets/frogger_sounds.swf", symbol="FroggerThemeSound")]
+        [Embed(source="../../../../../build/assets/frogger_sounds.swf", symbol="FroggerThemeSound")]
         private static var FroggerThemeSound:Class;
 
         public function StartState()
@@ -54,7 +55,6 @@ package
 
             add(new FlxText(0, 200, FlxG.width, "PUSH").setFormat(null, 18, 0xffffffff, "center"));
             add(new FlxText(0, 300, FlxG.width, "ANYWHERE TO START").setFormat(null, 18, 0xd33bd1, "center"));
-            //add(new FlxText(0,400,FlxG.width, "ANYWHERE TO START").setFormat(null, 18, 0xffffffff, "center"));
 
         }
 

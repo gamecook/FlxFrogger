@@ -19,10 +19,14 @@
  */
 
 package
+com.flashartofwar.frogger.sprites
 {
+    import com.flashartofwar.frogger.enum.ScoreValues;
+    import com.flashartofwar.frogger.sprites.core.TimerSprite;
+
     import org.flixel.FlxG;
 
-    public class Bonus extends TimerSprite
+    public class Home extends TimerSprite
     {
 
         public static const SPRITE_WIDTH:uint = 40;
@@ -33,13 +37,13 @@ package
         public static const EMPTY:uint = 3;
 
 
-        [Embed(source="../build/assets/bonus_sprites.png")]
+        [Embed(source="../../../../../build/assets/bonus_sprites.png")]
         private var SpriteImage:Class;
 
         public var mode:uint;
         public var odds:uint;
 
-        public function Bonus(x:int, y:int, hideTimer:int = TimerSprite.DEFAULT_TIME, startTime:int = TimerSprite.DEFAULT_TIME, odds:uint = 10)
+        public function Home(x:int, y:int, hideTimer:int = TimerSprite.DEFAULT_TIME, startTime:int = TimerSprite.DEFAULT_TIME, odds:uint = 10)
         {
             super(x, y, null, hideTimer, startTime, 0, 0);
 
@@ -98,10 +102,15 @@ package
 
         public function success():void
         {
-
             play("success");
             FlxG.score += ScoreValues.REACH_HOME;
-            hideTimer = timer = -1;
+            timer = -1;
+        }
+
+        public function empty():void
+        {
+            setMode(EMPTY, "empty");
+            timer = hideTimer;
         }
 
         protected function setMode(mode:uint, animationSet:String):void

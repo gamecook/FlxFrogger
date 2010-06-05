@@ -19,7 +19,11 @@
  */
 
 package
+com.flashartofwar.frogger.sprites.core
 {
+    import com.flashartofwar.frogger.enum.GameStates;
+    import com.flashartofwar.frogger.states.PlayState;
+
     import org.flixel.FlxG;
     import org.flixel.FlxSprite;
 
@@ -28,7 +32,7 @@ package
 
         protected var leftBounds:int;
         protected var rightBounds:int;
-        private var state:PlayState;
+        protected var state:PlayState;
 
         public var speed:int;
 
@@ -48,41 +52,41 @@ package
         override public function update():void
         {
 
-            if (state.gameState == PlayState.COLLISION_STATE)
+            if (state.gameState != GameStates.PLAYING_STATE)
             {
                 return;
             }
+            else
+            {
 
-            //Update the elevator's motion
+                if (facing == LEFT)
+                {
+                    x -= speed;
+                } else if (facing == RIGHT)
+                {
+                    x += speed;
+                }
+
+                if (x > (rightBounds))
+                {
+
+                    if (facing == RIGHT)
+                    {
+                        x = leftBounds - frameWidth;
+                    }
+
+                }
+                else if (x < (leftBounds - frameWidth))
+                {
+
+                    {
+                        x = rightBounds + frameWidth;
+                    }
+                }
+
+            }
+
             super.update();
-
-            if (facing == LEFT)
-            {
-                x -= speed;
-            } else if (facing == RIGHT)
-            {
-                x += speed;
-            }
-
-            //Turn around if necessary
-            if (x > (rightBounds))
-            {
-
-                if (facing == RIGHT)
-                {
-                    x = leftBounds - frameWidth;
-                }
-
-            }
-            else if (x < (leftBounds - frameWidth))
-            {
-
-                {
-                    x = rightBounds + frameWidth;
-                }
-            }
-
-
         }
     }
 }

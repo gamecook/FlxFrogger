@@ -19,7 +19,21 @@
  */
 
 package
+com.flashartofwar.frogger.states
 {
+    import com.flashartofwar.frogger.controls.TouchControls;
+    import com.flashartofwar.frogger.enum.GameStates;
+    import com.flashartofwar.frogger.enum.ScoreValues;
+    import com.flashartofwar.frogger.sprites.Car;
+    import com.flashartofwar.frogger.sprites.Frog;
+    import com.flashartofwar.frogger.sprites.Home;
+    import com.flashartofwar.frogger.sprites.Log;
+    import com.flashartofwar.frogger.sprites.Truck;
+    import com.flashartofwar.frogger.sprites.TurtlesA;
+    import com.flashartofwar.frogger.sprites.TurtlesB;
+    import com.flashartofwar.frogger.sprites.core.TimerSprite;
+    import com.flashartofwar.frogger.sprites.core.WrappingSprite;
+
     import flash.ui.Multitouch;
     import flash.ui.MultitouchInputMode;
 
@@ -33,31 +47,23 @@ package
     public class PlayState extends FlxState
     {
 
-        [Embed(source="../build/assets/background.png")]
+        [Embed(source="../../../../../build/assets/background.png")]
         private var LevelSprite:Class;
 
-        [Embed(source="../build/assets/lives.png")]
+        [Embed(source="../../../../../build/assets/lives.png")]
         private var LivesSprite:Class;
 
-        [Embed(source="../build/assets/frogger_sounds.swf", symbol="FroggerExtraSound")]
+        [Embed(source="../../../../../build/assets/frogger_sounds.swf", symbol="FroggerExtraSound")]
         private static var FroggerExtraSound:Class;
 
-        [Embed(source="../build/assets/frogger_sounds.swf", symbol="FroggerPlunkSound")]
+        [Embed(source="../../../../../build/assets/frogger_sounds.swf", symbol="FroggerPlunkSound")]
         private static var FroggerPlunkSound:Class;
 
-        [Embed(source="../build/assets/frogger_sounds.swf", symbol="FroggerSquashSound")]
+        [Embed(source="../../../../../build/assets/frogger_sounds.swf", symbol="FroggerSquashSound")]
         private static var FroggerSquashSound:Class;
 
-        [Embed(source="../build/assets/frogger_sounds.swf", symbol="FroggerTimeSound")]
+        [Embed(source="../../../../../build/assets/frogger_sounds.swf", symbol="FroggerTimeSound")]
         private static var FroggerTimeSound:Class;
-
-
-        public static const WELCOME_STATE:uint = 0;
-        public static const PLAYING_STATE:uint = 1;
-        public static const COLLISION_STATE:uint = 2;
-        public static const RESTART_STATE:uint = 3;
-        public static const GAME_OVER_STATE:uint = 4;
-        public static const DEATH_OVER:uint = 5;
 
         public var collision:Boolean;
         public var gameState:uint;
@@ -69,28 +75,35 @@ package
         private var carGroup:FlxGroup;
         private var turtleGroup:FlxGroup;
         private var timerBar:FlxSprite;
-        private var gameTime:int = 1800;
+        private var gameTime:int;
         private var timer:int;
         private var waterY:int;
         private var lifeSprites:Array = [];
         private const LIFE_X:int = 20;
         private const LIFE_Y:int = 600;
-        private var bonusGroup:FlxGroup;
+        private var homeBaseGroup:FlxGroup;
         private var timerBarBackground:FlxSprite;
         private var timeTxt:FlxText;
         private const TIMER_BAR_WIDTH:int = 300;
         private var playerIsFloating:Boolean;
         private var scoreTxt:FlxText;
         private var safeFrogs:int = 0;
+        private var messageText:FlxText;
+        private var gameMessageGroup:FlxGroup;
+        private var hideGameMessageDelay:int = -1;
+        private var timeAlmostOverFlag:Boolean = false;
+        private var timeAlmostOverWarning:int;
+        private var bases:Array;
 
         override public function create():void
         {
             //FlxG.showBounds = true;
 
             Multitouch.inputMode = MultitouchInputMode.TOUCH_POINT;
-
+            gameTime = 10 * FlxG.framerate;
             timer = gameTime;
-
+            timeAlmostOverWarning = TIMER_BAR_WIDTH * .7;
+            //delayTimer = 1000;
             waterY = TILE_SIZE * 8;
             var bg:FlxSprite = new FlxSprite(0, 0, LevelSprite);
             add(bg);
@@ -106,17 +119,34 @@ package
 
             createLives(3);
 
+
+            gameMessageGroup = new FlxGroup();
+            gameMessageGroup.x = (480 * .5) - (150 * .5)
+            gameMessageGroup.y = calculateRow(8) + 5;
+
+            var messageBG:FlxSprite = new FlxSprite(0, 0);
+            messageBG.createGraphic(150, 30, 0xff000000);
+            gameMessageGroup.add(messageBG);
+
+            messageText = new FlxText(0, 4, 150, "TIME 99").setFormat(null, 18, 0xffff00000, "center");
+            gameMessageGroup.visible = false;
+            gameMessageGroup.add(messageText);
+
+            add(gameMessageGroup);
+            
             // Bonus
 
-            bonusGroup = new FlxGroup();
+            bases = new Array();
+            
+            homeBaseGroup = new FlxGroup();
 
-            bonusGroup.add(new Bonus(calculateColumn(0) + 15, calculateRow(2), 200, 200));
-            bonusGroup.add(new Bonus(calculateColumn(3) - 5, calculateRow(2), 200, 200));
-            bonusGroup.add(new Bonus(calculateColumn(5) + 20, calculateRow(2), 200, 200));
-            bonusGroup.add(new Bonus(calculateColumn(8), calculateRow(2), 200, 200));
-            bonusGroup.add(new Bonus(calculateColumn(11) - 15, calculateRow(2), 200, 200));
+            bases.push(homeBaseGroup.add(new Home(calculateColumn(0) + 15, calculateRow(2), 200, 200)));
+            bases.push(homeBaseGroup.add(new Home(calculateColumn(3) - 5, calculateRow(2), 200, 200)));
+            bases.push(homeBaseGroup.add(new Home(calculateColumn(5) + 20, calculateRow(2), 200, 200)));
+            bases.push(homeBaseGroup.add(new Home(calculateColumn(8), calculateRow(2), 200, 200)));
+            bases.push(homeBaseGroup.add(new Home(calculateColumn(11) - 15, calculateRow(2), 200, 200)));
 
-            add(bonusGroup);
+            add(homeBaseGroup);
 
             // Create Logs
 
@@ -146,7 +176,7 @@ package
             add(logGroup);
             add(turtleGroup);
 
-            player = add(new Frog(calculateColumn(6), calculateRow(14) + 2)) as Frog;
+            player = add(new Frog(calculateColumn(6), calculateRow(14) + 6)) as Frog;
 
             // Cars
             carGroup = new FlxGroup();
@@ -186,12 +216,11 @@ package
             timerBar.scale.x = 0;
             add(timerBar);
 
-            CONFIG::mobile
-            var touchControls:TouchControls = new TouchControls(this, 10, calculateRow(16) + 20, 16);
+            CONFIG::mobile var touchControls:TouchControls = new TouchControls(this, 10, calculateRow(16) + 20, 16);
 
 
-            gameState = PLAYING_STATE;
 
+            gameState = GameStates.PLAYING_STATE;
 
         }
 
@@ -207,57 +236,103 @@ package
 
         override public function update():void
         {
-            playerIsFloating = false;
-            timer -= FlxG.elapsed;
 
-            timerBar.scale.x = TIMER_BAR_WIDTH - Math.round((timer / gameTime * TIMER_BAR_WIDTH));
-
-            if (timer == 0)
+            if (gameState == GameStates.GAME_OVER_STATE)
             {
-                timeUp();
+                if (hideGameMessageDelay == 0)
+                {
+                    FlxG.state = new StartState();
+                }
+                else
+                {
+                    hideGameMessageDelay -= FlxG.elapsed;
+                }
             }
-            //Updates all the objects appropriately
+            else if (gameState == GameStates.LEVEL_OVER)
+            {
+                if (hideGameMessageDelay == 0)
+                {
+                    restart();
+                }
+                else
+                {
+                    hideGameMessageDelay -= FlxG.elapsed;
+                }
+            }
+            else if (gameState == GameStates.PLAYING_STATE)
+            {
 
-            if (gameState == DEATH_OVER)
+                 playerIsFloating = false;
+                //if(gameState = GameStates.PLAYING_STATE)
+                // {
+                 FlxU.overlap(carGroup, player, carDeath);
+                 FlxU.overlap(logGroup, player, float);
+                 FlxU.overlap(turtleGroup, player, turtleFloat);
+                 FlxU.overlap(homeBaseGroup, player, bonus);
+
+
+                if (player.y < waterY)
+                 {
+                     if (!player.isMoving && !playerIsFloating)
+                        waterDeath();
+
+                     if ((player.x > FlxG.width) || (player.x <  -TILE_SIZE ))
+                     {
+                        waterDeath();
+                     }
+
+                }
+
+                if (timer == 0 && gameState == GameStates.PLAYING_STATE)
+                {
+                    timeUp();
+                }
+                else
+                {
+                    timer -= FlxG.elapsed;
+                    timerBar.scale.x = TIMER_BAR_WIDTH - Math.round((timer / gameTime * TIMER_BAR_WIDTH));
+
+                    if(timerBar.scale.x == timeAlmostOverWarning && !timeAlmostOverFlag)
+                    {
+                        FlxG.play(FroggerTimeSound);
+                        timeAlmostOverFlag = true;
+                    }
+                }
+
+                // Manage hiding gameMessage based on timer
+                if(hideGameMessageDelay > 0)
+                {
+                    hideGameMessageDelay -= FlxG.elapsed;
+                    if(hideGameMessageDelay < 0) hideGameMessageDelay = 0;
+                }
+                else if (hideGameMessageDelay == 0)
+                {
+                    hideGameMessageDelay = -1;
+                    gameMessageGroup.visible = false;
+                }
+
+                scoreTxt.text = FlxG.score.toString();
+            }
+            else if (gameState == GameStates.DEATH_OVER)
             {
                 restart();
             }
 
-            else
-            {
-                FlxU.overlap(carGroup, player, carDeath);
-                FlxU.overlap(logGroup, player, float);
-                FlxU.overlap(turtleGroup, player, turtleFloat);
-                FlxU.overlap(bonusGroup, player, bonus)
-
-                if (player.y < waterY)
-                {
-                    if (!player.isMoving && !playerIsFloating)
-                        waterDeath();
-
-                    if ((player.x > FlxG.width - TILE_SIZE) || (player.x < 0 ))
-                    {
-                        waterDeath()
-                    }
-                }
-            }
-
             super.update();
-
-            scoreTxt.text = FlxG.score.toString();
         }
 
         private function timeUp():void
         {
-            if (gameState != COLLISION_STATE)
+            if (gameState != GameStates.COLLISION_STATE)
             {
+                FlxG.play(FroggerSquashSound);                
                 killPlayer();
             }
         }
 
         private function waterDeath():void
         {
-            if (gameState != COLLISION_STATE)
+            if (gameState != GameStates.COLLISION_STATE)
             {
                 FlxG.play(FroggerPlunkSound);
                 killPlayer();
@@ -266,36 +341,45 @@ package
 
         private function carDeath(Collision:FlxSprite, Player:Frog):void
         {
-            if (gameState != COLLISION_STATE)
+            if (gameState != GameStates.COLLISION_STATE)
             {
                 FlxG.play(FroggerSquashSound);
                 killPlayer();
             }
         }
 
-        private function bonus(collision:Bonus, player:Frog):void
+        private function bonus(collision:Home, player:Frog):void
         {
 
             safeFrogs ++;
             collision.success();
 
-            if (safeFrogs == 5)
+            var timeLeftOver:int = Math.round(timer / FlxG.framerate);
+
+            FlxG.score += timeLeftOver * ScoreValues.TIME_BONUS;
+
+            messageText.text = "TIME "+ String(gameTime/FlxG.framerate - timeLeftOver);
+            gameMessageGroup.visible = true;
+            hideGameMessageDelay = 200;
+
+            if (safeFrogs == bases.length)
+            {
                 levelComplete();
+            }
             else
+            {
                 restart();
+            }
 
         }
 
         private function levelComplete():void
         {
+            //TODO animate this?
             FlxG.score += ScoreValues.FINISH_LEVEL;
-
-            calculateLeftOverTime();
-        }
-
-        private function calculateLeftOverTime():void
-        {
-
+            gameState = GameStates.LEVEL_OVER;
+            
+            player.visible = false;
         }
 
         private function turtleFloat(collision:TimerSprite, player:Frog):void
@@ -322,37 +406,62 @@ package
 
         private function restart():void
         {
-            if (totalLives == 0)
+            if (totalLives == 0 && gameState != GameStates.GAME_OVER_STATE)
             {
                 gameOver();
             }
             else
             {
-                player.restart();
+                if(gameState == GameStates.LEVEL_OVER)
+                    resetBases();
+
+                gameState = GameStates.PLAYING_STATE;
                 timer = gameTime;
-                PlayState(FlxG.state).gameState = PlayState.PLAYING_STATE;
+                player.restart();
+                timeAlmostOverFlag = false;
             }
+        }
+
+        private function resetBases():void
+        {
+            trace("restart bases");
+ 
+            for each (var base:Home in bases)
+            {
+                trace("base", base);
+                base.empty();
+            }
+
+            safeFrogs = 0;
+
+            messageText.text = "START";
+            gameMessageGroup.visible = true;
+            hideGameMessageDelay = 200;
         }
 
         private function killPlayer():void
         {
-
-            gameState = COLLISION_STATE;
-
-            player.death();
-
+            gameState = GameStates.COLLISION_STATE;
             removeLife(1);
-
+            player.death();
         }
 
         private function gameOver():void
         {
-            gameState = COLLISION_STATE;
+            gameState = GameStates.GAME_OVER_STATE;
+
+            gameMessageGroup.visible = true;
+
+            messageText.text = "GAME OVER";
+
+            hideGameMessageDelay = 200;
         }
 
         private function createLives(value:int):void
         {
-            for (var i:int = 0; i < value; i++)
+            var i:int;
+
+            for (i = 0; i < value; i++)
             {
                 addLife(1);
             }

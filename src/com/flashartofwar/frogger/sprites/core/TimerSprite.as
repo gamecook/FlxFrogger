@@ -19,7 +19,10 @@
  */
 
 package
+com.flashartofwar.frogger.sprites.core
 {
+    import com.flashartofwar.frogger.enum.GameStates;
+
     import org.flixel.FlxG;
 
     public class TimerSprite extends WrappingSprite
@@ -43,15 +46,19 @@ package
         override public function update():void
         {
 
+            if (state.gameState == GameStates.PLAYING_STATE)
+            {
+                if (timer > 0)
+                    timer -= FlxG.elapsed;
+
+                if (timer == 0)
+                {
+                    toggle()
+                }
+            }
+
             super.update();
 
-            if (timer > 0)
-                timer -= FlxG.elapsed;
-
-            if (timer == 0)
-            {
-                toggle()
-            }
         }
 
         public function get isActive():Boolean

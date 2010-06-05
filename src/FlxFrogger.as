@@ -20,6 +20,8 @@
 
 package
 {
+    import com.flashartofwar.frogger.states.StartState;
+
     import org.flixel.FlxG;
     import org.flixel.FlxGame;
 

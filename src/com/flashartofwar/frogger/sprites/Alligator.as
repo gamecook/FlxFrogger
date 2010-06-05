@@ -19,28 +19,32 @@
  */
 
 package
+com.flashartofwar.frogger.sprites
 {
-    public class Car extends WrappingSprite
+    import com.flashartofwar.frogger.sprites.core.WrappingSprite;
+
+    public class Alligator extends WrappingSprite
     {
 
-        [Embed(source="../build/assets/car_sprites.png")]
+        [Embed(source="../../../../../build/assets/alligator_sprites.png")]
         private var SpriteImage:Class;
 
-        public static const SPRITE_WIDTH:uint = 40;
-        public static const SPRITE_HEIGHT:uint = 40;
+        public static const SPRITE_WIDTH:int = 102;
+        public static const SPRITE_HEIGHT:int = 40;
+        public static const VELOCITY:int = 40;
 
-        public static const TYPE_A:uint = 0;
-        public static const TYPE_B:uint = 1;
-        public static const TYPE_C:uint = 2;
-        public static const TYPE_D:uint = 3;
-
-        public function Car(x:Number, y:Number, type:uint, direction:int, velocity:int)
+        public function Alligator(X:Number, Y:Number, dir:uint, velocity:int)
         {
-            super(x, y, null, direction, velocity);
+
+            super(X, Y, null, dir, velocity);
 
             loadGraphic(SpriteImage, true, false, SPRITE_WIDTH, SPRITE_HEIGHT);
 
-            frame = type;
+            addAnimation("idle", [0,1], 1, true);
+
+            play("idle");
         }
+
+
     }
 }

@@ -19,7 +19,12 @@
  */
 
 package
+com.flashartofwar.frogger.sprites
 {
+    import com.flashartofwar.frogger.enum.GameStates;
+    import com.flashartofwar.frogger.enum.ScoreValues;
+    import com.flashartofwar.frogger.states.PlayState;
+
     import flash.geom.Point;
 
     import org.flixel.FlxG;
@@ -28,10 +33,10 @@ package
     public class Frog extends FlxSprite
     {
 
-        [Embed(source="../build/assets/frog_sprites.png")]
+        [Embed(source="../../../../../build/assets/frog_sprites.png")]
         private var SpriteImage:Class;
 
-        [Embed(source="../build/assets/frogger_sounds.swf", symbol="FroggerHopSound")]
+        [Embed(source="../../../../../build/assets/frogger_sounds.swf", symbol="FroggerHopSound")]
         private static var FroggerHopSound:Class;
 
 
@@ -100,15 +105,11 @@ package
         override public function update():void
         {
 
-
-            if (state.gameState == PlayState.COLLISION_STATE)
+            if (state.gameState == GameStates.COLLISION_STATE && (frame == 11))
             {
-                if (frame == 11)
-                {
-                    state.gameState = PlayState.DEATH_OVER;
-                }
+                state.gameState = GameStates.DEATH_OVER;
             }
-            else
+            else if (state.gameState == GameStates.PLAYING_STATE)
             {
 
                 if (x == targetX && y == targetY)
@@ -197,12 +198,13 @@ package
             targetY = startPosition.y;
             facing = UP;
             play("idle" + facing);
+            if(!visible) visible = true;
 
         }
 
         public function float(speed:int, facing:uint):void
         {
-            if (isMoving != true && state.gameState != PlayState.COLLISION_STATE)
+            if (isMoving != true)
             {
                 x += (facing == RIGHT) ? speed : -speed;
                 targetX = x;
