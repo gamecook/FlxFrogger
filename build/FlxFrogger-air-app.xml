@@ -4,10 +4,10 @@
     <id>com.flashartofwar.FlxFrogger</id>
     <filename>FlxFrogger</filename>
     <name>FlxFrogger</name>
-    <version>1</version>
+    <versionNumber>1</versionNumber>
     <supportedProfiles>mobileDevice</supportedProfiles>
     <initialWindow>
-        <content>swfs/FlxFrogger-v0.6.0.swf</content>
+        <content>swfs/FlxFrogger-v0.8.0.swf</content>
         <visible>true</visible>
         <fullScreen>true</fullScreen>
         <aspectRatio>portrait</aspectRatio>

@@ -33,9 +33,9 @@ com.flashartofwar.frogger.sprites
         public static const SPRITE_HEIGHT:int = 40;
         public static const DEFAULT_TIME:int = 300;
 
-        public function TurtlesA(x:Number, y:Number, hideTimer:int = DEFAULT_TIME, startTime:int = DEFAULT_TIME, dir:uint = RIGHT, velocity:int = 40)
+        public function TurtlesA(x:Number, y:Number, hideTimer:int = DEFAULT_TIME, startTime:int = DEFAULT_TIME, dir:uint = RIGHT, speed:int = 1)
         {
-            super(x, y, null, hideTimer, startTime, dir, velocity);
+            super(x, y, null, hideTimer, startTime, dir, speed);
 
             loadGraphic(SpriteImage, true, false, SPRITE_WIDTH, SPRITE_HEIGHT);
 

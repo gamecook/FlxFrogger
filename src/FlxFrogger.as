@@ -22,6 +22,9 @@ package
 {
     import com.flashartofwar.frogger.states.StartState;
 
+    import flash.ui.Multitouch;
+    import flash.ui.MultitouchInputMode;
+
     import org.flixel.FlxG;
     import org.flixel.FlxGame;
 
@@ -32,7 +35,11 @@ package
     {
         public function FlxFrogger()
         {
-
+            CONFIG::mobile
+            {
+            Multitouch.inputMode = MultitouchInputMode.TOUCH_POINT;
+            }
+            
             super(480, 800, StartState, 1);
             FlxG.mobile = true;
         }

@@ -34,9 +34,6 @@ com.flashartofwar.frogger.states
     import com.flashartofwar.frogger.sprites.core.TimerSprite;
     import com.flashartofwar.frogger.sprites.core.WrappingSprite;
 
-    import flash.ui.Multitouch;
-    import flash.ui.MultitouchInputMode;
-
     import org.flixel.FlxG;
     import org.flixel.FlxGroup;
     import org.flixel.FlxSprite;
@@ -99,8 +96,7 @@ com.flashartofwar.frogger.states
         {
             //FlxG.showBounds = true;
 
-            Multitouch.inputMode = MultitouchInputMode.TOUCH_POINT;
-            gameTime = 10 * FlxG.framerate;
+            gameTime = 60 * FlxG.framerate;
             timer = gameTime;
             timeAlmostOverWarning = TIMER_BAR_WIDTH * .7;
             //delayTimer = 1000;
@@ -133,11 +129,11 @@ com.flashartofwar.frogger.states
             gameMessageGroup.add(messageText);
 
             add(gameMessageGroup);
-            
+
             // Bonus
 
             bases = new Array();
-            
+
             homeBaseGroup = new FlxGroup();
 
             bases.push(homeBaseGroup.add(new Home(calculateColumn(0) + 15, calculateRow(2), 200, 200)));
@@ -219,7 +215,6 @@ com.flashartofwar.frogger.states
             CONFIG::mobile var touchControls:TouchControls = new TouchControls(this, 10, calculateRow(16) + 20, 16);
 
 
-
             gameState = GameStates.PLAYING_STATE;
 
         }
@@ -262,24 +257,24 @@ com.flashartofwar.frogger.states
             else if (gameState == GameStates.PLAYING_STATE)
             {
 
-                 playerIsFloating = false;
+                playerIsFloating = false;
                 //if(gameState = GameStates.PLAYING_STATE)
                 // {
-                 FlxU.overlap(carGroup, player, carDeath);
-                 FlxU.overlap(logGroup, player, float);
-                 FlxU.overlap(turtleGroup, player, turtleFloat);
-                 FlxU.overlap(homeBaseGroup, player, bonus);
+                FlxU.overlap(carGroup, player, carDeath);
+                FlxU.overlap(logGroup, player, float);
+                FlxU.overlap(turtleGroup, player, turtleFloat);
+                FlxU.overlap(homeBaseGroup, player, bonus);
 
 
                 if (player.y < waterY)
-                 {
-                     if (!player.isMoving && !playerIsFloating)
+                {
+                    if (!player.isMoving && !playerIsFloating)
                         waterDeath();
 
-                     if ((player.x > FlxG.width) || (player.x <  -TILE_SIZE ))
-                     {
+                    if ((player.x > FlxG.width) || (player.x < -TILE_SIZE ))
+                    {
                         waterDeath();
-                     }
+                    }
 
                 }
 
@@ -292,7 +287,7 @@ com.flashartofwar.frogger.states
                     timer -= FlxG.elapsed;
                     timerBar.scale.x = TIMER_BAR_WIDTH - Math.round((timer / gameTime * TIMER_BAR_WIDTH));
 
-                    if(timerBar.scale.x == timeAlmostOverWarning && !timeAlmostOverFlag)
+                    if (timerBar.scale.x == timeAlmostOverWarning && !timeAlmostOverFlag)
                     {
                         FlxG.play(FroggerTimeSound);
                         timeAlmostOverFlag = true;
@@ -300,10 +295,10 @@ com.flashartofwar.frogger.states
                 }
 
                 // Manage hiding gameMessage based on timer
-                if(hideGameMessageDelay > 0)
+                if (hideGameMessageDelay > 0)
                 {
                     hideGameMessageDelay -= FlxG.elapsed;
-                    if(hideGameMessageDelay < 0) hideGameMessageDelay = 0;
+                    if (hideGameMessageDelay < 0) hideGameMessageDelay = 0;
                 }
                 else if (hideGameMessageDelay == 0)
                 {
@@ -325,7 +320,7 @@ com.flashartofwar.frogger.states
         {
             if (gameState != GameStates.COLLISION_STATE)
             {
-                FlxG.play(FroggerSquashSound);                
+                FlxG.play(FroggerSquashSound);
                 killPlayer();
             }
         }
@@ -358,7 +353,7 @@ com.flashartofwar.frogger.states
 
             FlxG.score += timeLeftOver * ScoreValues.TIME_BONUS;
 
-            messageText.text = "TIME "+ String(gameTime/FlxG.framerate - timeLeftOver);
+            messageText.text = "TIME " + String(gameTime / FlxG.framerate - timeLeftOver);
             gameMessageGroup.visible = true;
             hideGameMessageDelay = 200;
 
@@ -378,7 +373,7 @@ com.flashartofwar.frogger.states
             //TODO animate this?
             FlxG.score += ScoreValues.FINISH_LEVEL;
             gameState = GameStates.LEVEL_OVER;
-            
+
             player.visible = false;
         }
 
@@ -412,7 +407,7 @@ com.flashartofwar.frogger.states
             }
             else
             {
-                if(gameState == GameStates.LEVEL_OVER)
+                if (gameState == GameStates.LEVEL_OVER)
                     resetBases();
 
                 gameState = GameStates.PLAYING_STATE;
@@ -425,7 +420,7 @@ com.flashartofwar.frogger.states
         private function resetBases():void
         {
             trace("restart bases");
- 
+
             for each (var base:Home in bases)
             {
                 trace("base", base);

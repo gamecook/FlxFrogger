@@ -34,10 +34,10 @@ com.flashartofwar.frogger.sprites.core
         protected var hideTimer:int;
         protected var _active:Boolean = true;
 
-        public function TimerSprite(x:Number, y:Number, SimpleGraphic:Class = null, hideTimer:int = DEFAULT_TIME, startTime:int = DEFAULT_TIME, dir:uint = RIGHT, velocity:int = 40)
+        public function TimerSprite(x:Number, y:Number, SimpleGraphic:Class = null, hideTimer:int = DEFAULT_TIME, startTime:int = DEFAULT_TIME, dir:uint = RIGHT, speed:int = 1)
         {
 
-            super(x, y, SimpleGraphic, dir, velocity);
+            super(x, y, SimpleGraphic, dir, speed);
 
             this.hideTimer = hideTimer;
             timer = startTime;

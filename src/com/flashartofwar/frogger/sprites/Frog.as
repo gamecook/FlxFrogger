@@ -71,10 +71,10 @@ com.flashartofwar.frogger.sprites
             addAnimation("idle" + RIGHT, [2], 0, false);
             addAnimation("idle" + DOWN, [4], 0, false);
             addAnimation("idle" + LEFT, [6], 0, false);
-            addAnimation("walk" + UP, [0,1], 10, true);
-            addAnimation("walk" + RIGHT, [2,3], 10, true);
-            addAnimation("walk" + DOWN, [4,5], 10, true);
-            addAnimation("walk" + LEFT, [6,7], 10, true);
+            addAnimation("walk" + UP, [0,1], 15, true);
+            addAnimation("walk" + RIGHT, [2,3], 15, true);
+            addAnimation("walk" + DOWN, [4,5], 15, true);
+            addAnimation("walk" + LEFT, [6,7], 15, true);
             addAnimation("die", [8, 9, 10, 11], 2, false);
 
             facing = FlxSprite.UP;
@@ -115,22 +115,22 @@ com.flashartofwar.frogger.sprites
                 if (x == targetX && y == targetY)
                 {
                     // Handle Moving Right and Left
-                    if (FlxG.keys.LEFT && x > 0)
+                    if (FlxG.keys.justPressed("LEFT") && x > 0)
                     {
                         targetX = x - maxMoveX;
                         facing = LEFT;
                     }
-                    else if (FlxG.keys.RIGHT && x < FlxG.width - frameWidth)
+                    else if (FlxG.keys.justPressed("RIGHT") && x < FlxG.width - frameWidth)
                     {
                         targetX = x + maxMoveX;
                         facing = RIGHT;
                     }
-                    else if (FlxG.keys.UP && y > frameHeight)
+                    else if (FlxG.keys.justPressed("UP") && y > frameHeight)
                     {
                         targetY = y - maxMoveY;
                         facing = UP;
                     }
-                    else if (FlxG.keys.DOWN && y < 560)
+                    else if (FlxG.keys.justPressed("DOWN") && y < 560)
                     {
                         targetY = y + maxMoveY;
                         facing = DOWN;
@@ -198,7 +198,7 @@ com.flashartofwar.frogger.sprites
             targetY = startPosition.y;
             facing = UP;
             play("idle" + facing);
-            if(!visible) visible = true;
+            if (!visible) visible = true;
 
         }
 
