@@ -37,19 +37,19 @@ com.flashartofwar.frogger.controls
 
         public function TouchControls(target:FlxState, x:int, y:int, padding:int)
         {
-            btn = new FlxTouchButton(x, y, onUpPress, onUpRelease);
+            btn = new FlxTouchButton(x, y, 100, 100, onUpPress, onUpRelease);
             btn.loadText(new FlxText(0, 30, 100, "UP").setFormat(null, 20, 0xffffff, "center"));
             target.add(btn);
 
-            btn2 = new FlxTouchButton(btn.x + btn.width + padding, btn.y, onDownPress, onDownRelease);
+            btn2 = new FlxTouchButton(btn.x + btn.width + padding, btn.y, 100, 100, onDownPress, onDownRelease);
             btn2.loadText(new FlxText(0, 30, 100, "DOWN").setFormat(null, 20, 0xffffff, "center"));
             target.add(btn2);
 
-            btn3 = new FlxTouchButton(btn2.x + btn2.width + padding, btn.y, onLeftPress, onLeftRelease);
+            btn3 = new FlxTouchButton(btn2.x + btn2.width + padding, btn.y, 100, 100, onLeftPress, onLeftRelease);
             btn3.loadText(new FlxText(0, 30, 100, "LEFT").setFormat(null, 20, 0xffffff, "center"));
             target.add(btn3);
 
-            btn4 = new FlxTouchButton(btn3.x + btn3.width + padding, btn.y, onRightPress, onRightRelease);
+            btn4 = new FlxTouchButton(btn3.x + btn3.width + padding, btn.y, 100, 100, onRightPress, onRightRelease);
             btn4.loadText(new FlxText(0, 30, 100, "RIGHT").setFormat(null, 20, 0xffffff, "center"));
             target.add(btn4);
         }

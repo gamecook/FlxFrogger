@@ -1,17 +1,13 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
-
 <application xmlns="http://ns.adobe.com/air/application/2.5">
-    <id>com.flashartofwar.FlxFrogger</id>
-    <filename>FlxFrogger</filename>
-    <name>FlxFrogger</name>
-    <versionNumber>1</versionNumber>
+    <id>@package@</id>
+    <filename>@project@</filename>
+    <name>@project@</name>
+    <versionNumber>@version@</versionNumber>
     <supportedProfiles>mobileDevice</supportedProfiles>
     <initialWindow>
-        <content>swfs/FlxFrogger-v0.8.0.swf</content>
+        <content>swfs/@projectversion@.swf</content>
         <visible>true</visible>
-        <fullScreen>true</fullScreen>
-        <aspectRatio>portrait</aspectRatio>
-        <autoOrients>false</autoOrients>
     </initialWindow>
     <icon>
         <image72x72>images/icons/app-logo-72x72.png</image72x72>
