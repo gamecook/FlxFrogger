@@ -33,9 +33,18 @@ com.flashartofwar.frogger.sprites
         public static const SPRITE_HEIGHT:int = 40;
         public static const DEFAULT_TIME:int = 300;
 
-        public function TurtlesA(x:Number, y:Number, hideTimer:int = DEFAULT_TIME, startTime:int = DEFAULT_TIME, dir:uint = RIGHT, speed:int = 1)
+        /**
+         * This represents the Turtles the player can land on.
+         *
+         * @param x start X
+         * @param y start Y
+         * @param delay This represents the amount of time before toggling active/deactivate
+         * @param startTime where the timer should start. Pass in -1 to disable the timer.
+         * @param speed speed in pixels the turtle will move in
+         */
+        public function TurtlesA(x:Number, y:Number, delay:int = DEFAULT_TIME, startTime:int = DEFAULT_TIME, dir:uint = RIGHT, speed:int = 1)
         {
-            super(x, y, null, hideTimer, startTime, dir, speed);
+            super(x, y, null, delay, startTime, dir, speed);
 
             loadGraphic(SpriteImage, true, false, SPRITE_WIDTH, SPRITE_HEIGHT);
 
@@ -44,17 +53,27 @@ com.flashartofwar.frogger.sprites
             addAnimation("show", [3, 2, 1, 0], 3, false);
         }
 
+        /**
+         * Checks to see what frame the turtle is on and can be used to see if turtle is underwater or not.
+         * @return if frog is totally underwater it will return false, if not true
+         */
         override public function get isActive():Boolean
         {
             return (frame == 3) ? false : true;
         }
 
+        /**
+         * Makes turtle appear out of water.
+         */
         override protected function onActivate():void
         {
             super.onActivate();
             play("show");
         }
 
+        /**
+         * Makes turtle go underwater
+         */
         override protected function onDeactivate():void
         {
             super.onDeactivate();

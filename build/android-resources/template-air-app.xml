@@ -8,6 +8,9 @@
     <initialWindow>
         <content>swfs/@projectversion@.swf</content>
         <visible>true</visible>
+        <fullScreen>true</fullScreen>
+        <aspectRatio>portrait</aspectRatio>
+        <autoOrients>false</autoOrients>
     </initialWindow>
     <icon>
         <image72x72>images/icons/app-logo-72x72.png</image72x72>

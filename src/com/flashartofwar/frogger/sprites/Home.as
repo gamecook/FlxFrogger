@@ -29,12 +29,12 @@ com.flashartofwar.frogger.sprites
     public class Home extends TimerSprite
     {
 
-        public static const SPRITE_WIDTH:uint = 40;
-        public static const SPRITE_HEIGHT:uint = 40;
-        public static const BONUS:uint = 0;
-        public static const NO_BONUS:uint = 1;
-        public static const SUCCESS:uint = 2;
-        public static const EMPTY:uint = 3;
+        public static const SPRITE_WIDTH:int = 40;
+        public static const SPRITE_HEIGHT:int = 40;
+        public static const BONUS:int = 0;
+        public static const NO_BONUS:int = 1;
+        public static const SUCCESS:int = 2;
+        public static const EMPTY:int = 3;
 
 
         [Embed(source="../../../../../build/assets/bonus_sprites.png")]
@@ -43,9 +43,19 @@ com.flashartofwar.frogger.sprites
         public var mode:uint;
         public var odds:uint;
 
-        public function Home(x:int, y:int, hideTimer:int = TimerSprite.DEFAULT_TIME, startTime:int = TimerSprite.DEFAULT_TIME, odds:uint = 10)
+        /**
+         * Home represents the sprite the player lands on to score points and help complete a level.
+         * The home has 4 states Empty, Success, No Bonus, and Bonus
+         *
+         * @param x start X
+         * @param y start Y
+         * @param delay This represents the amount of time before toggling active/deactivate
+         * @param startTime where the timer should start. Pass in -1 to disable the timer.
+         * @param odds the randomness that one of the 3 states will be reached (empty, bonus, or no bonus)
+         */
+        public function Home(x:Number, y:Number, delay:int = TimerSprite.DEFAULT_TIME, startTime:int = TimerSprite.DEFAULT_TIME, odds:int = 10)
         {
-            super(x, y, null, hideTimer, startTime, 0, 0);
+            super(x, y, null, delay, startTime, 0, 0);
 
             this.odds = odds;
 
@@ -65,6 +75,9 @@ com.flashartofwar.frogger.sprites
             showEmpty();
         }
 
+        /**
+         * On active draw a random number based on the odds and see what state should be shown.
+         */
         override protected function onActivate():void
         {
             super.onActivate();
@@ -85,21 +98,33 @@ com.flashartofwar.frogger.sprites
             }
         }
 
+        /**
+         * Shows empty state
+         */
         private function showEmpty():void
         {
             play("empty");
         }
 
+        /**
+         * Shows no bonus state
+         */
         private function showNoBonus():void
         {
             play("noBonus");
         }
 
+        /**
+         * Show bonus state
+         */
         private function showBonus():void
         {
             play("bonus");
         }
 
+        /**
+         * Show success state
+         */
         public function success():void
         {
             play("success");
@@ -107,14 +132,24 @@ com.flashartofwar.frogger.sprites
             timer = -1;
         }
 
+        /**
+         * Reset the sprite to the empty state and restart the timer.
+         */
         public function empty():void
         {
             setMode(EMPTY, "empty");
             timer = hideTimer;
         }
 
-        protected function setMode(mode:uint, animationSet:String):void
+        /**
+         * private method to set the state of the sprite.
+         *
+         * @param mode what mode should the sprite be in Empty, Bonus, No Bonus or Success
+         * @param animationSet What animation set should it use to display the state
+         */
+        protected function setMode(mode:int, animationSet:String):void
         {
+            //TODO This should be consolidated to use the same mode int
             this.mode = mode;
             play(animationSet);
         }

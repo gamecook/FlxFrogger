@@ -14,6 +14,7 @@
             <arg line="-output ${doc.loc}" />
             <arg line="-window-title '${project.name}'" />
             <arg line="-main-title '${project.name}'" />
+            <arg value="-define=CONFIG::mobile,false"/>
             <arg line="-footer '${project.name} - Documentation generated at: ${docgen.time}'" />
         </java>
 

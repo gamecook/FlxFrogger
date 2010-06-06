@@ -21,15 +21,18 @@
 package
 com.flashartofwar.frogger.enum
 {
+    /**
+     * These represent the values when scoring happens.
+     */
     public class ScoreValues
     {
-        public static const STEP:int = 10;
+        public static const STEP:uint = 10;
 
-        public static const REACH_HOME:int = 50;
+        public static const REACH_HOME:uint = 50;
 
-        public static const FINISH_LEVEL:int = 1000;
+        public static const FINISH_LEVEL:uint = 1000;
 
-        public static const TIME_BONUS:int = 10;
+        public static const TIME_BONUS:uint = 10;
 
     }
 }

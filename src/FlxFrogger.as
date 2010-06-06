@@ -33,15 +33,22 @@ package
 
     public class FlxFrogger extends FlxGame
     {
+        /**
+         * This is the main game constructor.
+         */
         public function FlxFrogger()
         {
+
+            // Put custom mobile code here. This is toggled in the ANT Build properties file.
             CONFIG::mobile
             {
-            Multitouch.inputMode = MultitouchInputMode.TOUCH_POINT;
+                Multitouch.inputMode = MultitouchInputMode.TOUCH_POINT;
+                FlxG.mobile = true;
             }
-            
+
+            // Create Flixel Game.
             super(480, 800, StartState, 1);
-            FlxG.mobile = true;
+
         }
     }
 }

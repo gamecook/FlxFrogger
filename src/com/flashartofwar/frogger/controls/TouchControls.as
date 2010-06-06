@@ -24,6 +24,7 @@ com.flashartofwar.frogger.controls
     import flash.events.KeyboardEvent;
 
     import org.flixel.FlxG;
+    import org.flixel.FlxGroup;
     import org.flixel.FlxState;
     import org.flixel.FlxText;
     import org.flixel.touch.FlxTouchButton;
@@ -34,24 +35,39 @@ com.flashartofwar.frogger.controls
         private var btn2:FlxTouchButton;
         private var btn3:FlxTouchButton;
         private var btn4:FlxTouchButton;
+        private var group:FlxGroup;
 
+        /**
+         * Touch controls are special buttons that allow virtual input for the game on devices without a keyboard.
+         *
+         * @param target Where should the controls be added onto
+         * @param x x position to display the controls
+         * @param y y position to display the controls
+         * @param padding space between each button
+         */
         public function TouchControls(target:FlxState, x:int, y:int, padding:int)
         {
-            btn = new FlxTouchButton(x, y, 100, 100, onUpPress, onUpRelease);
+
+            group = target.add(new FlxGroup()) as FlxGroup;
+            group.x = x;
+            group.y = y;
+
+            btn = new FlxTouchButton(0, 0, 100, 100, onUpPress, onUpRelease);
             btn.loadText(new FlxText(0, 30, 100, "UP").setFormat(null, 20, 0xffffff, "center"));
-            target.add(btn);
+            group.add(btn);
 
             btn2 = new FlxTouchButton(btn.x + btn.width + padding, btn.y, 100, 100, onDownPress, onDownRelease);
             btn2.loadText(new FlxText(0, 30, 100, "DOWN").setFormat(null, 20, 0xffffff, "center"));
-            target.add(btn2);
+            group.add(btn2);
 
             btn3 = new FlxTouchButton(btn2.x + btn2.width + padding, btn.y, 100, 100, onLeftPress, onLeftRelease);
             btn3.loadText(new FlxText(0, 30, 100, "LEFT").setFormat(null, 20, 0xffffff, "center"));
-            target.add(btn3);
+            group.add(btn3);
 
             btn4 = new FlxTouchButton(btn3.x + btn3.width + padding, btn.y, 100, 100, onRightPress, onRightRelease);
             btn4.loadText(new FlxText(0, 30, 100, "RIGHT").setFormat(null, 20, 0xffffff, "center"));
-            target.add(btn4);
+            group.add(btn4);
+
         }
 
         private function onLeftRelease():void

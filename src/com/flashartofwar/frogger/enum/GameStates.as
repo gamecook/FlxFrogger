@@ -20,13 +20,23 @@
 
 package com.flashartofwar.frogger.enum
 {
+    /**
+     * These are the game states and help maintain a consistent state throughout the game.
+     *
+     * Playing - Allows full animation and collision detection
+     * Collision - Flag that a collision has happened and everything needs to pause
+     * Restart - The game is being restarted
+     * Game Over - The game is over and everything is waiting until the PlayState is unloaded.
+     * Death Over - The player's death animation is over and we can move back into Play State.
+     * Level Over - A level has been completed and we wait for the time lable to go away.
+     */
     public class GameStates
     {
-        public static const PLAYING_STATE:uint = 0;
-        public static const COLLISION_STATE:uint = 1;
-        public static const RESTART_STATE:uint = 2;
-        public static const GAME_OVER_STATE:uint = 3;
-        public static const DEATH_OVER:uint = 4;
-        public static const LEVEL_OVER:uint = 5;
+        public static const PLAYING:uint = 0; //
+        public static const COLLISION:uint = 1; //
+        public static const RESTART:uint = 2; //
+        public static const GAME_OVER:uint = 3; //
+        public static const DEATH_OVER:uint = 4; //
+        public static const LEVEL_OVER:uint = 5; //
     }
 }

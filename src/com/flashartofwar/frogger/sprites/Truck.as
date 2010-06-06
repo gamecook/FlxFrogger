@@ -29,6 +29,14 @@ com.flashartofwar.frogger.sprites
         [Embed(source="../../../../../build/assets/truck.png")]
         private var SpriteImage:Class;
 
+        /**
+         * This is a simple sprite which represents the Truck.
+         *
+         * @param X start X
+         * @param Y start Y
+         * @param dir direction the sprite will move in
+         * @param speed speed in pixels the sprite will move on update
+         */
         public function Truck(x:Number, y:Number, direction:uint, velocity:int)
         {
             super(x, y, SpriteImage, direction, velocity);

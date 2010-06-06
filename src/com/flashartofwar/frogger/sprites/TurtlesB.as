@@ -31,6 +31,15 @@ com.flashartofwar.frogger.sprites
         public static const SPRITE_HEIGHT:int = 40;
         public static const DEFAULT_TIME:int = 300;
 
+        /**
+         * This represents the Turtles the player can land on.
+         *
+         * @param x start X
+         * @param y start Y
+         * @param delay This represents the amount of time before toggling active/deactivate
+         * @param startTime where the timer should start. Pass in -1 to disable the timer.
+         * @param speed speed in pixels the turtle will move in
+         */
         public function TurtlesB(x:Number, y:Number, hideTimer:int = DEFAULT_TIME, startTime:int = DEFAULT_TIME, dir:uint = RIGHT, velocity:int = 40)
         {
             super(x, y, hideTimer, startTime, dir, velocity);

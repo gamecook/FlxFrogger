@@ -34,19 +34,35 @@ com.flashartofwar.frogger.sprites.core
         protected var hideTimer:int;
         protected var _active:Boolean = true;
 
-        public function TimerSprite(x:Number, y:Number, SimpleGraphic:Class = null, hideTimer:int = DEFAULT_TIME, startTime:int = DEFAULT_TIME, dir:uint = RIGHT, speed:int = 1)
+        /**
+         * The TimerSprite allows you to change states from active to inactive based on an internal timer.
+         * This is useful for sprites that need to hide/show themselves at certain intervals. If you want
+         * to disable the internal timer, simply pass in -1 for the start time.
+         *
+         * @param x start x
+         * @param y start y
+         * @param SimpleGraphic used for sprites that don't need to show an animation
+         * @param delay this represents the delay between switching states
+         * @param startTime this is the time in which the timer starts. Use -1 to disable.
+         * @param dir This represents the direction the sprite will be facing
+         * @param speed This is the speed in pixels the sprite will move on update
+         */
+        public function TimerSprite(x:Number, y:Number, SimpleGraphic:Class = null, delay:int = DEFAULT_TIME, startTime:int = DEFAULT_TIME, dir:uint = RIGHT, speed:int = 1)
         {
 
             super(x, y, SimpleGraphic, dir, speed);
 
-            this.hideTimer = hideTimer;
+            this.hideTimer = delay;
             timer = startTime;
         }
 
+        /**
+         * This updates the internal timer and triggers toggle when equal to 0
+         */
         override public function update():void
         {
 
-            if (state.gameState == GameStates.PLAYING_STATE)
+            if (state.gameState == GameStates.PLAYING)
             {
                 if (timer > 0)
                     timer -= FlxG.elapsed;
@@ -61,11 +77,19 @@ com.flashartofwar.frogger.sprites.core
 
         }
 
+        /**
+         * Getter returns if the instance is active or not.
+         *
+         * @return a boolean, true is active and false is inactive
+         */
         public function get isActive():Boolean
         {
             return _active;
         }
 
+        /**
+         * This is a simple toggle between active and deactivated states.
+         */
         protected function toggle():void
         {
             if (!isActive)
@@ -80,11 +104,17 @@ com.flashartofwar.frogger.sprites.core
             timer = hideTimer;
         }
 
+        /**
+         *  Toggles the _activate variable signaling that it is no longer active.
+         */
         protected function onDeactivate():void
         {
             _active = false;
         }
 
+        /**
+         * Toggles the _activate variable signaling that it is now active.
+         */
         protected function onActivate():void
         {
             _active = true;

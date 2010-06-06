@@ -39,7 +39,6 @@ com.flashartofwar.frogger.sprites
         [Embed(source="../../../../../build/assets/frogger_sounds.swf", symbol="FroggerHopSound")]
         private static var FroggerHopSound:Class;
 
-
         private var startPosition:Point;
         private var moveX:int;
         private var maxMoveX:int;
@@ -51,21 +50,33 @@ com.flashartofwar.frogger.sprites
         private var state:PlayState;
         public var isMoving:Boolean;
 
+        //TODO this should probably extend Wrapping Sprite and override the off screen logic
+        /**
+         * The Frog represents the main player's character. This class contains all of the move, animation,
+         * and some special collision logic for the Frog.
+         *
+         * @param X start X
+         * @param Y start Y
+         */
         public function Frog(X:Number, Y:Number)
         {
             super(X, Y);
 
+            // Save the starting position to be used later when restarting
             startPosition = new Point(X, Y);
-            loadGraphic(SpriteImage, true, false, 40, 40);
 
+            // Calculate amount of pixels to move each turn
             moveX = 5;
             moveY = 5;
             maxMoveX = moveX * animationFrames;
             maxMoveY = moveY * animationFrames;
 
+            // Set frog's target x,y to start position so he can move
             targetX = X;
             targetY = Y;
 
+            // Set up sprite graphics and animations
+            loadGraphic(SpriteImage, true, false, 40, 40);
 
             addAnimation("idle" + UP, [0], 0, false);
             addAnimation("idle" + RIGHT, [2], 0, false);
@@ -77,11 +88,18 @@ com.flashartofwar.frogger.sprites
             addAnimation("walk" + LEFT, [6,7], 15, true);
             addAnimation("die", [8, 9, 10, 11], 2, false);
 
+            // Set facing direction
             facing = FlxSprite.UP;
 
+            // Save an instance of the PlayState to help with collision detection and movement 
             state = FlxG.state as PlayState;
         }
 
+        /**
+         * This manage what direction the frog is facing. It also alters the bounding box around the sprite.
+         *
+         * @param value
+         */
         override public function set facing(value:uint):void
         {
             super.facing = value;
@@ -102,19 +120,25 @@ com.flashartofwar.frogger.sprites
             }
         }
 
+        /**
+         * The main Frog update loop. This handles keyboard movement, collision and flagging id moving.
+         */
         override public function update():void
         {
 
-            if (state.gameState == GameStates.COLLISION_STATE && (frame == 11))
+            // Test to see if the frog is dead and at the last death frame
+            if (state.gameState == GameStates.COLLISION && (frame == 11))
             {
+                // Flag game state that death animation is over and game can perform a restart
                 state.gameState = GameStates.DEATH_OVER;
             }
-            else if (state.gameState == GameStates.PLAYING_STATE)
+            else if (state.gameState == GameStates.PLAYING)
             {
-
+                // Test to see if TargetX and Y are equil. If so, Frog is free to move.
                 if (x == targetX && y == targetY)
                 {
-                    // Handle Moving Right and Left
+                    // Checks to see what key was just pressed and sets the target X or Y to the new position
+                    // along with what direction to face
                     if (FlxG.keys.justPressed("LEFT") && x > 0)
                     {
                         targetX = x - maxMoveX;
@@ -141,7 +165,11 @@ com.flashartofwar.frogger.sprites
                     {
                         //Looks like we are moving so play sound, flag isMoving and add to score.
                         FlxG.play(FroggerHopSound);
+
+                        // Once this flag is set, the frog will not take keyboard input until it has reacged it's target
                         isMoving = true;
+
+                        // Add to score for moving
                         FlxG.score += ScoreValues.STEP;
                     }
                     else
@@ -170,11 +198,13 @@ com.flashartofwar.frogger.sprites
                         y += moveY;
                     }
 
+                    // Play the walking animation
                     play("walk" + facing);
 
                 }
                 else
                 {
+                    // nothing is happening so go back to idle animation
                     play("idle" + facing);
                 }
 
@@ -184,11 +214,18 @@ com.flashartofwar.frogger.sprites
             super.update();
         }
 
+        /**
+         * Simply plays the death animation
+         */
         public function death():void
         {
+            //TODO this should probably contain the logic for playing the death sound. Will need to know if it water or car
             play("die");
         }
 
+        /**
+         * This resets core values of the Frog instance.
+         */
         public function restart():void
         {
             isMoving = false;
@@ -202,6 +239,12 @@ com.flashartofwar.frogger.sprites
 
         }
 
+        /**
+         * This handles moving the Frog in the same direction as any instance it is resting on.
+         *
+         * @param speed the speed in pixels the Frog should move
+         * @param facing the direction the frog will float in
+         */
         public function float(speed:int, facing:uint):void
         {
             if (isMoving != true)

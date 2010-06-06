@@ -33,10 +33,19 @@ com.flashartofwar.frogger.sprites
         public static const SPRITE_HEIGHT:int = 40;
         public static const VELOCITY:int = 40;
 
-        public function Alligator(X:Number, Y:Number, dir:uint, velocity:int)
+        /**
+         * This is a simple sprite which represents the Alligator.
+         *
+         * @param X start X
+         * @param Y start Y
+         * @param dir direction the sprite will move in
+         * @param speed speed in pixels the sprite will move on update
+         */
+        public function Alligator(X:Number, Y:Number, dir:uint, speed:int)
         {
+            //TODO need to add in logic to for frog hit test since landing on the head counts as a kill
 
-            super(X, Y, null, dir, velocity);
+            super(X, Y, null, dir, speed);
 
             loadGraphic(SpriteImage, true, false, SPRITE_WIDTH, SPRITE_HEIGHT);
 

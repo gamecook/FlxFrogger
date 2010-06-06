@@ -36,11 +36,17 @@ com.flashartofwar.frogger.states
         [Embed(source="../../../../../build/assets/frogger_sounds.swf", symbol="FroggerThemeSound")]
         private static var FroggerThemeSound:Class;
 
+        /**
+         * This is the first game state the player sees. Simply lets them click anywhere to start.
+         */
         public function StartState()
         {
             super();
         }
 
+        /**
+         * Goes through and creates the graphics needed to display the start message
+         */
         override public function create():void
         {
             var sprite:FlxSprite = new FlxSprite();
@@ -56,16 +62,28 @@ com.flashartofwar.frogger.states
             add(new FlxText(0, 200, FlxG.width, "PUSH").setFormat(null, 18, 0xffffffff, "center"));
             add(new FlxText(0, 300, FlxG.width, "ANYWHERE TO START").setFormat(null, 18, 0xd33bd1, "center"));
 
+            //TODO Add frogs animating across the screen
+            //TODO Add rules for score to the botton
+
         }
 
+        /**
+         * Handles when the user clicks and changes to the PlayState.
+         * @param event MouseEvent
+         */
         private function onClick(event:MouseEvent):void
         {
 
             FlxG.state = new PlayState();
+
+            // Sound is played after the state switch to keep it from being destroyed
             FlxG.play(FroggerThemeSound);
 
         }
 
+        /**
+         * This removed the click listener.
+         */
         override public function destroy():void
         {
             stage.removeEventListener(MouseEvent.CLICK, onClick);

@@ -29,17 +29,27 @@ com.flashartofwar.frogger.sprites
         [Embed(source="../../../../../build/assets/car_sprites.png")]
         private var SpriteImage:Class;
 
-        public static const SPRITE_WIDTH:uint = 40;
-        public static const SPRITE_HEIGHT:uint = 40;
+        public static const SPRITE_WIDTH:int = 40;
+        public static const SPRITE_HEIGHT:int = 40;
 
-        public static const TYPE_A:uint = 0;
-        public static const TYPE_B:uint = 1;
-        public static const TYPE_C:uint = 2;
-        public static const TYPE_D:uint = 3;
+        public static const TYPE_A:int = 0;
+        public static const TYPE_B:int = 1;
+        public static const TYPE_C:int = 2;
+        public static const TYPE_D:int = 3;
 
-        public function Car(x:Number, y:Number, type:uint, direction:int, velocity:int)
+        /**
+         * Simple sprite to represent a car. There are 4 types of cars, represented by TYPE_A, _B,
+         * _C, and _D constant.
+         *
+         * @param x start X
+         * @param y start Y
+         * @param type type of car to use. Type_A, _b, _c, and _d are referenced as constants on the class
+         * @param direction the direction the sprite will move in
+         * @param speed the speed in pixels in which the sprite will move on update
+         */
+        public function Car(x:Number, y:Number, type:int, direction:int, speed:int)
         {
-            super(x, y, null, direction, velocity);
+            super(x, y, null, direction, speed);
 
             loadGraphic(SpriteImage, true, false, SPRITE_WIDTH, SPRITE_HEIGHT);
 
