@@ -56,10 +56,10 @@ com.flashartofwar.frogger.sprites
             super(X, Y);
 
             startPosition = new Point(X, Y);
-            loadGraphic(SpriteImage, true, false, 40, 40);
+            loadGraphic(SpriteImage, true, false, 20, 20);
 
-            moveX = 5;
-            moveY = 5;
+            moveX = 2.5;
+            moveY = 2.5;
             maxMoveX = moveX * animationFrames;
             maxMoveY = moveY * animationFrames;
 
@@ -88,17 +88,17 @@ com.flashartofwar.frogger.sprites
 
             if (value == UP || value == DOWN)
             {
-                width = 32;
-                height = 25;
-                offset.x = 4;
-                offset.y = 6;
+                width = 16;
+                height = 12;
+                offset.x = 2;
+                offset.y = 3;
             }
             else
             {
-                width = 25;
-                height = 32;
-                offset.x = 6;
-                offset.y = 4;
+                width = 12;
+                height = 16;
+                offset.x = 3;
+                offset.y = 2;
             }
         }
 
@@ -130,7 +130,7 @@ com.flashartofwar.frogger.sprites
                         targetY = y - maxMoveY;
                         facing = UP;
                     }
-                    else if (FlxG.keys.justPressed("DOWN") && y < 560)
+                    else if (FlxG.keys.justPressed("DOWN") && y < 280)
                     {
                         targetY = y + maxMoveY;
                         facing = DOWN;

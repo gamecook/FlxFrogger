@@ -29,8 +29,8 @@ com.flashartofwar.frogger.sprites
     public class Home extends TimerSprite
     {
 
-        public static const SPRITE_WIDTH:uint = 40;
-        public static const SPRITE_HEIGHT:uint = 40;
+        public static const SPRITE_WIDTH:uint = 20;
+        public static const SPRITE_HEIGHT:uint = 20;
         public static const BONUS:uint = 0;
         public static const NO_BONUS:uint = 1;
         public static const SUCCESS:uint = 2;

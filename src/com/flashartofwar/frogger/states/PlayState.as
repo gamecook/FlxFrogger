@@ -65,7 +65,7 @@ com.flashartofwar.frogger.states
         public var collision:Boolean;
         public var gameState:uint;
 
-        private const TILE_SIZE:int = 40;
+        private const TILE_SIZE:int = 20;
 
         private var player:Frog;
         private var logGroup:FlxGroup;
@@ -76,12 +76,12 @@ com.flashartofwar.frogger.states
         private var timer:int;
         private var waterY:int;
         private var lifeSprites:Array = [];
-        private const LIFE_X:int = 20;
-        private const LIFE_Y:int = 600;
+        private const LIFE_X:int = 10;
+        private const LIFE_Y:int = 300;
         private var homeBaseGroup:FlxGroup;
         private var timerBarBackground:FlxSprite;
         private var timeTxt:FlxText;
-        private const TIMER_BAR_WIDTH:int = 300;
+        private const TIMER_BAR_WIDTH:int = 150;
         private var playerIsFloating:Boolean;
         private var scoreTxt:FlxText;
         private var safeFrogs:int = 0;
@@ -105,26 +105,26 @@ com.flashartofwar.frogger.states
             add(bg);
 
 
-            var demoTXT:FlxText = add(new FlxText(0, 0, 480, "Flixel Frogger Demo").setFormat(null, 20, 0xffffff, "center", 0x000000)) as FlxText;
-            var credits:FlxText = add(new FlxText(0, demoTXT.height, 480, "by Jesse Freeman").setFormat(null, 10, 0xffffff, "center", 0x000000)) as FlxText;
-            var scoreLabel:FlxText = add(new FlxText(0, demoTXT.height, 100, "Score").setFormat(null, 10, 0xffffff, "right")) as FlxText;
+            var demoTXT:FlxText = add(new FlxText(0, 0, 240, "Flixel Frogger Demo").setFormat(null, 8, 0xffffff, "center", 0x000000)) as FlxText;
+            var credits:FlxText = add(new FlxText(0, demoTXT.height, 240, "by Jesse Freeman").setFormat(null, 8, 0xffffff, "center", 0x000000)) as FlxText;
+            var scoreLabel:FlxText = add(new FlxText(0, demoTXT.height, 50, "Score").setFormat(null, 8, 0xffffff, "right")) as FlxText;
 
 
-            scoreTxt = add(new FlxText(0, scoreLabel.height, 100, "").setFormat(null, 14, 0xffe00000, "right")) as FlxText;
+            scoreTxt = add(new FlxText(0, scoreLabel.height, 50, "").setFormat(null, 8, 0xffe00000, "right")) as FlxText;
             FlxG.score = 0;
 
             createLives(3);
 
 
             gameMessageGroup = new FlxGroup();
-            gameMessageGroup.x = (480 * .5) - (150 * .5)
-            gameMessageGroup.y = calculateRow(8) + 5;
+            gameMessageGroup.x = (240 * .5) - (75 * .5)
+            gameMessageGroup.y = calculateRow(8) + 2;
 
             var messageBG:FlxSprite = new FlxSprite(0, 0);
-            messageBG.createGraphic(150, 30, 0xff000000);
+            messageBG.createGraphic(75, 15, 0xff000000);
             gameMessageGroup.add(messageBG);
 
-            messageText = new FlxText(0, 4, 150, "TIME 99").setFormat(null, 18, 0xffff00000, "center");
+            messageText = new FlxText(0, 2, 75, "TIME 99").setFormat(null, 8, 0xffff00000, "center");
             gameMessageGroup.visible = false;
             gameMessageGroup.add(messageText);
 
@@ -136,11 +136,11 @@ com.flashartofwar.frogger.states
 
             homeBaseGroup = new FlxGroup();
 
-            bases.push(homeBaseGroup.add(new Home(calculateColumn(0) + 15, calculateRow(2), 200, 200)));
-            bases.push(homeBaseGroup.add(new Home(calculateColumn(3) - 5, calculateRow(2), 200, 200)));
-            bases.push(homeBaseGroup.add(new Home(calculateColumn(5) + 20, calculateRow(2), 200, 200)));
-            bases.push(homeBaseGroup.add(new Home(calculateColumn(8), calculateRow(2), 200, 200)));
-            bases.push(homeBaseGroup.add(new Home(calculateColumn(11) - 15, calculateRow(2), 200, 200)));
+            bases.push(homeBaseGroup.add(new Home(calculateColumn(0) + 7, calculateRow(2), 100, 100)));
+            bases.push(homeBaseGroup.add(new Home(calculateColumn(3) - 2, calculateRow(2), 2100, 100)));
+            bases.push(homeBaseGroup.add(new Home(calculateColumn(5) + 10, calculateRow(2), 100, 100)));
+            bases.push(homeBaseGroup.add(new Home(calculateColumn(4), calculateRow(2), 100, 100)));
+            bases.push(homeBaseGroup.add(new Home(calculateColumn(11) - 7, calculateRow(2), 100, 100)));
 
             add(homeBaseGroup);
 
@@ -150,29 +150,29 @@ com.flashartofwar.frogger.states
             turtleGroup = new FlxGroup();
 
             logGroup.add(new Log(0, calculateRow(3), Log.TypeC, FlxSprite.RIGHT, 1));
-            logGroup.add(new Log(Log.TypeCWidth + 77, calculateRow(3), Log.TypeC, FlxSprite.RIGHT, 1));
-            logGroup.add(new Log((Log.TypeCWidth + 77) * 2, calculateRow(3), Log.TypeC, FlxSprite.RIGHT, 1));
+            logGroup.add(new Log(Log.TypeCWidth + 30, calculateRow(3), Log.TypeC, FlxSprite.RIGHT, 1));
+            logGroup.add(new Log((Log.TypeCWidth + 30) * 2, calculateRow(3), Log.TypeC, FlxSprite.RIGHT, 1));
 
             turtleGroup.add(new TurtlesA(0, calculateRow(4), -1, -1, FlxSprite.LEFT, 1));
-            turtleGroup.add(new TurtlesA((TurtlesA.SPRITE_WIDTH + 123) * 1, calculateRow(4), TurtlesA.DEFAULT_TIME, 200, FlxSprite.LEFT, 1));
-            turtleGroup.add(new TurtlesA((TurtlesA.SPRITE_WIDTH + 123) * 2, calculateRow(4), -1, -1, FlxSprite.LEFT, 1));
+            turtleGroup.add(new TurtlesA((TurtlesA.SPRITE_WIDTH + 30) * 1, calculateRow(4), TurtlesA.DEFAULT_TIME, 200, FlxSprite.LEFT, 1));
+            turtleGroup.add(new TurtlesA((TurtlesA.SPRITE_WIDTH + 30) * 2, calculateRow(4), -1, -1, FlxSprite.LEFT, 1));
 
             logGroup.add(new Log(0, calculateRow(5), Log.TypeB, FlxSprite.RIGHT, 1));
-            logGroup.add(new Log(Log.TypeBWidth + 70, calculateRow(5), Log.TypeB, FlxSprite.RIGHT, 1));
+            logGroup.add(new Log(Log.TypeBWidth + 30, calculateRow(5), Log.TypeB, FlxSprite.RIGHT, 1));
 
             logGroup.add(new Log(0, calculateRow(6), Log.TypeA, FlxSprite.RIGHT, 1));
-            logGroup.add(new Log(Log.TypeAWidth + 77, calculateRow(6), Log.TypeA, FlxSprite.RIGHT, 1));
-            logGroup.add(new Log((Log.TypeAWidth + 77) * 2, calculateRow(6), Log.TypeA, FlxSprite.RIGHT, 1));
+            logGroup.add(new Log(Log.TypeAWidth + 40, calculateRow(6), Log.TypeA, FlxSprite.RIGHT, 1));
+            logGroup.add(new Log((Log.TypeAWidth + 40) * 2, calculateRow(6), Log.TypeA, FlxSprite.RIGHT, 1));
 
             turtleGroup.add(new TurtlesB(0, calculateRow(7), TurtlesA.DEFAULT_TIME, 0, FlxSprite.LEFT, 1));
-            turtleGroup.add(new TurtlesB((TurtlesB.SPRITE_WIDTH + 95) * 1, calculateRow(7), -1, -1, FlxSprite.LEFT, 1));
-            turtleGroup.add(new TurtlesB((TurtlesB.SPRITE_WIDTH + 95) * 2, calculateRow(7), -1, -1, FlxSprite.LEFT, 1));
+            turtleGroup.add(new TurtlesB((TurtlesB.SPRITE_WIDTH + 40) * 1, calculateRow(7), -1, -1, FlxSprite.LEFT, 1));
+            turtleGroup.add(new TurtlesB((TurtlesB.SPRITE_WIDTH + 40) * 2, calculateRow(7), -1, -1, FlxSprite.LEFT, 1));
 
 
             add(logGroup);
             add(turtleGroup);
 
-            player = add(new Frog(calculateColumn(6), calculateRow(14) + 6)) as Frog;
+            player = add(new Frog(calculateColumn(6), calculateRow(14) + 3)) as Frog;
 
             // Cars
             carGroup = new FlxGroup();
@@ -188,31 +188,31 @@ com.flashartofwar.frogger.states
 
 
             carGroup.add(new Car(0, calculateRow(12), Car.TYPE_B, FlxSprite.RIGHT, 1));
-            carGroup.add(new Car((Car.SPRITE_WIDTH + 138) * 1, calculateRow(12), Car.TYPE_B, FlxSprite.RIGHT, 1));
-            carGroup.add(new Car((Car.SPRITE_WIDTH + 138) * 2, calculateRow(12), Car.TYPE_B, FlxSprite.RIGHT, 1));
+            carGroup.add(new Car((Car.SPRITE_WIDTH + 80) * 1, calculateRow(12), Car.TYPE_B, FlxSprite.RIGHT, 1));
+            carGroup.add(new Car((Car.SPRITE_WIDTH + 80) * 2, calculateRow(12), Car.TYPE_B, FlxSprite.RIGHT, 1));
 
             carGroup.add(new Car(0, calculateRow(13), Car.TYPE_A, FlxSprite.LEFT, 1));
-            carGroup.add(new Car((Car.SPRITE_WIDTH + 138) * 1, calculateRow(13), Car.TYPE_A, FlxSprite.LEFT, 1));
-            carGroup.add(new Car((Car.SPRITE_WIDTH + 138) * 2, calculateRow(13), Car.TYPE_A, FlxSprite.LEFT, 1));
+            carGroup.add(new Car((Car.SPRITE_WIDTH + 80) * 1, calculateRow(13), Car.TYPE_A, FlxSprite.LEFT, 1));
+            carGroup.add(new Car((Car.SPRITE_WIDTH + 80) * 2, calculateRow(13), Car.TYPE_A, FlxSprite.LEFT, 1));
 
             add(carGroup);
 
 
-            timeTxt = new FlxText(bg.width - 70, LIFE_Y + 18, 60, "TIME").setFormat(null, 14, 0xffff00, "right");
+            timeTxt = new FlxText(bg.width - 35, LIFE_Y + 8, 30, "TIME").setFormat(null, 7, 0xffff00, "right");
             add(timeTxt);
 
-            timerBarBackground = new FlxSprite(timeTxt.x - TIMER_BAR_WIDTH + 5, LIFE_Y + 20);
-            timerBarBackground.createGraphic(TIMER_BAR_WIDTH, 16, 0xff21de00);
+            timerBarBackground = new FlxSprite(timeTxt.x - TIMER_BAR_WIDTH + 2, LIFE_Y + 10);
+            timerBarBackground.createGraphic(TIMER_BAR_WIDTH, 8, 0xff21de00);
             add(timerBarBackground);
 
             timerBar = new FlxSprite(timerBarBackground.x, timerBarBackground.y);
-            timerBar.createGraphic(1, 16, 0xFF000000);
+            timerBar.createGraphic(1, 8, 0xFF000000);
             timerBar.scrollFactor.x = timerBar.scrollFactor.y = 0;
             timerBar.origin.x = timerBar.origin.y = 0;
             timerBar.scale.x = 0;
             add(timerBar);
 
-            CONFIG::mobile var touchControls:TouchControls = new TouchControls(this, 10, calculateRow(16) + 20, 16);
+            CONFIG::mobile var touchControls:TouchControls = new TouchControls(this, 10, calculateRow(16) + 10, 8);
 
 
             gameState = GameStates.PLAYING_STATE;
@@ -258,8 +258,7 @@ com.flashartofwar.frogger.states
             {
 
                 playerIsFloating = false;
-                //if(gameState = GameStates.PLAYING_STATE)
-                // {
+
                 FlxU.overlap(carGroup, player, carDeath);
                 FlxU.overlap(logGroup, player, float);
                 FlxU.overlap(turtleGroup, player, turtleFloat);

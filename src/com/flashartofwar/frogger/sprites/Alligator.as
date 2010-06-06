@@ -29,9 +29,9 @@ com.flashartofwar.frogger.sprites
         [Embed(source="../../../../../build/assets/alligator_sprites.png")]
         private var SpriteImage:Class;
 
-        public static const SPRITE_WIDTH:int = 102;
-        public static const SPRITE_HEIGHT:int = 40;
-        public static const VELOCITY:int = 40;
+        public static const SPRITE_WIDTH:int = 51;
+        public static const SPRITE_HEIGHT:int = 20;
+        public static const VELOCITY:int = 20;
 
         public function Alligator(X:Number, Y:Number, dir:uint, velocity:int)
         {

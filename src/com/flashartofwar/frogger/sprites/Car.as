@@ -29,8 +29,8 @@ com.flashartofwar.frogger.sprites
         [Embed(source="../../../../../build/assets/car_sprites.png")]
         private var SpriteImage:Class;
 
-        public static const SPRITE_WIDTH:uint = 40;
-        public static const SPRITE_HEIGHT:uint = 40;
+        public static const SPRITE_WIDTH:uint = 20;
+        public static const SPRITE_HEIGHT:uint = 20;
 
         public static const TYPE_A:uint = 0;
         public static const TYPE_B:uint = 1;

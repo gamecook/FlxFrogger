@@ -29,9 +29,9 @@ com.flashartofwar.frogger.sprites
         [Embed(source="../../../../../build/assets/turtle_2_sprites.png")]
         private var SpriteImage:Class;
 
-        public static const SPRITE_WIDTH:int = 65;
-        public static const SPRITE_HEIGHT:int = 40;
-        public static const DEFAULT_TIME:int = 300;
+        public static const SPRITE_WIDTH:int = 32;
+        public static const SPRITE_HEIGHT:int = 20;
+        public static const DEFAULT_TIME:int = 150;
 
         public function TurtlesA(x:Number, y:Number, hideTimer:int = DEFAULT_TIME, startTime:int = DEFAULT_TIME, dir:uint = RIGHT, speed:int = 1)
         {

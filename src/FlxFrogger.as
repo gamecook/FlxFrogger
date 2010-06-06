@@ -37,10 +37,10 @@ package
         {
             CONFIG::mobile
             {
-            Multitouch.inputMode = MultitouchInputMode.TOUCH_POINT;
+                Multitouch.inputMode = MultitouchInputMode.TOUCH_POINT;
             }
             
-            super(480, 800, StartState, 1);
+            super(240, 400, StartState, 2);
             FlxG.mobile = true;
         }
     }
