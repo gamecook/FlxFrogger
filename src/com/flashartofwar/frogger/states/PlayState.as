@@ -210,6 +210,7 @@ com.flashartofwar.frogger.states
             CONFIG::mobile
             {
                 var touchControls:TouchControls = new TouchControls(this, 10, calculateRow(16) + 20, 16);
+                add(touchControls);
             }
 
             // Activate game by setting the correct state

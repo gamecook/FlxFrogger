@@ -27,15 +27,14 @@ com.flashartofwar.frogger.controls
     import org.flixel.FlxGroup;
     import org.flixel.FlxState;
     import org.flixel.FlxText;
-    import org.flixel.touch.FlxTouchButton;
+    import org.flixel.FlxSprite;
 
-    public class TouchControls
+    public class TouchControls extends FlxGroup
     {
-        private var btn:FlxTouchButton;
-        private var btn2:FlxTouchButton;
-        private var btn3:FlxTouchButton;
-        private var btn4:FlxTouchButton;
-        private var group:FlxGroup;
+        private var spriteButton1:FlxSprite;
+        private var spriteButton2:FlxSprite;
+        private var spriteButton3:FlxSprite;
+        private var spriteButton4:FlxSprite;
 
         /**
          * Touch controls are special buttons that allow virtual input for the game on devices without a keyboard.
@@ -48,66 +47,87 @@ com.flashartofwar.frogger.controls
         public function TouchControls(target:FlxState, x:int, y:int, padding:int)
         {
 
-            group = target.add(new FlxGroup()) as FlxGroup;
-            group.x = x;
-            group.y = y;
+            this.x = x;
+            this.y = y;
+            
+            var txt:FlxText;
 
-            btn = new FlxTouchButton(0, 0, 100, 100, onUpPress, onUpRelease);
-            btn.loadText(new FlxText(0, 30, 100, "UP").setFormat(null, 20, 0xffffff, "center"));
-            group.add(btn);
+            //spriteButton1 = new FlxSprite(x, y)
+            spriteButton1 = new FlxSprite(0, 0)
+            spriteButton1.color =0x999999;
+            spriteButton1.createGraphic(100, 100);
+            add(spriteButton1);
+            txt = new FlxText(0, 30, 100, "UP").setFormat(null, 20, 0xffffff, "center");
+            add(txt);
 
-            btn2 = new FlxTouchButton(btn.x + btn.width + padding, btn.y, 100, 100, onDownPress, onDownRelease);
-            btn2.loadText(new FlxText(0, 30, 100, "DOWN").setFormat(null, 20, 0xffffff, "center"));
-            group.add(btn2);
+            spriteButton2 = new FlxSprite(spriteButton1.right + padding, 0)
+            spriteButton2.color =0x999999;
+            spriteButton2.createGraphic(100, 100);
+            add(spriteButton2);
+            txt = new FlxText(spriteButton2.x, 30, 100, "DOWN").setFormat(null, 20, 0xffffff, "center");
+            add(txt);
 
-            btn3 = new FlxTouchButton(btn2.x + btn2.width + padding, btn.y, 100, 100, onLeftPress, onLeftRelease);
-            btn3.loadText(new FlxText(0, 30, 100, "LEFT").setFormat(null, 20, 0xffffff, "center"));
-            group.add(btn3);
+            spriteButton3 = new FlxSprite(spriteButton2.right + padding, 0)
+            spriteButton3.color =0x999999;
+            spriteButton3.createGraphic(100, 100);
+            add(spriteButton3);
+            txt = new FlxText(spriteButton3.x, 30, 100, "LEFT").setFormat(null, 20, 0xffffff, "center");
+            add(txt);
 
-            btn4 = new FlxTouchButton(btn3.x + btn3.width + padding, btn.y, 100, 100, onRightPress, onRightRelease);
-            btn4.loadText(new FlxText(0, 30, 100, "RIGHT").setFormat(null, 20, 0xffffff, "center"));
-            group.add(btn4);
-
+            spriteButton4 = new FlxSprite(spriteButton3.right + padding, 0)
+            spriteButton4.color =0x999999;
+            spriteButton4.createGraphic(100, 100);
+            add(spriteButton4);
+            txt = new FlxText(spriteButton4.x, 30, 100, "RIGHT").setFormat(null, 20, 0xffffff, "center");
+            add(txt);
         }
 
-        private function onLeftRelease():void
+        override public function update():void
         {
-            FlxG.keys.handleKeyUp(new KeyboardEvent(KeyboardEvent.KEY_UP, true, false, 0, 37, 0, false, false, false));
-        }
 
-        private function onLeftPress():void
-        {
-            FlxG.keys.handleKeyDown(new KeyboardEvent(KeyboardEvent.KEY_DOWN, true, false, 0, 37, 0, false, false, false));
-        }
+            if (FlxG.mouse.justPressed())
+            {
+                if (spriteButton1.overlapsPoint(FlxG.mouse.x, FlxG.mouse.y))
+                {
+                    spriteButton1.color = 0xff0000;
+                    FlxG.keys.handleKeyDown(new KeyboardEvent(KeyboardEvent.KEY_DOWN, true, false, 0, 38, 0, false, false, false));
+                }
+                else if (spriteButton2.overlapsPoint(FlxG.mouse.x, FlxG.mouse.y))
+                {
+                    spriteButton2.color = 0xff0000;
+                    FlxG.keys.handleKeyDown(new KeyboardEvent(KeyboardEvent.KEY_DOWN, true, false, 0, 40, 0, false, false, false));
+                }
+                else if (spriteButton3.overlapsPoint(FlxG.mouse.x, FlxG.mouse.y))
+                {
+                    spriteButton3.color = 0xff0000;
+                    FlxG.keys.handleKeyDown(new KeyboardEvent(KeyboardEvent.KEY_DOWN, true, false, 0, 37, 0, false, false, false));
+                }
+                else if (spriteButton4.overlapsPoint(FlxG.mouse.x, FlxG.mouse.y))
+                {
+                    spriteButton4.color = 0xff0000;
+                    FlxG.keys.handleKeyDown(new KeyboardEvent(KeyboardEvent.KEY_DOWN, true, false, 0, 39, 0, false, false, false));
+                }
 
-        private function onRightRelease():void
-        {
-            FlxG.keys.handleKeyUp(new KeyboardEvent(KeyboardEvent.KEY_UP, true, false, 0, 39, 0, false, false, false));
-        }
 
-        private function onRightPress():void
-        {
-            FlxG.keys.handleKeyDown(new KeyboardEvent(KeyboardEvent.KEY_DOWN, true, false, 0, 39, 0, false, false, false));
-        }
+            }
+            else if (FlxG.mouse.justReleased())
+            {
+                spriteButton1.color = 0x999999;
+                spriteButton2.color = 0x999999;
+                spriteButton3.color = 0x999999;
+                spriteButton4.color = 0x999999;
+                if (spriteButton1.overlapsPoint(FlxG.mouse.x, FlxG.mouse.y))
+                    FlxG.keys.handleKeyUp(new KeyboardEvent(KeyboardEvent.KEY_UP, true, false, 0, 38, 0, false, false, false));
+                else if (spriteButton2.overlapsPoint(FlxG.mouse.x, FlxG.mouse.y))
+                    FlxG.keys.handleKeyUp(new KeyboardEvent(KeyboardEvent.KEY_UP, true, false, 0, 40, 0, false, false, false));
+                else if (spriteButton3.overlapsPoint(FlxG.mouse.x, FlxG.mouse.y))
+                    FlxG.keys.handleKeyUp(new KeyboardEvent(KeyboardEvent.KEY_UP, true, false, 0, 37, 0, false, false, false));
+                else if (spriteButton4.overlapsPoint(FlxG.mouse.x, FlxG.mouse.y))
+                    FlxG.keys.handleKeyUp(new KeyboardEvent(KeyboardEvent.KEY_UP, true, false, 0, 39, 0, false, false, false));
+            }
 
-        private function onUpRelease():void
-        {
-            FlxG.keys.handleKeyUp(new KeyboardEvent(KeyboardEvent.KEY_UP, true, false, 0, 38, 0, false, false, false));
-        }
+            super.update(); //uncommenting this breaks it. dont know why.
 
-        private function onUpPress():void
-        {
-            FlxG.keys.handleKeyDown(new KeyboardEvent(KeyboardEvent.KEY_DOWN, true, false, 0, 38, 0, false, false, false));
-        }
-
-        private function onDownRelease():void
-        {
-            FlxG.keys.handleKeyUp(new KeyboardEvent(KeyboardEvent.KEY_UP, true, false, 0, 40, 0, false, false, false));
-        }
-
-        private function onDownPress():void
-        {
-            FlxG.keys.handleKeyDown(new KeyboardEvent(KeyboardEvent.KEY_DOWN, true, false, 0, 40, 0, false, false, false));
         }
     }
 }
