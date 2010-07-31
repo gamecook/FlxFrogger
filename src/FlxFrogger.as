@@ -18,17 +18,12 @@
  * THE SOFTWARE.
  */
 
-package
-{
-    import com.flashartofwar.frogger.states.StartState;
+package {
+	import com.flashartofwar.frogger.states.StartState;
 
-    import flash.ui.Multitouch;
-    import flash.ui.MultitouchInputMode;
+	import org.flixel.FlxGame;
 
-    import org.flixel.FlxG;
-    import org.flixel.FlxGame;
-
-    [SWF(width="480", height="800", backgroundColor="#000000")]
+	[SWF(width="480", height="800", backgroundColor="#000000")]
     [Frame(factoryClass="Preloader")]
 
     public class FlxFrogger extends FlxGame
@@ -38,17 +33,8 @@ package
          */
         public function FlxFrogger()
         {
-
-            // Put custom mobile code here. This is toggled in the ANT Build properties file.
-            CONFIG::mobile
-            {
-                Multitouch.inputMode = MultitouchInputMode.TOUCH_POINT;
-                FlxG.mobile = true;
-            }
-
             // Create Flixel Game.
             super(480, 800, StartState, 1);
-
         }
     }
 }

@@ -207,12 +207,13 @@ com.flashartofwar.frogger.states
             add(timerBar);
 
             // Mobile specific code goes here
+            /*FDT_IGNORE*/
             CONFIG::mobile
             {
                 var touchControls:TouchControls = new TouchControls(this, 10, calculateRow(16) + 20, 16);
                 add(touchControls);
             }
-
+			/*FDT_IGNORE*/
             // Activate game by setting the correct state
             gameState = GameStates.PLAYING;
 
