@@ -24,6 +24,7 @@ com.flashartofwar.frogger.sprites
     import com.flashartofwar.frogger.enum.GameStates;
     import com.flashartofwar.frogger.enum.ScoreValues;
     import com.flashartofwar.frogger.states.PlayState;
+	import com.flashartofwar.frogger.controls.TouchControls;
 
     import flash.geom.Point;
 
@@ -49,6 +50,8 @@ com.flashartofwar.frogger.sprites
         private var moveY:Number;
         private var state:PlayState;
         public var isMoving:Boolean;
+
+		public var touchControls:TouchControls;
 
         //TODO this should probably extend Wrapping Sprite and override the off screen logic
         /**
@@ -139,22 +142,22 @@ com.flashartofwar.frogger.sprites
                 {
                     // Checks to see what key was just pressed and sets the target X or Y to the new position
                     // along with what direction to face
-                    if (FlxG.keys.justPressed("LEFT") && x > 0)
+                    if ((FlxG.keys.justPressed("LEFT") || (touchControls != null && touchControls.justPressed(2))) && x > 0)
                     {
                         targetX = x - maxMoveX;
                         facing = LEFT;
                     }
-                    else if (FlxG.keys.justPressed("RIGHT") && x < FlxG.width - frameWidth)
+                    else if ((FlxG.keys.justPressed("RIGHT") || (touchControls != null && touchControls.justPressed(3))) && x < FlxG.width - frameWidth)
                     {
                         targetX = x + maxMoveX;
                         facing = RIGHT;
                     }
-                    else if (FlxG.keys.justPressed("UP") && y > frameHeight)
+                    else if ((FlxG.keys.justPressed("UP") || (touchControls != null && touchControls.justPressed(0))) && y > frameHeight)
                     {
                         targetY = y - maxMoveY;
                         facing = UP;
                     }
-                    else if (FlxG.keys.justPressed("DOWN") && y < 560)
+                    else if ((FlxG.keys.justPressed("DOWN") || (touchControls != null && touchControls.justPressed(1))) && y < 560)
                     {
                         targetY = y + maxMoveY;
                         facing = DOWN;

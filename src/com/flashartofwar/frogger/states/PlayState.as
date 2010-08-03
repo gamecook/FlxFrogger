@@ -91,7 +91,8 @@ com.flashartofwar.frogger.states
         private var timeAlmostOverWarning:int;
         private var bases:Array;
 
-        /**
+		private var touchControls:TouchControls;
+		/**
          * This is the main method responsible for creating all of the game pieces and layout out the level.
          */
         override public function create():void
@@ -210,7 +211,8 @@ com.flashartofwar.frogger.states
             /*FDT_IGNORE*/
             CONFIG::mobile
             {
-                var touchControls:TouchControls = new TouchControls(this, 10, calculateRow(16) + 20, 16);
+                touchControls = new TouchControls(this, 10, calculateRow(16) + 20, 16);
+				player.touchControls = touchControls;
                 add(touchControls);
             }
 			/*FDT_IGNORE*/
