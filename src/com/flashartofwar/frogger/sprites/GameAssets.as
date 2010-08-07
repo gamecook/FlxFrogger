@@ -16,20 +16,8 @@ package com.flashartofwar.frogger.sprites {
 
         [Embed(source="../../../../../build/assets/lives.png")]
         public static var LivesSprite:Class;
-
-        [Embed(source="../../../../../build/assets/frogger_sounds.swf", symbol="FroggerExtraSound")]
-        public static var FroggerExtraSound:Class;
-
-        [Embed(source="../../../../../build/assets/frogger_sounds.swf", symbol="FroggerPlunkSound")]
-        public static var FroggerPlunkSound:Class;
-
-        [Embed(source="../../../../../build/assets/frogger_sounds.swf", symbol="FroggerSquashSound")]
-        public static var FroggerSquashSound:Class;
-
-        [Embed(source="../../../../../build/assets/frogger_sounds.swf", symbol="FroggerTimeSound")]
-        public static var FroggerTimeSound:Class;
-        
-        [Embed(source="../../../../../build/assets/alligator_sprites.png")]
+		
+		[Embed(source="../../../../../build/assets/alligator_sprites.png")]
         public static var AlligatorSprite:Class;
         
         [Embed(source="../../../../../build/assets/car_sprites.png")]
@@ -61,5 +49,17 @@ package com.flashartofwar.frogger.sprites {
         
         [Embed(source="../../../../../build/assets/turtle_3_sprites.png")]
         public static var TutrlesBSpriteImage:Class;
+        
+        [Embed(source="../../../../../build/assets/frogger_sounds.swf", symbol="FroggerExtraSound")]
+        public static var FroggerExtraSound:Class;
+
+        [Embed(source="../../../../../build/assets/frogger_sounds.swf", symbol="FroggerPlunkSound")]
+        public static var FroggerPlunkSound:Class;
+
+        [Embed(source="../../../../../build/assets/frogger_sounds.swf", symbol="FroggerSquashSound")]
+        public static var FroggerSquashSound:Class;
+
+        [Embed(source="../../../../../build/assets/frogger_sounds.swf", symbol="FroggerTimeSound")]
+        public static var FroggerTimeSound:Class;
 	}
 }

@@ -8,6 +8,7 @@
 /doc/*
 /report/*
 /dist/*
+/apks/*
  
 /.actionScriptProperties
 /.flexProperties
@@ -24,3 +25,5 @@ Thumbs.db
 build.properties
 /*.iml
 /apks/*
+.*.swp
+*~
