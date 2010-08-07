@@ -35,12 +35,7 @@ com.flashartofwar.frogger.sprites
         public static const NO_BONUS:int = 1;
         public static const SUCCESS:int = 2;
         public static const EMPTY:int = 3;
-
-
-        [Embed(source="../../../../../build/assets/bonus_sprites.png")]
-        private var SpriteImage:Class;
-
-        public var mode:uint;
+		public var mode:uint;
         public var odds:uint;
 
         /**
@@ -59,7 +54,7 @@ com.flashartofwar.frogger.sprites
 
             this.odds = odds;
 
-            loadGraphic(SpriteImage, false, false, SPRITE_WIDTH, SPRITE_HEIGHT);
+            loadGraphic(GameAssets.HomeSpriteImage, false, false, SPRITE_WIDTH, SPRITE_HEIGHT);
             addAnimation("empty", [EMPTY], 0, false);
             addAnimation("bonus", [BONUS], 0, false);
             addAnimation("noBonus", [NO_BONUS], 0, false);

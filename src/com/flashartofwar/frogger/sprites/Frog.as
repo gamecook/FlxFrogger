@@ -33,12 +33,6 @@ com.flashartofwar.frogger.sprites
     public class Frog extends FlxSprite
     {
 
-        [Embed(source="../../../../../build/assets/frog_sprites.png")]
-        private var SpriteImage:Class;
-
-        [Embed(source="../../../../../build/assets/frogger_sounds.swf", symbol="FroggerHopSound")]
-        private static var FroggerHopSound:Class;
-
         private var startPosition:Point;
         private var moveX:int;
         private var maxMoveX:int;
@@ -76,7 +70,7 @@ com.flashartofwar.frogger.sprites
             targetY = Y;
 
             // Set up sprite graphics and animations
-            loadGraphic(SpriteImage, true, false, 40, 40);
+            loadGraphic(GameAssets.FrogSpriteImage, true, false, 40, 40);
 
             addAnimation("idle" + UP, [0], 0, false);
             addAnimation("idle" + RIGHT, [2], 0, false);
@@ -164,7 +158,7 @@ com.flashartofwar.frogger.sprites
                     if (x != targetX || y != targetY)
                     {
                         //Looks like we are moving so play sound, flag isMoving and add to score.
-                        FlxG.play(FroggerHopSound);
+                        FlxG.play(GameAssets.FroggerHopSound);
 
                         // Once this flag is set, the frog will not take keyboard input until it has reacged it's target
                         isMoving = true;

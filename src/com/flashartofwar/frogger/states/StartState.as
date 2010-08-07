@@ -19,9 +19,10 @@
  */
 
 package
-com.flashartofwar.frogger.states
-{
-    import flash.events.MouseEvent;
+com.flashartofwar.frogger.states {
+	import com.flashartofwar.frogger.sprites.GameAssets;
+
+	import flash.events.MouseEvent;
 
     import org.flixel.FlxG;
     import org.flixel.FlxSprite;
@@ -30,12 +31,7 @@ com.flashartofwar.frogger.states
 
     public class StartState extends FlxState
     {
-        [Embed(source="../../../../../build/assets/frogger_title.gif")]
-        private var TitleSprite:Class;
-
-        [Embed(source="../../../../../build/assets/frogger_sounds.swf", symbol="FroggerThemeSound")]
-        private static var FroggerThemeSound:Class;
-
+        
         /**
          * This is the first game state the player sees. Simply lets them click anywhere to start.
          */
@@ -55,7 +51,7 @@ com.flashartofwar.frogger.states
 
             stage.addEventListener(MouseEvent.CLICK, onClick);
 
-            var title:FlxSprite = new FlxSprite(0, 100, TitleSprite);
+            var title:FlxSprite = new FlxSprite(0, 100, GameAssets.TitleSprite);
             title.x = (FlxG.width * .5) - (title.width * .5);
             add(title);
 
@@ -77,7 +73,7 @@ com.flashartofwar.frogger.states
             FlxG.state = new PlayState();
 
             // Sound is played after the state switch to keep it from being destroyed
-            FlxG.play(FroggerThemeSound);
+            FlxG.play(GameAssets.FroggerThemeSound);
 
         }
 

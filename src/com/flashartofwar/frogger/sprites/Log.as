@@ -25,14 +25,6 @@ com.flashartofwar.frogger.sprites
 
     public class Log extends WrappingSprite
     {
-
-        [Embed(source="../../../../../build/assets/tree_1.png")]
-        private var SpriteImage1:Class;
-        [Embed(source="../../../../../build/assets/tree_2.png")]
-        private var SpriteImage2:Class;
-        [Embed(source="../../../../../build/assets/tree_3.png")]
-        private var SpriteImage3:Class;
-
         public static const TYPE_A:int = 0;
         public static const TYPE_B:int = 1;
         public static const TYPE_C:int = 2;
@@ -59,13 +51,13 @@ com.flashartofwar.frogger.sprites
             switch (type)
             {
                 case TYPE_A:
-                    graphicClass = SpriteImage1;
+                    graphicClass = GameAssets.LogSpriteImage1;
                     break;
                 case TYPE_B:
-                    graphicClass = SpriteImage2;
+                    graphicClass = GameAssets.LogSpriteImage2;
                     break;
                 case TYPE_C:
-                    graphicClass = SpriteImage3;
+                    graphicClass = GameAssets.LogSpriteImage3;
                     break;
             }
 

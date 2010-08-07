@@ -25,11 +25,8 @@ com.flashartofwar.frogger.sprites
 
     public class TurtlesA extends TimerSprite
     {
-
-        [Embed(source="../../../../../build/assets/turtle_2_sprites.png")]
-        private var SpriteImage:Class;
-
-        public static const SPRITE_WIDTH:int = 65;
+		
+		public static const SPRITE_WIDTH:int = 65;
         public static const SPRITE_HEIGHT:int = 40;
         public static const DEFAULT_TIME:int = 300;
 
@@ -46,7 +43,7 @@ com.flashartofwar.frogger.sprites
         {
             super(x, y, null, delay, startTime, dir, speed);
 
-            loadGraphic(SpriteImage, true, false, SPRITE_WIDTH, SPRITE_HEIGHT);
+            loadGraphic(GameAssets.TurtlesSpriteImage, true, false, SPRITE_WIDTH, SPRITE_HEIGHT);
 
             addAnimation("idle", [0], 0, false);
             addAnimation("hide", [1, 2, 3], 3, false);

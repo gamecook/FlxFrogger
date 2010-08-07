@@ -26,9 +26,7 @@ com.flashartofwar.frogger.sprites
     public class Truck extends WrappingSprite
     {
 
-        [Embed(source="../../../../../build/assets/truck.png")]
-        private var SpriteImage:Class;
-
+        
         /**
          * This is a simple sprite which represents the Truck.
          *
@@ -39,7 +37,7 @@ com.flashartofwar.frogger.sprites
          */
         public function Truck(x:Number, y:Number, direction:uint, velocity:int)
         {
-            super(x, y, SpriteImage, direction, velocity);
+            super(x, y, GameAssets.TruckSpriteImage, direction, velocity);
         }
     }
 }

@@ -19,9 +19,9 @@
  */
 
 package
-com.flashartofwar.frogger.states
-{
-    import com.flashartofwar.frogger.controls.TouchControls;
+com.flashartofwar.frogger.states {
+	import com.flashartofwar.frogger.sprites.GameAssets;
+	import com.flashartofwar.frogger.controls.TouchControls;
     import com.flashartofwar.frogger.enum.GameStates;
     import com.flashartofwar.frogger.enum.ScoreValues;
     import com.flashartofwar.frogger.sprites.Car;
@@ -48,26 +48,7 @@ com.flashartofwar.frogger.states
         private const LIFE_Y:int = 600;
         private const TIMER_BAR_WIDTH:int = 300;
         private const TILE_SIZE:int = 40;
-
-        [Embed(source="../../../../../build/assets/background.png")]
-        private var LevelSprite:Class;
-
-        [Embed(source="../../../../../build/assets/lives.png")]
-        private var LivesSprite:Class;
-
-        [Embed(source="../../../../../build/assets/frogger_sounds.swf", symbol="FroggerExtraSound")]
-        private static var FroggerExtraSound:Class;
-
-        [Embed(source="../../../../../build/assets/frogger_sounds.swf", symbol="FroggerPlunkSound")]
-        private static var FroggerPlunkSound:Class;
-
-        [Embed(source="../../../../../build/assets/frogger_sounds.swf", symbol="FroggerSquashSound")]
-        private static var FroggerSquashSound:Class;
-
-        [Embed(source="../../../../../build/assets/frogger_sounds.swf", symbol="FroggerTimeSound")]
-        private static var FroggerTimeSound:Class;
-
-        public var gameState:uint;
+		public var gameState:uint;
 
         private var player:Frog;
         private var logGroup:FlxGroup;
@@ -97,7 +78,7 @@ com.flashartofwar.frogger.states
         override public function create():void
         {
             // Create the BG sprite
-            var bg:FlxSprite = new FlxSprite(0, 0, LevelSprite);
+            var bg:FlxSprite = new FlxSprite(0, 0, GameAssets.LevelSprite);
             add(bg);
 
             // Set up main variable properties
@@ -111,14 +92,13 @@ com.flashartofwar.frogger.states
 
             // Create Text for title, credits, and score
             var demoTXT:FlxText = add(new FlxText(0, 0, 480, "Flixel Frogger Demo").setFormat(null, 20, 0xffffff, "center", 0x000000)) as FlxText;
-            var credits:FlxText = add(new FlxText(0, demoTXT.height, 480, "by Jesse Freeman").setFormat(null, 10, 0xffffff, "center", 0x000000)) as FlxText;
             var scoreLabel:FlxText = add(new FlxText(0, demoTXT.height, 100, "Score").setFormat(null, 10, 0xffffff, "right")) as FlxText;
             scoreTxt = add(new FlxText(0, scoreLabel.height, 100, "").setFormat(null, 14, 0xffe00000, "right")) as FlxText;
 
 
             // Create game message, this handles game over, time, and start message for player
             gameMessageGroup = new FlxGroup();
-            gameMessageGroup.x = (480 * .5) - (150 * .5)
+            gameMessageGroup.x = (480 * .5) - (150 * .5);
             gameMessageGroup.y = calculateRow(8) + 5;
             add(gameMessageGroup);
 
@@ -210,10 +190,13 @@ com.flashartofwar.frogger.states
             /*FDT_IGNORE*/
             CONFIG::mobile
             {
+            /*FDT_IGNORE*/
                 var touchControls:TouchControls = new TouchControls(this, 10, calculateRow(16) + 20, 16);
                 add(touchControls);
+            /*FDT_IGNORE*/    
             }
 			/*FDT_IGNORE*/
+			
             // Activate game by setting the correct state
             gameState = GameStates.PLAYING;
 
@@ -306,7 +289,7 @@ com.flashartofwar.frogger.states
 
                     if (timerBar.scale.x == timeAlmostOverWarning && !timeAlmostOverFlag)
                     {
-                        FlxG.play(FroggerTimeSound);
+                        FlxG.play(GameAssets.FroggerTimeSound);
                         timeAlmostOverFlag = true;
                     }
                 }
@@ -342,7 +325,7 @@ com.flashartofwar.frogger.states
         {
             if (gameState != GameStates.COLLISION)
             {
-                FlxG.play(FroggerSquashSound);
+                FlxG.play(GameAssets.FroggerSquashSound);
                 killPlayer();
             }
         }
@@ -354,7 +337,7 @@ com.flashartofwar.frogger.states
         {
             if (gameState != GameStates.COLLISION)
             {
-                FlxG.play(FroggerPlunkSound);
+                FlxG.play(GameAssets.FroggerPlunkSound);
                 killPlayer();
             }
         }
@@ -368,7 +351,7 @@ com.flashartofwar.frogger.states
         {
             if (gameState != GameStates.COLLISION)
             {
-                FlxG.play(FroggerSquashSound);
+                FlxG.play(GameAssets.FroggerSquashSound);
                 killPlayer();
             }
         }
@@ -519,7 +502,7 @@ com.flashartofwar.frogger.states
         private function killPlayer():void
         {
             gameState = GameStates.COLLISION;
-            removeLife(1);
+            removeLife();
             player.death();
         }
 
@@ -550,7 +533,7 @@ com.flashartofwar.frogger.states
 
             for (i = 0; i < value; i++)
             {
-                addLife(1);
+                addLife();
             }
         }
 
@@ -558,9 +541,9 @@ com.flashartofwar.frogger.states
          * This adds a life sprite to the display and pushes it to teh lifeSprites array.
          * @param value
          */
-        private function addLife(value:int):void
+        private function addLife():void
         {
-            var flxLife:FlxSprite = new FlxSprite(LIFE_X * totalLives, LIFE_Y, LivesSprite);
+            var flxLife:FlxSprite = new FlxSprite(LIFE_X * totalLives, LIFE_Y, GameAssets.LivesSprite);
             add(flxLife);
             lifeSprites.push(flxLife);
         }
@@ -569,7 +552,7 @@ com.flashartofwar.frogger.states
          * This removes the life sprite from the display and from the lifeSprites array as well.
          * @param value
          */
-        private function removeLife(value:int):void
+        private function removeLife():void
         {
             var id:int = totalLives - 1;
             var sprite:FlxSprite = lifeSprites[id];

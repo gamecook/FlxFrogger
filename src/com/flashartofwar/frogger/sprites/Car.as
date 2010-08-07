@@ -25,11 +25,7 @@ com.flashartofwar.frogger.sprites
 
     public class Car extends WrappingSprite
     {
-
-        [Embed(source="../../../../../build/assets/car_sprites.png")]
-        private var SpriteImage:Class;
-
-        public static const SPRITE_WIDTH:int = 40;
+		public static const SPRITE_WIDTH:int = 40;
         public static const SPRITE_HEIGHT:int = 40;
 
         public static const TYPE_A:int = 0;
@@ -51,7 +47,7 @@ com.flashartofwar.frogger.sprites
         {
             super(x, y, null, direction, speed);
 
-            loadGraphic(SpriteImage, true, false, SPRITE_WIDTH, SPRITE_HEIGHT);
+            loadGraphic(GameAssets.CarSpriteImage, true, false, SPRITE_WIDTH, SPRITE_HEIGHT);
 
             frame = type;
         }
