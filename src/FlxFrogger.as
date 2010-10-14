@@ -21,10 +21,11 @@
 package {
 	import com.flashartofwar.frogger.states.StartState;
 
-	import org.flixel.FlxGame;
+    import flash.events.Event;
+
+    import org.flixel.FlxGame;
 
 	[SWF(width="480", height="800", backgroundColor="#000000")]
-    [Frame(factoryClass="Preloader")]
 
     public class FlxFrogger extends FlxGame
     {
@@ -36,5 +37,6 @@ package {
             // Create Flixel Game.
             super(480, 800, StartState, 1);
         }
+
     }
 }

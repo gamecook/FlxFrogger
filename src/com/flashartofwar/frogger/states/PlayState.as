@@ -92,7 +92,7 @@ com.flashartofwar.frogger.states {
 
 
             // Create Text for title, credits, and score
-            var demoTXT:FlxText = add(new FlxText(0, 0, 480, "Flixel Frogger Demo").setFormat(null, 20, 0xffffff, "center", 0x000000)) as FlxText;
+            var demoTXT:FlxText = add(new FlxText(0, 0, 480, "FxlFrogger Demo").setFormat(null, 20, 0xffffff, "center", 0x000000)) as FlxText;
             var scoreLabel:FlxText = add(new FlxText(0, demoTXT.height, 100, "Score").setFormat(null, 10, 0xffffff, "right")) as FlxText;
             scoreTxt = add(new FlxText(0, scoreLabel.height, 100, "").setFormat(null, 14, 0xffe00000, "right")) as FlxText;
 
@@ -127,24 +127,24 @@ com.flashartofwar.frogger.states {
             logGroup = add(new FlxGroup()) as FlxGroup;
             turtleGroup = add(new FlxGroup()) as FlxGroup;
 
-            logGroup.add(new Log(0, calculateRow(3), Log.TYPE_C, FlxSprite.RIGHT, 1));
-            logGroup.add(new Log(Log.TYPE_C_WIDTH + 77, calculateRow(3), Log.TYPE_C, FlxSprite.RIGHT, 1));
-            logGroup.add(new Log((Log.TYPE_C_WIDTH + 77) * 2, calculateRow(3), Log.TYPE_C, FlxSprite.RIGHT, 1));
+            logGroup.add(new Log(0, calculateRow(3), Log.TYPE_C, FlxSprite.RIGHT, 2));
+            logGroup.add(new Log(Log.TYPE_C_WIDTH + 77, calculateRow(3), Log.TYPE_C, FlxSprite.RIGHT, 2));
+            logGroup.add(new Log((Log.TYPE_C_WIDTH + 77) * 2, calculateRow(3), Log.TYPE_C, FlxSprite.RIGHT, 2));
 
-            turtleGroup.add(new TurtlesA(0, calculateRow(4), -1, -1, FlxSprite.LEFT, 1));
-            turtleGroup.add(new TurtlesA((TurtlesA.SPRITE_WIDTH + 123) * 1, calculateRow(4), TurtlesA.DEFAULT_TIME, 200, FlxSprite.LEFT, 1));
-            turtleGroup.add(new TurtlesA((TurtlesA.SPRITE_WIDTH + 123) * 2, calculateRow(4), -1, -1, FlxSprite.LEFT, 1));
+            turtleGroup.add(new TurtlesA(0, calculateRow(4), -1, -1, FlxSprite.LEFT, 2));
+            turtleGroup.add(new TurtlesA((TurtlesA.SPRITE_WIDTH + 123) * 1, calculateRow(4), TurtlesA.DEFAULT_TIME, 200, FlxSprite.LEFT, 2));
+            turtleGroup.add(new TurtlesA((TurtlesA.SPRITE_WIDTH + 123) * 2, calculateRow(4), -1, -1, FlxSprite.LEFT, 2));
 
-            logGroup.add(new Log(0, calculateRow(5), Log.TYPE_B, FlxSprite.RIGHT, 1));
-            logGroup.add(new Log(Log.TYPE_B_WIDTH + 70, calculateRow(5), Log.TYPE_B, FlxSprite.RIGHT, 1));
+            logGroup.add(new Log(30, calculateRow(5), Log.TYPE_B, FlxSprite.RIGHT, 2));
+            logGroup.add(new Log(Log.TYPE_B_WIDTH + 130, calculateRow(5), Log.TYPE_B, FlxSprite.RIGHT, 2));
 
-            logGroup.add(new Log(0, calculateRow(6), Log.TYPE_A, FlxSprite.RIGHT, 1));
-            logGroup.add(new Log(Log.TYPE_A_WIDTH + 77, calculateRow(6), Log.TYPE_A, FlxSprite.RIGHT, 1));
-            logGroup.add(new Log((Log.TYPE_A_WIDTH + 77) * 2, calculateRow(6), Log.TYPE_A, FlxSprite.RIGHT, 1));
+            logGroup.add(new Log(0, calculateRow(6), Log.TYPE_A, FlxSprite.RIGHT, 2));
+            logGroup.add(new Log(Log.TYPE_A_WIDTH + 77, calculateRow(6), Log.TYPE_A, FlxSprite.RIGHT, 2));
+            logGroup.add(new Log((Log.TYPE_A_WIDTH + 77) * 2, calculateRow(6), Log.TYPE_A, FlxSprite.RIGHT, 2));
 
-            turtleGroup.add(new TurtlesB(0, calculateRow(7), TurtlesA.DEFAULT_TIME, 0, FlxSprite.LEFT, 1));
-            turtleGroup.add(new TurtlesB((TurtlesB.SPRITE_WIDTH + 95) * 1, calculateRow(7), -1, -1, FlxSprite.LEFT, 1));
-            turtleGroup.add(new TurtlesB((TurtlesB.SPRITE_WIDTH + 95) * 2, calculateRow(7), -1, -1, FlxSprite.LEFT, 1));
+            turtleGroup.add(new TurtlesB(0, calculateRow(7), TurtlesA.DEFAULT_TIME, 0, FlxSprite.LEFT, 2));
+            turtleGroup.add(new TurtlesB((TurtlesB.SPRITE_WIDTH + 95) * 1, calculateRow(7), -1, -1, FlxSprite.LEFT, 2));
+            turtleGroup.add(new TurtlesB((TurtlesB.SPRITE_WIDTH + 95) * 2, calculateRow(7), -1, -1, FlxSprite.LEFT, 2));
 
             // Create Player
             player = add(new Frog(calculateColumn(6), calculateRow(14) + 6)) as Frog;
@@ -152,23 +152,23 @@ com.flashartofwar.frogger.states {
             // Create Cars
             carGroup = add(new FlxGroup()) as FlxGroup;
 
-            carGroup.add(new Truck(0, calculateRow(9), FlxSprite.LEFT, 1));
-            carGroup.add(new Truck(270, calculateRow(9), FlxSprite.LEFT, 1));
+            carGroup.add(new Truck(0, calculateRow(9), FlxSprite.LEFT, 2));
+            carGroup.add(new Truck(270, calculateRow(9), FlxSprite.LEFT, 2));
 
-            carGroup.add(new Car(0, calculateRow(10), Car.TYPE_C, FlxSprite.RIGHT, 1));
-            carGroup.add(new Car(270, calculateRow(10), Car.TYPE_C, FlxSprite.RIGHT, 1));
+            carGroup.add(new Car(0, calculateRow(10), Car.TYPE_C, FlxSprite.RIGHT, 2));
+            carGroup.add(new Car(270, calculateRow(10), Car.TYPE_C, FlxSprite.RIGHT, 2));
 
-            carGroup.add(new Car(0, calculateRow(11), Car.TYPE_D, FlxSprite.LEFT, 1));
-            carGroup.add(new Car(270, calculateRow(11), Car.TYPE_D, FlxSprite.LEFT, 1));
+            carGroup.add(new Car(0, calculateRow(11), Car.TYPE_D, FlxSprite.LEFT, 2));
+            carGroup.add(new Car(270, calculateRow(11), Car.TYPE_D, FlxSprite.LEFT, 2));
 
 
-            carGroup.add(new Car(0, calculateRow(12), Car.TYPE_B, FlxSprite.RIGHT, 1));
-            carGroup.add(new Car((Car.SPRITE_WIDTH + 138) * 1, calculateRow(12), Car.TYPE_B, FlxSprite.RIGHT, 1));
-            carGroup.add(new Car((Car.SPRITE_WIDTH + 138) * 2, calculateRow(12), Car.TYPE_B, FlxSprite.RIGHT, 1));
+            carGroup.add(new Car(0, calculateRow(12), Car.TYPE_B, FlxSprite.RIGHT, 2));
+            carGroup.add(new Car((Car.SPRITE_WIDTH + 138) * 1, calculateRow(12), Car.TYPE_B, FlxSprite.RIGHT, 2));
+            carGroup.add(new Car((Car.SPRITE_WIDTH + 138) * 2, calculateRow(12), Car.TYPE_B, FlxSprite.RIGHT, 2));
 
-            carGroup.add(new Car(0, calculateRow(13), Car.TYPE_A, FlxSprite.LEFT, 1));
-            carGroup.add(new Car((Car.SPRITE_WIDTH + 138) * 1, calculateRow(13), Car.TYPE_A, FlxSprite.LEFT, 1));
-            carGroup.add(new Car((Car.SPRITE_WIDTH + 138) * 2, calculateRow(13), Car.TYPE_A, FlxSprite.LEFT, 1));
+            carGroup.add(new Car(0, calculateRow(13), Car.TYPE_A, FlxSprite.LEFT, 2));
+            carGroup.add(new Car((Car.SPRITE_WIDTH + 138) * 1, calculateRow(13), Car.TYPE_A, FlxSprite.LEFT, 2));
+            carGroup.add(new Car((Car.SPRITE_WIDTH + 138) * 2, calculateRow(13), Car.TYPE_A, FlxSprite.LEFT, 2));
 
             // Create Time text
             timeTxt = new FlxText(bg.width - 70, LIFE_Y + 18, 60, "TIME").setFormat(null, 14, 0xffff00, "right");
@@ -235,7 +235,8 @@ com.flashartofwar.frogger.states {
             {
                 if (hideGameMessageDelay == 0)
                 {
-                    FlxG.state = new StartState();
+                    //FlxG.state = new StartState();
+                    FlxG.state = new ScoreState();
                 }
                 else
                 {

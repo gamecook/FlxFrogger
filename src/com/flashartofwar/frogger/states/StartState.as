@@ -20,17 +20,22 @@
 
 package
 com.flashartofwar.frogger.states {
-	import com.flashartofwar.frogger.sprites.GameAssets;
+    import com.flashartofwar.frogger.enum.FroggerScoreboard;
+    import com.flashartofwar.frogger.sprites.GameAssets;
 
-	import flash.events.MouseEvent;
+    import com.gamecook.scores.FScoreboard;
+
+    import flash.events.MouseEvent;
 
     import org.flixel.FlxG;
+    import org.flixel.FlxGroup;
     import org.flixel.FlxSprite;
     import org.flixel.FlxState;
     import org.flixel.FlxText;
 
     public class StartState extends FlxState
     {
+        private var scoreBoard:FScoreboard;
         
         /**
          * This is the first game state the player sees. Simply lets them click anywhere to start.
@@ -54,9 +59,16 @@ com.flashartofwar.frogger.states {
             var title:FlxSprite = new FlxSprite(0, 100, GameAssets.TitleSprite);
             title.x = (FlxG.width * .5) - (title.width * .5);
             add(title);
+            add(new FlxText(0, 200, FlxG.width, "START").setFormat(null, 18, 0xffffffff, "center"));
+            CONFIG::mobile
+            {
+                add(new FlxText(0, 400, FlxG.width, "PRESS ANYWHERE TO START").setFormat(null, 18, 0xd33bd1, "center"));
+            }
 
-            add(new FlxText(0, 200, FlxG.width, "PUSH").setFormat(null, 18, 0xffffffff, "center"));
-            add(new FlxText(0, 300, FlxG.width, "ANYWHERE TO START").setFormat(null, 18, 0xd33bd1, "center"));
+            !CONFIG::mobile
+            {
+                add(new FlxText(0, 400, FlxG.width, "PRESS ENTER TO START").setFormat(null, 18, 0xd33bd1, "center"));
+            }
 
             //TODO Add frogs animating across the screen
             //TODO Add rules for score to the botton
@@ -84,6 +96,59 @@ com.flashartofwar.frogger.states {
         {
             stage.removeEventListener(MouseEvent.CLICK, onClick);
             super.destroy();
+        }
+
+        override public function render():void {
+            if(FlxG.keys.justPressed("ENTER"))
+                onClick(new MouseEvent(MouseEvent.CLICK));
+
+            super.render();
+        }
+
+
+        private function createScoreboard():void {
+
+            scoreBoard = new FScoreboard(FroggerScoreboard.ID);
+
+            var defaultScores:Array = [
+                {playerName:"JBO", playerScore: 10, "playerDevice": "debug"},
+                {playerName:"JBO", playerScore: 10, "playerDevice": "debug"},
+                {playerName:"JBO", playerScore: 10, "playerDevice": "debug"},
+                {playerName:"JBO", playerScore: 10, "playerDevice": "debug"},
+                {playerName:"JBO", playerScore: 10, "playerDevice": "debug"},
+                {playerName:"JBO", playerScore: 10, "playerDevice": "debug"},
+                {playerName:"JBO", playerScore: 10, "playerDevice": "debug"},
+                {playerName:"JBO", playerScore: 10, "playerDevice": "debug"},
+                {playerName:"JBO", playerScore: 10, "playerDevice": "debug"},
+                {playerName:"JBO", playerScore: 10, "playerDevice": "debug"}
+                ];
+
+            if(scoreBoard.total == 0)
+                scoreBoard.scores = defaultScores;
+
+            var scores:Array = scoreBoard.scores;
+
+            var total:int = scores.length;
+
+            var scoreGroup:FlxGroup = new FlxGroup();
+            scoreGroup.y = 500;
+            add(scoreGroup);
+
+            var scoreTitle:FlxText = scoreGroup.add(new FlxText(0, 0, FlxG.width, "HIGH SCORES").setFormat(null, 18, 0xd33bd1, "center")) as FlxText;
+
+            var yOffset:int = (scoreTitle.height+ 10);
+
+            var scoreText:FlxText;
+            var scoreObj:Object;
+            var i:int;
+
+            for(i = 0; i < total; i++)
+            {
+                scoreObj = scores[i];
+                scoreText = new FlxText(0, (20*i) + yOffset, FlxG.width, scoreObj.playerName+": "+scoreObj.playerScore, true).setFormat(null, 18, 0xd33bd1, "center");
+                scoreGroup.add(scoreText);
+            }
+
         }
 
     }
