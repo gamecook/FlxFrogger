@@ -8,6 +8,15 @@ package com.flashartofwar.frogger.sprites {
 		[Embed(source="../../../../../build/assets/frogger_title.gif")]
         public static var TitleSprite:Class;
 
+        [Embed(source="../../../../../build/assets/bottom_ground.png")]
+        public static var BottomGround:Class;
+
+        [Embed(source="../../../../../build/assets/top_ground.png")]
+        public static var TopGround:Class;
+
+        [Embed(source="../../../../../build/assets/shore_sprite.png")]
+        public static var Shore:Class;
+
         [Embed(source="../../../../../build/assets/frogger_sounds.swf", symbol="FroggerThemeSound")]
         public static var FroggerThemeSound:Class;
 		

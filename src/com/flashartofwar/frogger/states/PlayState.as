@@ -41,7 +41,7 @@ com.flashartofwar.frogger.states {
     import org.flixel.FlxText;
     import org.flixel.FlxU;
 
-    public class PlayState extends FlxState
+    public class PlayState extends BaseState
     {
 
         private const LIFE_X:int = 20;
@@ -63,7 +63,6 @@ com.flashartofwar.frogger.states {
         private var timerBarBackground:FlxSprite;
         private var timeTxt:FlxText;
         private var playerIsFloating:Boolean;
-        private var scoreTxt:FlxText;
         private var safeFrogs:int = 0;
         private var messageText:FlxText;
         private var gameMessageGroup:FlxGroup;
@@ -73,14 +72,23 @@ com.flashartofwar.frogger.states {
         private var bases:Array;
 
 		private var touchControls:TouchControls;
+        private var actorSpeed:int = 1;
+
 		/**
          * This is the main method responsible for creating all of the game pieces and layout out the level.
          */
         override public function create():void
         {
-            // Create the BG sprite
-            var bg:FlxSprite = new FlxSprite(0, 0, GameAssets.LevelSprite);
-            add(bg);
+            super.create();
+
+            // Create the BG sprites
+
+            add(new FlxSprite(0, calculateRow(14),GameAssets.BottomGround));
+            add(new FlxSprite(0, calculateRow(8), GameAssets.Shore));
+            add(new FlxSprite(0, calculateRow(1)+19, GameAssets.TopGround));
+
+
+            //TODO Need to simplify level
 
             // Set up main variable properties
             gameTime = 60 * FlxG.framerate;
@@ -91,10 +99,7 @@ com.flashartofwar.frogger.states {
             createLives(3);
 
 
-            // Create Text for title, credits, and score
-            var demoTXT:FlxText = add(new FlxText(0, 0, 480, "FxlFrogger Demo").setFormat(null, 20, 0xffffff, "center", 0x000000)) as FlxText;
-            var scoreLabel:FlxText = add(new FlxText(0, demoTXT.height, 100, "Score").setFormat(null, 10, 0xffffff, "right")) as FlxText;
-            scoreTxt = add(new FlxText(0, scoreLabel.height, 100, "").setFormat(null, 14, 0xffe00000, "right")) as FlxText;
+
 
 
             // Create game message, this handles game over, time, and start message for player
@@ -127,24 +132,24 @@ com.flashartofwar.frogger.states {
             logGroup = add(new FlxGroup()) as FlxGroup;
             turtleGroup = add(new FlxGroup()) as FlxGroup;
 
-            logGroup.add(new Log(0, calculateRow(3), Log.TYPE_C, FlxSprite.RIGHT, 2));
-            logGroup.add(new Log(Log.TYPE_C_WIDTH + 77, calculateRow(3), Log.TYPE_C, FlxSprite.RIGHT, 2));
-            logGroup.add(new Log((Log.TYPE_C_WIDTH + 77) * 2, calculateRow(3), Log.TYPE_C, FlxSprite.RIGHT, 2));
+            logGroup.add(new Log(0, calculateRow(3), Log.TYPE_C, FlxSprite.RIGHT, actorSpeed));
+            logGroup.add(new Log(Log.TYPE_C_WIDTH + 77, calculateRow(3), Log.TYPE_C, FlxSprite.RIGHT, actorSpeed));
+            logGroup.add(new Log((Log.TYPE_C_WIDTH + 77) * 2, calculateRow(3), Log.TYPE_C, FlxSprite.RIGHT, actorSpeed));
 
-            turtleGroup.add(new TurtlesA(0, calculateRow(4), -1, -1, FlxSprite.LEFT, 2));
-            turtleGroup.add(new TurtlesA((TurtlesA.SPRITE_WIDTH + 123) * 1, calculateRow(4), TurtlesA.DEFAULT_TIME, 200, FlxSprite.LEFT, 2));
-            turtleGroup.add(new TurtlesA((TurtlesA.SPRITE_WIDTH + 123) * 2, calculateRow(4), -1, -1, FlxSprite.LEFT, 2));
+            turtleGroup.add(new TurtlesA(0, calculateRow(4), -1, -1, FlxSprite.LEFT, actorSpeed));
+            turtleGroup.add(new TurtlesA((TurtlesA.SPRITE_WIDTH + 123) * 1, calculateRow(4), TurtlesA.DEFAULT_TIME, 200, FlxSprite.LEFT, actorSpeed));
+            turtleGroup.add(new TurtlesA((TurtlesA.SPRITE_WIDTH + 123) * 2, calculateRow(4), -1, -1, FlxSprite.LEFT, actorSpeed));
 
-            logGroup.add(new Log(30, calculateRow(5), Log.TYPE_B, FlxSprite.RIGHT, 2));
-            logGroup.add(new Log(Log.TYPE_B_WIDTH + 130, calculateRow(5), Log.TYPE_B, FlxSprite.RIGHT, 2));
+            logGroup.add(new Log(30, calculateRow(5), Log.TYPE_B, FlxSprite.RIGHT, actorSpeed));
+            logGroup.add(new Log(Log.TYPE_B_WIDTH + 130, calculateRow(5), Log.TYPE_B, FlxSprite.RIGHT, actorSpeed));
 
-            logGroup.add(new Log(0, calculateRow(6), Log.TYPE_A, FlxSprite.RIGHT, 2));
-            logGroup.add(new Log(Log.TYPE_A_WIDTH + 77, calculateRow(6), Log.TYPE_A, FlxSprite.RIGHT, 2));
-            logGroup.add(new Log((Log.TYPE_A_WIDTH + 77) * 2, calculateRow(6), Log.TYPE_A, FlxSprite.RIGHT, 2));
+            logGroup.add(new Log(0, calculateRow(6), Log.TYPE_A, FlxSprite.RIGHT, actorSpeed));
+            logGroup.add(new Log(Log.TYPE_A_WIDTH + 77, calculateRow(6), Log.TYPE_A, FlxSprite.RIGHT, actorSpeed));
+            logGroup.add(new Log((Log.TYPE_A_WIDTH + 77) * 2, calculateRow(6), Log.TYPE_A, FlxSprite.RIGHT, actorSpeed));
 
-            turtleGroup.add(new TurtlesB(0, calculateRow(7), TurtlesA.DEFAULT_TIME, 0, FlxSprite.LEFT, 2));
-            turtleGroup.add(new TurtlesB((TurtlesB.SPRITE_WIDTH + 95) * 1, calculateRow(7), -1, -1, FlxSprite.LEFT, 2));
-            turtleGroup.add(new TurtlesB((TurtlesB.SPRITE_WIDTH + 95) * 2, calculateRow(7), -1, -1, FlxSprite.LEFT, 2));
+            turtleGroup.add(new TurtlesB(0, calculateRow(7), TurtlesA.DEFAULT_TIME, 0, FlxSprite.LEFT, actorSpeed));
+            turtleGroup.add(new TurtlesB((TurtlesB.SPRITE_WIDTH + 95) * 1, calculateRow(7), -1, -1, FlxSprite.LEFT, actorSpeed));
+            turtleGroup.add(new TurtlesB((TurtlesB.SPRITE_WIDTH + 95) * 2, calculateRow(7), -1, -1, FlxSprite.LEFT, actorSpeed));
 
             // Create Player
             player = add(new Frog(calculateColumn(6), calculateRow(14) + 6)) as Frog;
@@ -152,26 +157,26 @@ com.flashartofwar.frogger.states {
             // Create Cars
             carGroup = add(new FlxGroup()) as FlxGroup;
 
-            carGroup.add(new Truck(0, calculateRow(9), FlxSprite.LEFT, 2));
-            carGroup.add(new Truck(270, calculateRow(9), FlxSprite.LEFT, 2));
+            carGroup.add(new Truck(0, calculateRow(9), FlxSprite.LEFT, actorSpeed));
+            carGroup.add(new Truck(270, calculateRow(9), FlxSprite.LEFT, actorSpeed));
 
-            carGroup.add(new Car(0, calculateRow(10), Car.TYPE_C, FlxSprite.RIGHT, 2));
-            carGroup.add(new Car(270, calculateRow(10), Car.TYPE_C, FlxSprite.RIGHT, 2));
+            carGroup.add(new Car(0, calculateRow(10), Car.TYPE_C, FlxSprite.RIGHT, actorSpeed));
+            carGroup.add(new Car(270, calculateRow(10), Car.TYPE_C, FlxSprite.RIGHT, actorSpeed));
 
-            carGroup.add(new Car(0, calculateRow(11), Car.TYPE_D, FlxSprite.LEFT, 2));
-            carGroup.add(new Car(270, calculateRow(11), Car.TYPE_D, FlxSprite.LEFT, 2));
+            carGroup.add(new Car(0, calculateRow(11), Car.TYPE_D, FlxSprite.LEFT, actorSpeed));
+            carGroup.add(new Car(270, calculateRow(11), Car.TYPE_D, FlxSprite.LEFT, actorSpeed));
 
 
-            carGroup.add(new Car(0, calculateRow(12), Car.TYPE_B, FlxSprite.RIGHT, 2));
-            carGroup.add(new Car((Car.SPRITE_WIDTH + 138) * 1, calculateRow(12), Car.TYPE_B, FlxSprite.RIGHT, 2));
-            carGroup.add(new Car((Car.SPRITE_WIDTH + 138) * 2, calculateRow(12), Car.TYPE_B, FlxSprite.RIGHT, 2));
+            carGroup.add(new Car(0, calculateRow(12), Car.TYPE_B, FlxSprite.RIGHT, actorSpeed));
+            carGroup.add(new Car((Car.SPRITE_WIDTH + 138) * 1, calculateRow(12), Car.TYPE_B, FlxSprite.RIGHT, actorSpeed));
+            carGroup.add(new Car((Car.SPRITE_WIDTH + 138) * 2, calculateRow(12), Car.TYPE_B, FlxSprite.RIGHT, actorSpeed));
 
-            carGroup.add(new Car(0, calculateRow(13), Car.TYPE_A, FlxSprite.LEFT, 2));
-            carGroup.add(new Car((Car.SPRITE_WIDTH + 138) * 1, calculateRow(13), Car.TYPE_A, FlxSprite.LEFT, 2));
-            carGroup.add(new Car((Car.SPRITE_WIDTH + 138) * 2, calculateRow(13), Car.TYPE_A, FlxSprite.LEFT, 2));
+            carGroup.add(new Car(0, calculateRow(13), Car.TYPE_A, FlxSprite.LEFT, actorSpeed));
+            carGroup.add(new Car((Car.SPRITE_WIDTH + 138) * 1, calculateRow(13), Car.TYPE_A, FlxSprite.LEFT, actorSpeed));
+            carGroup.add(new Car((Car.SPRITE_WIDTH + 138) * 2, calculateRow(13), Car.TYPE_A, FlxSprite.LEFT, actorSpeed));
 
             // Create Time text
-            timeTxt = new FlxText(bg.width - 70, LIFE_Y + 18, 60, "TIME").setFormat(null, 14, 0xffff00, "right");
+            timeTxt = new FlxText(FlxG.width - 70, LIFE_Y + 18, 60, "TIME").setFormat(null, 14, 0xffff00, "right");
             add(timeTxt);
 
             // Create timer graphic

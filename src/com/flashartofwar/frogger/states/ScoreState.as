@@ -7,21 +7,15 @@
  */
 package com.flashartofwar.frogger.states
 {
-    import com.flashartofwar.frogger.enum.FroggerScoreboard;
-
-    import com.gamecook.scores.FScoreboard;
+    import com.flashartofwar.frogger.scores.FroggerScoreboard;
 
     import org.flixel.FlxG;
     import org.flixel.FlxSave;
-    import org.flixel.FlxState;
     import org.flixel.FlxText;
 
-    public class ScoreState extends FlxState
+    public class ScoreState extends BaseState
     {
-       // public var cfg:Class = MeasuresConfig;
 
-        private var over:FlxText;
-        private var saved:FlxSave;
         private var scores:Array;
         private var highScored:Boolean = false;
         private var newScore:Object;
@@ -32,49 +26,22 @@ package com.flashartofwar.frogger.states
 
         private var leftArrow:FlxText, rightArrow:FlxText, upArrow:FlxText, downArrow:FlxText;
 
-        //private var newScoreInitials:FlxText;
         private var newInitials:Array;
-        private var scoreBoard:FScoreboard;
-
+        private var letterPreview:FlxText;
 
         override public function create():void
         {
+            super.create();
+
             FlxG.mouse.show();
 
-
-            scoreBoard = new FScoreboard(FroggerScoreboard.ID, FroggerScoreboard.MAX_SCORES);
-
-            //TODO need to remove this is just for testing
-            //scoreBoard.clearScoreboard();
-
-
-            var defaultScores:Array = [
-                /*{initials:"GLC", score: 860630},
-                {initials:"FLA", score: 10000},
-                {initials:"SWF", score: 5000},
-                {initials:"AS3", score: 1500},
-                {initials:"AIR", score: 1000},
-                {initials:"APK", score: 880}*/
-                    {initials:"GLC", score: 1000},
-                {initials:"FLA", score: 100},
-                {initials:"SWF", score: 50},
-                {initials:"AS3", score: 30},
-                {initials:"AIR", score: 20},
-                {initials:"APK", score: 10}
-                ];
-
-            if(scoreBoard.total == 0)
-                scoreBoard.scores = defaultScores;
-
-
-
-            scores = scoreBoard.scores;
+            scores = scoreboard.scores;
 
             var score:Object;
 
              newInitials = [];
 
-            highScored = scoreBoard.canSubmitScore(playerScore);
+            highScored = scoreboard.canSubmitScore(playerScore);
 
             var playerScore:int = FlxG.score;
             var xpos:Number;
@@ -155,7 +122,7 @@ package com.flashartofwar.frogger.states
             }
 
 
-            if(scoreBoard.canSubmitScore(playerScore))
+            if(highScored)
             {
                 var textItem:FlxText;
                 var ypos:Number;
@@ -180,23 +147,28 @@ package com.flashartofwar.frogger.states
                 var newItemPos:Number = 50 + newScorePosition* 15;
 
 
+                letterPreview = new FlxText( (FlxG.width - 100 ) * .5, 300, 100, " ");
+                letterPreview.setFormat(null, 70, 0xFF0000, "center", 0);
+                add(letterPreview);
+
                 //add in arrows for displaying position and possible motions
-                leftArrow = new FlxText(newInitials[0].left - 15, newInitials[0].y, 15, " ");
-                leftArrow.setFormat(null, 15, 0xFF0000, "left", 0);
+                leftArrow = new FlxText(letterPreview.left - 50, letterPreview.y+10, 50, " ");
+                leftArrow.setFormat(null, 60, 0xFF0000, "right", 0);
                 add(leftArrow);
 
-                rightArrow = new FlxText(newInitials[2].right, newInitials[0].y, 15, " ");
-                rightArrow.setFormat(null, 15, 0xFF0000, "right", 0);
+                rightArrow = new FlxText(letterPreview.right, letterPreview.y+10, 50, " ");
+                rightArrow.setFormat(null, 60, 0xFF0000, "left", 0);
                 add(rightArrow);
 
-                upArrow = new FlxText(newInitials[0].left, newInitials[0].y - 15, 15, "+");
-                upArrow.setFormat(null, 15, 0xFF0000, "center", 0);
+                upArrow = new FlxText(letterPreview.left, letterPreview.top - 60, 100, "+");
+                upArrow.setFormat(null, 60, 0xFF0000, "center", 0);
                 add(upArrow);
 
-                downArrow = new FlxText(newInitials[0].left, newInitials[0].y + 15, 15, "-")
-                downArrow.setFormat(null, 15, 0xFF0000, "center", 0);
+                downArrow = new FlxText(letterPreview.left, letterPreview.bottom - 30, 100, "-")
+                downArrow.setFormat(null, 60, 0xFF0000, "center", 0);
                 add(downArrow);
 
+                newScore.initials = "AAA";
             }
         }
 
@@ -227,9 +199,9 @@ package com.flashartofwar.frogger.states
 
                 //perform said motions
                 if (letterUp)
-                    whichLetter = (whichLetter + 26) % 27;
-                else if (letterDown)
                     whichLetter = (whichLetter + 1) % 27;
+                else if (letterDown)
+                    whichLetter = (whichLetter + 26) % 27;
                 else if (letterLeft)
                 {
                     whichInitial--;
@@ -246,7 +218,7 @@ package com.flashartofwar.frogger.states
                 }
                 else if (doneEdit)
                 {
-                    scoreBoard.scores = scores;
+                    scoreboard.scores = scores;
                     FlxG.state = new StartState();
                 }
 
@@ -259,8 +231,8 @@ package com.flashartofwar.frogger.states
                 else if (whichInitial == 2)
                     rightArrow.text = "/";
 
-                upArrow.x = newInitials[whichInitial].left;
-                downArrow.x = upArrow.x;
+                //upArrow.x = newInitials[whichInitial].left;
+                //downArrow.x = upArrow.x;
 
 
                 //update the string.
@@ -279,13 +251,18 @@ package com.flashartofwar.frogger.states
 
                 str = String.fromCharCode(arr[0], arr[1], arr[2]);
                 newScore.initials = str; //store the string
-                for (i = 0; i < 3; i++) //update the display
+                for (i = 0; i < 3; i++)
+                {
+                    //update the display
                     newInitials[i].text = str.charAt(i);
+                }
 
+                //letterPreview.text = String.fromCharCode(arr[whichInitial]);
+                letterPreview.text = String.fromCharCode(arr[whichInitial]);
             }
             else if (FlxG.keys.justPressed("SPACE") || FlxG.mouse.justPressed()) //no new highscore.
             {
-                scoreBoard.scores = scores;
+                scoreboard.scores = scores;
                 FlxG.state = new StartState();
 
             }
