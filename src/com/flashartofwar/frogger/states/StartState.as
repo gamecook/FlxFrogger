@@ -59,6 +59,9 @@ com.flashartofwar.frogger.states
             title.x = (FlxG.width * .5) - (title.width * .5);
             add(title);
 
+
+            add(new FlxText(20, FlxG.height - 30, FlxG.width - 40, "Original Frogger graphics and images by Konami. \nThis was created only for demonstration purposes").setFormat(null, 8, 0xffffffff, "center"));
+
         }
 
         private function onTimerComplete(event:TimerEvent):void
@@ -83,7 +86,7 @@ com.flashartofwar.frogger.states
         {
 
             FlxG.state = new PlayState();
-
+            FlxG.level = 0;
             // Sound is played after the state switch to keep it from being destroyed
             FlxG.play(GameAssets.FroggerThemeSound);
 

@@ -60,15 +60,17 @@
         <delete dir="${tmp.loc}" />
     </target>
 
-    <target name="deploy-to-phone" depends="package-apk,uninstall-apk">
+    <target name="deploy-to-phone" depends="package-apk">
         <exec executable="${adb}">
             <arg value="-d"/>
             <arg value="install"/>
+            <arg value="-r"/>
+
             <arg value="${apks.loc}/${project.name.versioned}.apk"/>
         </exec>
     </target>
 
-    <target name="deploy-to-emulator" depends="package-apk,uninstall-apk">
+    <target name="deploy-to-emulator" depends="package-apk">
         <exec executable="${adb}">
             <!--          <arg value="-s"/>
             <arg value="emulator-5556"/>-->
@@ -78,10 +80,10 @@
         </exec>
     </target>
 
-    <target name="uninstall-apk">
+    <!--<target name="uninstall-apk">
         <exec executable="${adb}">
             <arg value="uninstall"/>
             <arg value="app.${app.package}"/>
         </exec>
-    </target>
+    </target>-->
 </project>

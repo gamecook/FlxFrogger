@@ -74,7 +74,7 @@ com.flashartofwar.frogger.states
         private var touchControls:TouchControls;
         private var actorSpeed:int = 1;
         private var lastLifeScore:int = 0;
-        private var nextLife:int = 1000;
+        private var nextLife:int = 5000;
 
         /**
          * This is the main method responsible for creating all of the game pieces and layout out the level.
@@ -97,7 +97,7 @@ com.flashartofwar.frogger.states
             //TODO Need to simplify level
 
             // Set up main variable properties
-            gameTime = 40 * FlxG.framerate;
+            gameTime = (30 - FlxG.level) * FlxG.framerate;
             timer = gameTime;
             timeAlmostOverWarning = TIMER_BAR_WIDTH * .7;
             waterY = TILE_SIZE * 8;
@@ -143,8 +143,8 @@ com.flashartofwar.frogger.states
             turtleGroup.add(new TurtlesA((TurtlesA.SPRITE_WIDTH + 123) * 1, calculateRow(4), TurtlesA.DEFAULT_TIME, 200, FlxSprite.LEFT, actorSpeed));
             turtleGroup.add(new TurtlesA((TurtlesA.SPRITE_WIDTH + 123) * 2, calculateRow(4), -1, -1, FlxSprite.LEFT, actorSpeed));
 
-            logGroup.add(new Log(30, calculateRow(5), Log.TYPE_B, FlxSprite.RIGHT, actorSpeed));
-            logGroup.add(new Log(Log.TYPE_B_WIDTH + 130, calculateRow(5), Log.TYPE_B, FlxSprite.RIGHT, actorSpeed));
+            logGroup.add(new Log(30, calculateRow(5), Log.TYPE_B, FlxSprite.RIGHT, actorSpeed* 2));
+            logGroup.add(new Log(Log.TYPE_B_WIDTH + 130, calculateRow(5), Log.TYPE_B, FlxSprite.RIGHT, actorSpeed* 2));
 
             logGroup.add(new Log(0, calculateRow(6), Log.TYPE_A, FlxSprite.RIGHT, actorSpeed));
             logGroup.add(new Log(Log.TYPE_A_WIDTH + 77, calculateRow(6), Log.TYPE_A, FlxSprite.RIGHT, actorSpeed));
@@ -163,8 +163,8 @@ com.flashartofwar.frogger.states
             carGroup.add(new Truck(0, calculateRow(9), FlxSprite.LEFT, actorSpeed));
             carGroup.add(new Truck(270, calculateRow(9), FlxSprite.LEFT, actorSpeed));
 
-            carGroup.add(new Car(0, calculateRow(10), Car.TYPE_C, FlxSprite.RIGHT, actorSpeed));
-            carGroup.add(new Car(270, calculateRow(10), Car.TYPE_C, FlxSprite.RIGHT, actorSpeed));
+            carGroup.add(new Car(0, calculateRow(10), Car.TYPE_C, FlxSprite.RIGHT, actorSpeed* 2));
+            carGroup.add(new Car(270, calculateRow(10), Car.TYPE_C, FlxSprite.RIGHT, actorSpeed* 2));
 
             carGroup.add(new Car(0, calculateRow(11), Car.TYPE_D, FlxSprite.LEFT, actorSpeed));
             carGroup.add(new Car(270, calculateRow(11), Car.TYPE_D, FlxSprite.LEFT, actorSpeed));
@@ -322,12 +322,16 @@ com.flashartofwar.frogger.states
 
             if (lastLifeScore != FlxG.score && FlxG.score % nextLife == 0)
             {
-                addLife();
-                lastLifeScore = FlxG.score;
 
-                messageText.text = "1-UP";
-                gameMessageGroup.visible = true;
-                hideGameMessageDelay = 200;
+                if(lifeSprites.length < 5)
+                {
+                addLife();
+                    lastLifeScore = FlxG.score;
+
+                    messageText.text = "1-UP";
+                    gameMessageGroup.visible = true;
+                    hideGameMessageDelay = 200;
+                }
             }
             // Update the entire game
             super.update();
@@ -484,7 +488,7 @@ com.flashartofwar.frogger.states
                 // Test to see if Level is over, if so reset all the bases.
                 if (gameState == GameStates.LEVEL_OVER)
                     resetBases();
-
+                FlxG.level ++;
                 // Change game state to Playing so animation can continue.
                 gameState = GameStates.PLAYING;
                 timer = gameTime;
