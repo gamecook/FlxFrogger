@@ -23,8 +23,8 @@ com.flashartofwar.frogger.sprites
 {
     public class TurtlesB extends TurtlesA
     {
-		
-		public static const SPRITE_WIDTH:int = 99;
+
+        public static const SPRITE_WIDTH:int = 99;
         public static const SPRITE_HEIGHT:int = 40;
         public static const DEFAULT_TIME:int = 300;
 

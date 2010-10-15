@@ -19,13 +19,14 @@
  */
 
 package
-com.flashartofwar.frogger.states {
-	import com.flashartofwar.frogger.sprites.GameAssets;
-	import com.flashartofwar.frogger.controls.TouchControls;
+com.flashartofwar.frogger.states
+{
+    import com.flashartofwar.frogger.controls.TouchControls;
     import com.flashartofwar.frogger.enum.GameStates;
     import com.flashartofwar.frogger.enum.ScoreValues;
     import com.flashartofwar.frogger.sprites.Car;
     import com.flashartofwar.frogger.sprites.Frog;
+    import com.flashartofwar.frogger.sprites.GameAssets;
     import com.flashartofwar.frogger.sprites.Home;
     import com.flashartofwar.frogger.sprites.Log;
     import com.flashartofwar.frogger.sprites.Truck;
@@ -37,7 +38,6 @@ com.flashartofwar.frogger.states {
     import org.flixel.FlxG;
     import org.flixel.FlxGroup;
     import org.flixel.FlxSprite;
-    import org.flixel.FlxState;
     import org.flixel.FlxText;
     import org.flixel.FlxU;
 
@@ -45,10 +45,10 @@ com.flashartofwar.frogger.states {
     {
 
         private const LIFE_X:int = 20;
-        private const LIFE_Y:int = 600;
+        private const LIFE_Y:int = 610;
         private const TIMER_BAR_WIDTH:int = 300;
         private const TILE_SIZE:int = 40;
-		public var gameState:uint;
+        public var gameState:uint;
 
         private var player:Frog;
         private var logGroup:FlxGroup;
@@ -71,10 +71,12 @@ com.flashartofwar.frogger.states {
         private var timeAlmostOverWarning:int;
         private var bases:Array;
 
-		private var touchControls:TouchControls;
+        private var touchControls:TouchControls;
         private var actorSpeed:int = 1;
+        private var lastLifeScore:int = 0;
+        private var nextLife:int = 1000;
 
-		/**
+        /**
          * This is the main method responsible for creating all of the game pieces and layout out the level.
          */
         override public function create():void
@@ -83,23 +85,24 @@ com.flashartofwar.frogger.states {
 
             // Create the BG sprites
 
-            add(new FlxSprite(0, calculateRow(14),GameAssets.BottomGround));
+            add(new FlxSprite(0, calculateRow(14), GameAssets.BottomGround));
             add(new FlxSprite(0, calculateRow(8), GameAssets.Shore));
-            add(new FlxSprite(0, calculateRow(1)+19, GameAssets.TopGround));
+            add(new FlxSprite(0, calculateRow(1) + 19, GameAssets.TopGround));
 
+            CONFIG::mobile
+            {
+                actorSpeed = 2;
+            }
 
             //TODO Need to simplify level
 
             // Set up main variable properties
-            gameTime = 60 * FlxG.framerate;
+            gameTime = 40 * FlxG.framerate;
             timer = gameTime;
             timeAlmostOverWarning = TIMER_BAR_WIDTH * .7;
             waterY = TILE_SIZE * 8;
             FlxG.score = 0;
             createLives(3);
-
-
-
 
 
             // Create game message, this handles game over, time, and start message for player
@@ -176,12 +179,12 @@ com.flashartofwar.frogger.states {
             carGroup.add(new Car((Car.SPRITE_WIDTH + 138) * 2, calculateRow(13), Car.TYPE_A, FlxSprite.LEFT, actorSpeed));
 
             // Create Time text
-            timeTxt = new FlxText(FlxG.width - 70, LIFE_Y + 18, 60, "TIME").setFormat(null, 14, 0xffff00, "right");
+            timeTxt = new FlxText(FlxG.width - 70, LIFE_Y, 60, "TIME").setFormat(null, 14, 0xffff00, "right");
             add(timeTxt);
 
             // Create timer graphic
             //TODO this is hacky and needs to be cleaned up
-            timerBarBackground = new FlxSprite(timeTxt.x - TIMER_BAR_WIDTH + 5, LIFE_Y + 20);
+            timerBarBackground = new FlxSprite(timeTxt.x - TIMER_BAR_WIDTH + 5, LIFE_Y + 2);
             timerBarBackground.createGraphic(TIMER_BAR_WIDTH, 16, 0xff21de00);
             add(timerBarBackground);
 
@@ -196,14 +199,16 @@ com.flashartofwar.frogger.states {
             /*FDT_IGNORE*/
             CONFIG::mobile
             {
-            /*FDT_IGNORE*/
+                /*FDT_IGNORE*/
                 touchControls = new TouchControls(this, 10, calculateRow(16) + 20, 16);
-				player.touchControls = touchControls;
+                player.touchControls = touchControls;
                 add(touchControls);
-            /*FDT_IGNORE*/    
+
+
+                /*FDT_IGNORE*/
             }
-			/*FDT_IGNORE*/
-			
+            /*FDT_IGNORE*/
+
             // Activate game by setting the correct state
             gameState = GameStates.PLAYING;
 
@@ -242,24 +247,20 @@ com.flashartofwar.frogger.states {
                 {
                     //FlxG.state = new StartState();
                     FlxG.state = new ScoreState();
-                }
-                else
+                } else
                 {
                     hideGameMessageDelay -= FlxG.elapsed;
                 }
-            }
-            else if (gameState == GameStates.LEVEL_OVER)
+            } else if (gameState == GameStates.LEVEL_OVER)
             {
                 if (hideGameMessageDelay == 0)
                 {
                     restart();
-                }
-                else
+                } else
                 {
                     hideGameMessageDelay -= FlxG.elapsed;
                 }
-            }
-            else if (gameState == GameStates.PLAYING)
+            } else if (gameState == GameStates.PLAYING)
             {
                 // Reset floating flag for the player.
                 playerIsFloating = false;
@@ -289,8 +290,7 @@ com.flashartofwar.frogger.states {
                 if (timer == 0 && gameState == GameStates.PLAYING)
                 {
                     timeUp();
-                }
-                else
+                } else
                 {
                     timer -= FlxG.elapsed;
                     timerBar.scale.x = TIMER_BAR_WIDTH - Math.round((timer / gameTime * TIMER_BAR_WIDTH));
@@ -307,8 +307,7 @@ com.flashartofwar.frogger.states {
                 {
                     hideGameMessageDelay -= FlxG.elapsed;
                     if (hideGameMessageDelay < 0) hideGameMessageDelay = 0;
-                }
-                else if (hideGameMessageDelay == 0)
+                } else if (hideGameMessageDelay == 0)
                 {
                     hideGameMessageDelay = -1;
                     gameMessageGroup.visible = false;
@@ -316,12 +315,20 @@ com.flashartofwar.frogger.states {
 
                 // Update the score text
                 scoreTxt.text = FlxG.score.toString();
-            }
-            else if (gameState == GameStates.DEATH_OVER)
+            } else if (gameState == GameStates.DEATH_OVER)
             {
                 restart();
             }
 
+            if (lastLifeScore != FlxG.score && FlxG.score % nextLife == 0)
+            {
+                addLife();
+                lastLifeScore = FlxG.score;
+
+                messageText.text = "1-UP";
+                gameMessageGroup.visible = true;
+                hideGameMessageDelay = 200;
+            }
             // Update the entire game
             super.update();
         }
@@ -371,9 +378,11 @@ com.flashartofwar.frogger.states {
          */
         private function baseCollision(target:Home, player:Frog):void
         {
-            // Check to make sure that we have not landed in a occupied base
-            if (target.mode != Home.SUCCESS)
+
+            switch (target.mode)
             {
+
+                case Home.EMPTY: case Home.BONUS:
                 // Increment number of frogs saved
                 safeFrogs ++;
 
@@ -382,15 +391,19 @@ com.flashartofwar.frogger.states {
 
                 var timeLeftOver:int = Math.round(timer / FlxG.framerate);
 
-                //TODO This needs some kind of animation
                 // Increment the score based on the time left
                 FlxG.score += timeLeftOver * ScoreValues.TIME_BONUS;
 
+                if (target.mode == Home.BONUS)
+                    FlxG.score += ScoreValues.HOME_BONUS;
+                break;
+                case Home.NO_BONUS:
+                    waterCollision();
+                    return;
+                    break;
+
             }
-            else
-            {
-                //TODO need to add something to indicate that a base was occupied
-            }
+
 
             // Reguardless if the base was empty or occupied we still display the time it took to get there
             messageText.text = "TIME " + String(gameTime / FlxG.framerate - timeLeftOver);
@@ -401,8 +414,7 @@ com.flashartofwar.frogger.states {
             if (safeFrogs == bases.length)
             {
                 levelComplete();
-            }
-            else
+            } else
             {
                 restart();
             }
@@ -437,8 +449,7 @@ com.flashartofwar.frogger.states {
             if (target.isActive)
             {
                 float(target, player);
-            }
-            else if (!player.isMoving)
+            } else if (!player.isMoving)
             {
                 waterCollision();
             }
@@ -468,8 +479,7 @@ com.flashartofwar.frogger.states {
             if (totalLives == 0 && gameState != GameStates.GAME_OVER)
             {
                 gameOver();
-            }
-            else
+            } else
             {
                 // Test to see if Level is over, if so reset all the bases.
                 if (gameState == GameStates.LEVEL_OVER)
@@ -551,7 +561,7 @@ com.flashartofwar.frogger.states {
          */
         private function addLife():void
         {
-            var flxLife:FlxSprite = new FlxSprite(LIFE_X * totalLives, LIFE_Y, GameAssets.LivesSprite);
+            var flxLife:FlxSprite = new FlxSprite(LIFE_X * totalLives + 10, LIFE_Y, GameAssets.LivesSprite);
             add(flxLife);
             lifeSprites.push(flxLife);
         }

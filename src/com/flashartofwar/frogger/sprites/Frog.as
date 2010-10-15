@@ -21,10 +21,10 @@
 package
 com.flashartofwar.frogger.sprites
 {
+    import com.flashartofwar.frogger.controls.TouchControls;
     import com.flashartofwar.frogger.enum.GameStates;
     import com.flashartofwar.frogger.enum.ScoreValues;
     import com.flashartofwar.frogger.states.PlayState;
-	import com.flashartofwar.frogger.controls.TouchControls;
 
     import flash.geom.Point;
 
@@ -45,7 +45,7 @@ com.flashartofwar.frogger.sprites
         private var state:PlayState;
         public var isMoving:Boolean;
 
-		public var touchControls:TouchControls;
+        public var touchControls:TouchControls;
 
         //TODO this should probably extend Wrapping Sprite and override the off screen logic
         /**
@@ -107,8 +107,7 @@ com.flashartofwar.frogger.sprites
                 height = 25;
                 offset.x = 4;
                 offset.y = 6;
-            }
-            else
+            } else
             {
                 width = 25;
                 height = 32;
@@ -128,8 +127,7 @@ com.flashartofwar.frogger.sprites
             {
                 // Flag game state that death animation is over and game can perform a restart
                 state.gameState = GameStates.DEATH_OVER;
-            }
-            else if (state.gameState == GameStates.PLAYING)
+            } else if (state.gameState == GameStates.PLAYING)
             {
                 // Test to see if TargetX and Y are equil. If so, Frog is free to move.
                 if (x == targetX && y == targetY)
@@ -140,18 +138,15 @@ com.flashartofwar.frogger.sprites
                     {
                         targetX = x - maxMoveX;
                         facing = LEFT;
-                    }
-                    else if ((FlxG.keys.justPressed("RIGHT") || (touchControls != null && touchControls.justPressed(3))) && x < FlxG.width - frameWidth)
+                    } else if ((FlxG.keys.justPressed("RIGHT") || (touchControls != null && touchControls.justPressed(3))) && x < FlxG.width - frameWidth)
                     {
                         targetX = x + maxMoveX;
                         facing = RIGHT;
-                    }
-                    else if ((FlxG.keys.justPressed("UP") || (touchControls != null && touchControls.justPressed(0))) && y > frameHeight)
+                    } else if ((FlxG.keys.justPressed("UP") || (touchControls != null && touchControls.justPressed(0))) && y > frameHeight)
                     {
                         targetY = y - maxMoveY;
                         facing = UP;
-                    }
-                    else if ((FlxG.keys.justPressed("DOWN") || (touchControls != null && touchControls.justPressed(1))) && y < 560)
+                    } else if ((FlxG.keys.justPressed("DOWN") || (touchControls != null && touchControls.justPressed(1))) && y < 560)
                     {
                         targetY = y + maxMoveY;
                         facing = DOWN;
@@ -168,8 +163,7 @@ com.flashartofwar.frogger.sprites
 
                         // Add to score for moving
                         FlxG.score += ScoreValues.STEP;
-                    }
-                    else
+                    } else
                     {
                         // Nope, we are not moving so flag isMoving and show Idle.
                         isMoving = false;
@@ -198,8 +192,7 @@ com.flashartofwar.frogger.sprites
                     // Play the walking animation
                     play("walk" + facing);
 
-                }
-                else
+                } else
                 {
                     // nothing is happening so go back to idle animation
                     play("idle" + facing);

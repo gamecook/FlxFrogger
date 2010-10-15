@@ -25,7 +25,7 @@ com.flashartofwar.frogger.sprites
 
     public class Car extends WrappingSprite
     {
-		public static const SPRITE_WIDTH:int = 40;
+        public static const SPRITE_WIDTH:int = 40;
         public static const SPRITE_HEIGHT:int = 40;
 
         public static const TYPE_A:int = 0;

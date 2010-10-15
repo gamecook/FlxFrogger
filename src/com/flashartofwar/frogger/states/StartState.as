@@ -19,24 +19,23 @@
  */
 
 package
-com.flashartofwar.frogger.states {
-
+com.flashartofwar.frogger.states
+{
     import com.flashartofwar.frogger.sprites.GameAssets;
-
     import com.gamecook.scores.FScoreboard;
 
     import flash.events.MouseEvent;
+    import flash.events.TimerEvent;
+    import flash.utils.Timer;
 
     import org.flixel.FlxG;
-    import org.flixel.FlxGroup;
     import org.flixel.FlxSprite;
-    import org.flixel.FlxState;
     import org.flixel.FlxText;
 
     public class StartState extends BaseState
     {
         private var scoreBoard:FScoreboard;
-        
+
         /**
          * This is the first game state the player sees. Simply lets them click anywhere to start.
          */
@@ -52,25 +51,28 @@ com.flashartofwar.frogger.states {
         {
             super.create();
 
-            stage.addEventListener(MouseEvent.CLICK, onClick);
+            var timer:Timer = new Timer(500, 1);
+            timer.addEventListener(TimerEvent.TIMER_COMPLETE, onTimerComplete);
+            timer.start();
 
             var title:FlxSprite = new FlxSprite(0, 100, GameAssets.TitleSprite);
             title.x = (FlxG.width * .5) - (title.width * .5);
             add(title);
+
+        }
+
+        private function onTimerComplete(event:TimerEvent):void
+        {
+            event.target.removeEventListener(TimerEvent.TIMER_COMPLETE, onTimerComplete);
+
+            stage.addEventListener(MouseEvent.CLICK, onClick);
             add(new FlxText(0, 200, FlxG.width, "START").setFormat(null, 18, 0xffffffff, "center"));
+
+            var activateText:FlxText = add(new FlxText(0, 400, FlxG.width, "PRESS ENTER TO START").setFormat(null, 18, 0xd33bd1, "center")) as FlxText;
             CONFIG::mobile
             {
-                add(new FlxText(0, 400, FlxG.width, "PRESS ANYWHERE TO START").setFormat(null, 18, 0xd33bd1, "center"));
+                activateText.text = "PRESS ANYWHERE TO START";
             }
-
-            !CONFIG::mobile
-            {
-                add(new FlxText(0, 400, FlxG.width, "PRESS ENTER TO START").setFormat(null, 18, 0xd33bd1, "center"));
-            }
-
-            //TODO Add frogs animating across the screen
-            //TODO Add rules for score to the botton
-
         }
 
         /**
@@ -96,8 +98,9 @@ com.flashartofwar.frogger.states {
             super.destroy();
         }
 
-        override public function render():void {
-            if(FlxG.keys.justPressed("ENTER"))
+        override public function render():void
+        {
+            if (FlxG.keys.justPressed("ENTER"))
                 onClick(new MouseEvent(MouseEvent.CLICK));
 
             super.render();

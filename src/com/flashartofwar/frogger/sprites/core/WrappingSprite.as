@@ -72,8 +72,7 @@ com.flashartofwar.frogger.sprites.core
             if (state.gameState != GameStates.PLAYING)
             {
                 return;
-            }
-            else
+            } else
             {
                 // Add speed to instance's x based on direction
                 x += (facing == LEFT) ? -speed : speed;
@@ -87,8 +86,7 @@ com.flashartofwar.frogger.sprites.core
                         x = leftBounds - frameWidth;
                     }
 
-                }
-                else if (x < (leftBounds - frameWidth))
+                } else if (x < (leftBounds - frameWidth))
                 {
 
                     {

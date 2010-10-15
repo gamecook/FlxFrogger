@@ -26,7 +26,7 @@ com.flashartofwar.frogger.sprites
     public class Truck extends WrappingSprite
     {
 
-        
+
         /**
          * This is a simple sprite which represents the Truck.
          *

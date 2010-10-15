@@ -18,14 +18,13 @@
  * THE SOFTWARE.
  */
 
-package {
-	import com.flashartofwar.frogger.states.StartState;
-
-    import flash.events.Event;
+package
+{
+    import com.flashartofwar.frogger.states.StartState;
 
     import org.flixel.FlxGame;
 
-	[SWF(width="480", height="800", backgroundColor="#000000")]
+    [SWF(width="480", height="800", backgroundColor="#000000")]
 
     public class FlxFrogger extends FlxGame
     {

@@ -19,12 +19,13 @@
  */
 
 package
-com.flashartofwar.frogger.sprites.core {
-	import com.flashartofwar.frogger.enum.GameStates;
+com.flashartofwar.frogger.sprites.core
+{
+    import com.flashartofwar.frogger.enum.GameStates;
 
-	import org.flixel.FlxG;
+    import org.flixel.FlxG;
 
-	public class TimerSprite extends WrappingSprite
+    public class TimerSprite extends WrappingSprite
     {
 
         public static const DEFAULT_TIME:int = 400;
@@ -94,8 +95,7 @@ com.flashartofwar.frogger.sprites.core {
             if (!isActive)
             {
                 onActivate();
-            }
-            else
+            } else
             {
                 onDeactivate();
             }

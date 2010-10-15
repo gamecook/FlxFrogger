@@ -25,8 +25,8 @@ com.flashartofwar.frogger.sprites
 
     public class TurtlesA extends TimerSprite
     {
-		
-		public static const SPRITE_WIDTH:int = 65;
+
+        public static const SPRITE_WIDTH:int = 65;
         public static const SPRITE_HEIGHT:int = 40;
         public static const DEFAULT_TIME:int = 300;
 

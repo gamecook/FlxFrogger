@@ -26,7 +26,7 @@ com.flashartofwar.frogger.sprites
     public class Alligator extends WrappingSprite
     {
 
-        
+
         public static const SPRITE_WIDTH:int = 102;
         public static const SPRITE_HEIGHT:int = 40;
         public static const VELOCITY:int = 40;

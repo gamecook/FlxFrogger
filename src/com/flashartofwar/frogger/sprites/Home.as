@@ -35,7 +35,7 @@ com.flashartofwar.frogger.sprites
         public static const NO_BONUS:int = 1;
         public static const SUCCESS:int = 2;
         public static const EMPTY:int = 3;
-		public var mode:uint;
+        public var mode:uint;
         public var odds:uint;
 
         /**
@@ -67,7 +67,7 @@ com.flashartofwar.frogger.sprites
         override protected function onDeactivate():void
         {
             super.onDeactivate();
-            showEmpty();
+            setMode(EMPTY, "empty");
         }
 
         /**
@@ -82,39 +82,15 @@ com.flashartofwar.frogger.sprites
             switch (id)
             {
                 case(BONUS):
-                    showBonus();
+                    setMode(BONUS, "bonus");
                     break;
                 case(NO_BONUS):
-                    showNoBonus();
+                    setMode(NO_BONUS, "noBonus");
                     break;
                 default:
-                    showEmpty();
+                    setMode(EMPTY, "empty");
                     break;
             }
-        }
-
-        /**
-         * Shows empty state
-         */
-        private function showEmpty():void
-        {
-            play("empty");
-        }
-
-        /**
-         * Shows no bonus state
-         */
-        private function showNoBonus():void
-        {
-            play("noBonus");
-        }
-
-        /**
-         * Show bonus state
-         */
-        private function showBonus():void
-        {
-            play("bonus");
         }
 
         /**
