@@ -35,6 +35,7 @@
             <arg value="-static-link-runtime-shared-libraries=true"/>
             <arg value="-verbose-stacktraces=true"/>
             <arg value="-headless-server=true"/>
+            <arg value="-define=CONFIG::mobile,${mobile}"/>
         </java>
 
         <echo>[compile] Release SWC ${project.name.versioned}.swc created successfully</echo>

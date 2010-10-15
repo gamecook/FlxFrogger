@@ -14,6 +14,7 @@
     <import file="${includes.loc}/asdoc.xml" />
     <import file="${includes.loc}/compile-swf.xml" />
     <import file="${includes.loc}/android.xml" />
+    <import file="${includes.loc}/compile-swc.xml" />
 
     <target name="usage" depends="misc.usage" description="Prints usage message" />
 
@@ -39,5 +40,9 @@
     <target name="deploy-to-emulator" depends="package-apk,android.deploy-to-emulator" />
 
     <target name="deploy-to-phone" depends="package-apk,android.deploy-to-phone" />
-    
+
+    <target name="compile-swc" description="Compiles project as swc" depends="compile-swc.compile" />
+
+    <target name="deploy-lib" description="Prepares swf lib and moves it to deploy directory" depends="compile-swc.deploy"/>
+
 </project>
